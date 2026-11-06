@@ -1,6 +1,6 @@
 import {localDate} from './dashboard-clock.mjs';
 import {globalRegions,subregionsFor} from './region-scopes.js';
-import {aggregate,isTodayPeriod,dateOffset,series} from './data-model.mjs';
+import {aggregate,isTodayPeriod,dateOffset,series} from './data-model.mjs?v=20261106-smooth-data';
 export const governanceTypes=['不推荐','礼物功能限制','直播封禁','断播'];
 const names=['Kierra','Elizabeth','Melissa','Jason234','Leon_Today','MillJack203','Tommy0872','Ken2039','GOC2304jay','Mill2034','Jaxson','Gretchen'];
 // 200 simulated creators per region; tags are versioned, ranks derive from facts.

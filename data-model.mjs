@@ -95,9 +95,15 @@ export function matrixPercent(matrix,row,col,consumer=false){
  return den?(consumer?a[col][row]:a[row][col])/den*100:0;
 }
 // Each scope/metric has a stable, smooth activity profile. Scaling a common path is forbidden.
+const activityProfiles=new Map();
 export function activityWeight(minute,identity){
- const t=minute/1440,phase=noise(identity+'phase')*Math.PI*2;
- const cycles=1+noise(identity+'cycles')*2,center=noise(identity+'peak'),width=.06+.1*noise(identity+'width');
+ let profile=activityProfiles.get(identity);
+ if(!profile){
+  profile={phase:noise(identity+'phase')*Math.PI*2,cycles:1+noise(identity+'cycles')*2,center:noise(identity+'peak'),width:.06+.1*noise(identity+'width')};
+  if(activityProfiles.size>2048)activityProfiles.delete(activityProfiles.keys().next().value);
+  activityProfiles.set(identity,profile);
+ }
+ const t=minute/1440,{phase,cycles,center,width}=profile;
  const bump=Math.exp(-Math.pow((t-center)/width,2));
  return .22+.65*Math.pow(1+Math.sin(t*Math.PI*2-phase),2)+.65*bump+.3*(1+Math.cos(t*Math.PI*2*cycles+phase));
 }
@@ -122,7 +128,7 @@ export function series(period,key,scope={},comparison=false){
   const count=alignedToday?minuteOfDay(now)+1:1440;
   const values=Array.from({length:count},()=>Object.fromEntries(keys.map(k=>[k,0])));
   for(const atom of atoms(scope)){
-   const facts=dailyFacts(date,atom);
+   const facts=dailyFacts(date,{...atom,now});
    if(comparison&&alignedToday)for(const k of Object.keys(facts))if(k!=='dau')facts[k]*=dayProgress(now);
    const weights=new Map();
    for(const field of keys){
@@ -152,4 +158,10 @@ export function segmentSeries(period,group,scope={}){
  }
  return rows.map((r,i)=>({...r,points:base.map((p,j)=>({...p,value:amounts[i][j]}))}));
 }
-export const pointAt=(points,ratio)=>points.reduce((best,p)=>Math.abs(p.ratio-ratio)<Math.abs(best.ratio-ratio)?p:best,points[0]||{value:0});
+export function pointAt(points,ratio){
+ if(!points.length)return {value:0};
+ let lo=0,hi=points.length-1;
+ while(lo<hi){const middle=(lo+hi)>>1;if(points[middle].ratio<ratio)lo=middle+1;else hi=middle;}
+ const before=points[Math.max(0,lo-1)],after=points[lo];
+ return Math.abs(before.ratio-ratio)<=Math.abs(after.ratio-ratio)?before:after;
+}

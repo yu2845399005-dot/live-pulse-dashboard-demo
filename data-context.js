@@ -1,20 +1,29 @@
-import {getPeriod} from './period-state.js';
-import {aggregate,metricGroups,metricValue,series,segmentSeries,pointAt,formatValue} from './data-model.mjs';
+import {getPeriod} from './period-state.js?v=20261106-smooth-data';
+import {aggregate,metricGroups,metricValue,series,segmentSeries,pointAt,formatValue} from './data-model.mjs?v=20261106-smooth-data';
 let scope={region:'Global',subregion:'Area Total'};
 // Every visible board reads the same timestamp, refreshed as one snapshot.
 let snapshotNow=new Date();
 export const getDataNow=()=>new Date(snapshotNow);
-export function refreshSnapshot(){snapshotNow=new Date();seriesCache.clear();}
+const factsCache=new Map();
+export function refreshSnapshot(){
+ const previous=Math.floor(snapshotNow.getTime()/60000);snapshotNow=new Date();factsCache.clear();
+ if(previous!==Math.floor(snapshotNow.getTime()/60000))seriesCache.clear();
+}
 for(const type of ['dashboard:period','dashboard:region'])document.addEventListener(type,refreshSnapshot);
 document.addEventListener('dashboard:region',event=>{scope={...event.detail};});
 export const getScope=()=>({...scope});
-export const queryFacts=(comparison=false,override={})=>aggregate(getPeriod(),{...scope,now:getDataNow(),...override},comparison);
+export const queryFacts=(comparison=false,override={})=>{
+ const period=getPeriod(),queryScope={...scope,now:getDataNow(),...override},key=JSON.stringify([period,queryScope,comparison]);
+ if(!factsCache.has(key))factsCache.set(key,aggregate(period,queryScope,comparison));
+ return factsCache.get(key);
+};
 export const currentMetricGroups=()=>metricGroups(getPeriod().granularity==='day');
 const seriesCache=new Map();
 export function querySeries(key,compare=false,override={}){
- const period=getPeriod(),queryScope={...scope,now:getDataNow(),...override};
- const cacheKey=JSON.stringify([period,queryScope,key,compare,Math.floor(Date.now()/60000)]);
- if(!seriesCache.has(cacheKey)){if(seriesCache.size>40)seriesCache.delete(seriesCache.keys().next().value);seriesCache.set(cacheKey,series(period,key,queryScope,compare));}
+ const period=getPeriod(),now=getDataNow();now.setSeconds(0,0);
+ const queryScope={...scope,now,...override};
+ const cacheKey=JSON.stringify([period,queryScope,key,compare]);
+ if(!seriesCache.has(cacheKey)){if(seriesCache.size>96)seriesCache.delete(seriesCache.keys().next().value);seriesCache.set(cacheKey,series(period,key,queryScope,compare));}
  return seriesCache.get(cacheKey);
 }
 export function metricReadout(key,unit,ratio,override={}){
@@ -28,7 +37,8 @@ export function metricCards(group){
 }
 
 export function querySegments(group){
- const period=getPeriod(),cacheKey=JSON.stringify(['segments',period,scope,group,Math.floor(Date.now()/60000)]);
- if(!seriesCache.has(cacheKey)){if(seriesCache.size>40)seriesCache.delete(seriesCache.keys().next().value);seriesCache.set(cacheKey,segmentSeries(period,group,scope));}
+ const now=getDataNow();now.setSeconds(0,0);
+ const queryScope={...scope,now},period=getPeriod(),cacheKey=JSON.stringify(['segments',period,queryScope,group]);
+ if(!seriesCache.has(cacheKey)){if(seriesCache.size>96)seriesCache.delete(seriesCache.keys().next().value);seriesCache.set(cacheKey,segmentSeries(period,group,queryScope));}
  return seriesCache.get(cacheKey);
 }

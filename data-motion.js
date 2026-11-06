@@ -2,6 +2,12 @@
 // update existing paths; only entering a view draws the chart from left to right.
 const preference=matchMedia('(prefers-reduced-motion: reduce)');
 export const reducedMotion=()=>preference.matches;
+export function framePointer(callback){
+  let frame=0,latest;
+  const handler=event=>{latest=event;if(!frame)frame=requestAnimationFrame(()=>{frame=0;callback(latest);});};
+  handler.cancel=()=>{cancelAnimationFrame(frame);frame=0;};
+  return handler;
+}
 const motions=new WeakMap(),surfaces=new WeakMap(),paths=new WeakMap();
 const ease='cubic-bezier(.22,1,.36,1)';
 export function cancelUI(element,channel='surface'){motions.get(element)?.get(channel)?.cancel();}
@@ -19,7 +25,7 @@ export function showSurface(element,{restart=false}={}){
   const previous=surfaces.get(element),entering=element.hidden||previous==='closing';
   if(!entering&&!restart)return false;
   surfaces.set(element,'open');element.hidden=false;
-  animateUI(element,[{opacity:0,transform:'translateY(6px) scale(.985)'},{opacity:1,transform:'translateY(0) scale(1)'}],{duration:260});
+  animateUI(element,[{opacity:0},{opacity:1}],{duration:170});
   return true;
 }
 export function hideSurface(element,{immediate=false}={}){
@@ -28,7 +34,7 @@ export function hideSurface(element,{immediate=false}={}){
   const finish=()=>{if(surfaces.get(element)==='closing'){element.hidden=true;surfaces.set(element,'closed');}};
   if(immediate||reducedMotion()){motions.get(element)?.get('surface')?.cancel();finish();return;}
   const opacity=getComputedStyle(element).opacity;
-  const animation=animateUI(element,[{opacity,transform:'translateY(0)'},{opacity:0,transform:'translateY(3px)'}],{duration:140,easing:'ease-out',fill:'forwards'});
+  const animation=animateUI(element,[{opacity},{opacity:0}],{duration:110,easing:'ease-out',fill:'forwards'});
   animation.finished.then(()=>{finish();animation.cancel();},()=>{});
 }
 export function revealChart(root,{delay=0,duration=850}={}){

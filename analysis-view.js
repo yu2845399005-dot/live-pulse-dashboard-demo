@@ -1,11 +1,11 @@
 import {CHART_COLORS} from './chart-palette.mjs';
-import {getDataNow,querySeries} from './data-context.js';
-import {moneyMatrix,matrixPercent} from './data-model.mjs';
-import {getPeriod} from './period-state.js';
+import {getDataNow,querySeries} from './data-context.js?v=20261106-smooth-data';
+import {moneyMatrix,matrixPercent} from './data-model.mjs?v=20261106-smooth-data';
+import {getPeriod} from './period-state.js?v=20261106-smooth-data';
 import { subregionsFor, globalRegions as regions } from './region-scopes.js';
 // Figma 725:23088. Expand the existing dashboard without resetting its state.
 import { initSupplyConfig } from './supply-config.js';
-import {animateUI,cancelUI,revealChart,revealItems,countValues} from './data-motion.js';
+import {animateUI,cancelUI,revealChart,revealItems,countValues} from './data-motion.js?v=20261106-smooth-data';
 const asset = name => `assets/figma-metrics/${name}.svg`;
 const image = (name, className = '') => `<img src="${asset(name)}" alt="" class="${className}">`;
 const sparklines = ['e6f85aa4-548c-4129-9e20-a2d3a7131655', '55164af7-735f-4a3b-9d0c-fcf6c9a15e81',
@@ -91,7 +91,11 @@ export function initAnalysisView({ setRegion, setSubregion }) {
   metricPicker.before(pickerLabel);
   pickerLabel.append(metricPicker);
 
+  let contributionSignature='';
   function renderContributions() {
+    const signature=JSON.stringify([perspective,currentRegion,currentSubregion,getPeriod(),Math.floor(getDataNow().getTime()/60000)]);
+    if(signature===contributionSignature)return;
+    contributionSignature=signature;
     const consumer=perspective==='consumer',regional=currentRegion!=='Global';
     const children=subregionsFor(currentRegion),columns=regional?(children.length?children:['Area Total']):regions;
     const rows=regional?['Area Total',...children]:regions;

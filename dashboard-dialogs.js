@@ -1,11 +1,11 @@
 import {creatorAvatar} from './creator-avatars.mjs';
-import {series,formatValue,pointAt} from './data-model.mjs';
-import {currentMetricGroups,metricReadout,getScope,querySeries} from './data-context.js';
+import {series,formatValue,pointAt} from './data-model.mjs?v=20261106-smooth-data';
+import {currentMetricGroups,metricReadout,getScope,querySeries} from './data-context.js?v=20261106-smooth-data';
 import {regionRevenueRatio} from './region-scopes.js';
 import { creatorStatus, gradeClass, rankingExplanation } from './ranking-view.js';
-import { getPeriod, setPeriod, today, offsetDate as offset, timeAt, dayDistance, periodError,axisMarkup } from './period-state.js';
+import { getPeriod, setPeriod, today, offsetDate as offset, timeAt, dayDistance, periodError,axisMarkup } from './period-state.js?v=20261106-smooth-data';
 import designAssets from './dialog-assets.js';
-import {animateUI,revealChart,revealItems,linePath,syncSeries,showSurface,hideSurface,reducedMotion} from './data-motion.js';
+import {animateUI,revealChart,revealItems,linePath,syncSeries,showSurface,hideSurface,reducedMotion,framePointer} from './data-motion.js?v=20261106-smooth-data';
 const $ = s => document.querySelector(s);
 const img = (node,key,cls='') => `<img class="${cls}" src="${designAssets[node][key]}" alt="">`;
 const clone = v => JSON.parse(JSON.stringify(v));
@@ -246,8 +246,9 @@ function initComparison(){
     }).join('')}</div>`;
     guide.style.left=left+'px';pop.style.left=Math.min(1280-252,Math.max(0,left+4))+'px';guide.hidden=false;showSurface(pop);hit.setAttribute('aria-describedby',pop.id);
   }
-  hit.addEventListener('pointermove',event=>{const bounds=hit.getBoundingClientRect();show((event.clientX-bounds.left)/bounds.width);});
-  hit.addEventListener('pointerleave',hide);hit.addEventListener('focus',()=>show(hoverRatio));hit.addEventListener('blur',hide);
+  const move=framePointer(event=>{const bounds=hit.getBoundingClientRect();show((event.clientX-bounds.left)/bounds.width);});
+  hit.addEventListener('pointermove',move);
+  hit.addEventListener('pointerleave',()=>{move.cancel();hide();});hit.addEventListener('focus',()=>show(hoverRatio));hit.addEventListener('blur',hide);
   hit.addEventListener('keydown',event=>{if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();show(hoverRatio+(event.key==='ArrowRight'?1:-1)/24);}else if(event.key==='Escape'){event.preventDefault();event.stopPropagation();hide();}});
   document.addEventListener('dashboard:mock-refresh',()=>{if(dialog.open){axes();if(!pop.hidden)show(hoverRatio);}});
   dialog.addEventListener('change',hide);dialog.addEventListener('close',hide);document.addEventListener('dashboard:period',hide);

@@ -1,11 +1,11 @@
 import {CHART_COLORS,OVERVIEW_CHART_COLORS,chartColors} from './chart-palette.mjs?v=20261106-home-ui';
 const viewColors=rows=>chartColors(rows,OVERVIEW_CHART_COLORS);
-import {metricReadout,getScope,queryFacts,currentMetricGroups,querySegments,querySeries} from './data-context.js';
-import {breakdown,formatValue,moneyMatrix,matrixPercent,series,pointAt} from './data-model.mjs';
-import { getPeriod, usesDateAxis, axisMarkup, timeAt, dateAt } from './period-state.js';
+import {metricReadout,getScope,queryFacts,currentMetricGroups,querySegments,querySeries} from './data-context.js?v=20261106-smooth-data';
+import {breakdown,formatValue,moneyMatrix,matrixPercent,series,pointAt} from './data-model.mjs?v=20261106-smooth-data';
+import { getPeriod, usesDateAxis, axisMarkup, timeAt, dateAt } from './period-state.js?v=20261106-smooth-data';
 // Figma 744:134677. DOM values are the source of the demo's hover readouts.
 import hoverAssets from './hover-assets.js';
-import {showSurface,hideSurface,revealChart,revealItems,linePath} from './data-motion.js';
+import {showSurface,hideSurface,revealChart,linePath,framePointer} from './data-motion.js?v=20261106-smooth-data';
 const miniatureAssetsReady = true;
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
@@ -28,8 +28,8 @@ const curveLabels={
 
 function miniatureMarkup(key){
   const rows=querySegments(key),max=rows.flatMap(r=>r.points).reduce((max,p)=>Math.max(max,p.value),1)*1.1;
-  const colors=viewColors(rows);
-  return `<div class="hover-mini-chart" tabindex="0" aria-label="${groupNames[key]}非累计趋势，使用左右方向键查看数据"><svg viewBox="0 0 278 100" width="278" height="100">${rows.map((r,i)=>`<path d="${linePath(r.points,278,100,max)}" fill="none" stroke="${colors[i]}" stroke-width="1.5"/>`).join('')}</svg></div><div class="hover-mini-timeline">${axisMarkup(true)}</div>`;
+  const colors=viewColors(rows),end=rows[0]?.points.at(-1)?.ratio||1;
+  return `<div class="hover-mini-chart" data-display-end="${end}" tabindex="0" aria-label="${groupNames[key]}非累计趋势，使用左右方向键查看数据"><svg viewBox="0 0 278 100" width="278" height="100">${rows.map((r,i)=>`<path d="${linePath(r.points,278,100,max,{domainEnd:end})}" fill="none" stroke="${colors[i]}" stroke-width="1.5"/>`).join('')}</svg></div><div class="hover-mini-timeline">${axisMarkup(true,end)}</div>`;
 }
 
 export function initDashboardHover(){
@@ -39,9 +39,10 @@ export function initDashboardHover(){
   document.body.append(layer);
   const preview=layer.querySelector('.hover-preview'),readout=layer.querySelector('.hover-readout');
   let activeTrigger=null,activeKey=null,hideTimer=null,focusIndex=6,interactionMode='pointer';
+  let readoutSignature='',readoutHeight=0,rowColors,viewport;
   let period=getPeriod();
-  function scale(){const r=dashboard.getBoundingClientRect();return r.width/1440;}
-  function placeLayer(){const r=dashboard.getBoundingClientRect();layer.style.left=r.left+'px';layer.style.top=r.top+'px';layer.style.transform=`scale(${scale()})`;}
+  function scale(){return (viewport||(viewport=dashboard.getBoundingClientRect())).width/1440;}
+  function placeLayer(){if(viewport)return;const r=viewport=dashboard.getBoundingClientRect();layer.style.left=r.left+'px';layer.style.top=r.top+'px';layer.style.transform=`scale(${r.width/1440})`;}
   function box(el){const r=el.getBoundingClientRect(),base=dashboard.getBoundingClientRect(),s=scale();return{x:(r.left-base.left)/s,y:(r.top-base.top)/s,width:r.width/s,height:r.height/s};}
   function dismiss(){clearTimeout(hideTimer);hideSurface(preview);hideSurface(readout);activeTrigger?.removeAttribute('aria-describedby');activeTrigger?.classList.remove('hover-source-active');activeTrigger=null;activeKey=null;$$('.chart-hover-guide').forEach(el=>el.remove());}
   function later(){clearTimeout(hideTimer);hideTimer=setTimeout(()=>{if(!layer.matches(':hover')&&!activeTrigger?.matches(':hover')&&!(interactionMode==='keyboard'&&activeTrigger?.contains(document.activeElement))&&!layer.contains(document.activeElement))dismiss();},180);}
@@ -50,14 +51,21 @@ export function initDashboardHover(){
 
   function renderReadout(title,rows,position,{width=165,compact=false,node=''}={}){
     placeLayer();readout.classList.toggle('hover-readout-compact',compact);readout.style.width=width+'px';readout.dataset.nodeId=node;
-    const rowColors=new Map();for(const group of ['income','content','guild','function','gift','traffic']){const segments=breakdown(queryFacts().revenue,group,getScope().region+getScope().subregion),colors=viewColors(segments);segments.forEach((row,i)=>rowColors.set(row.label,colors[i]));}
-    readout.innerHTML=`<div class="hover-readout-title">${escape(title)}</div><div class="hover-readout-rows">${rows.map(([label,value,percent])=>`<div><span>${rowColors.has(label)?`<i class="hover-series-dot" style="background:${rowColors.get(label)}"></i>`:''}${escape(label)}</span><strong>${escape(value)}</strong>${percent!==undefined?`<small>${escape(percent)}</small>`:''}</div>`).join('')}</div>`;
-    if(showSurface(readout))revealItems(readout.querySelectorAll('.hover-readout-rows>div'),{delay:30,stagger:24});
-    const height=readout.offsetHeight;
+    if(!rowColors){rowColors=new Map();for(const group of ['income','content','guild','function','gift','traffic']){const segments=breakdown(1,group,getScope().region+getScope().subregion),colors=viewColors(segments);segments.forEach((row,i)=>rowColors.set(row.label,colors[i]));}}
+    const signature=JSON.stringify([width,compact,rows.map(r=>[r[0],r[2]!==undefined])]);
+    if(signature!==readoutSignature){
+      readout.innerHTML=`<div class="hover-readout-title"></div><div class="hover-readout-rows">${rows.map(([label,value,percent])=>`<div><span>${rowColors.has(label)?`<i class="hover-series-dot" style="background:${rowColors.get(label)}"></i>`:''}${escape(label)}</span><strong></strong>${percent!==undefined?'<small></small>':''}</div>`).join('')}</div>`;
+      readoutSignature=signature;readoutHeight=0;
+    }
+    readout.firstElementChild.textContent=title;
+    [...readout.lastElementChild.children].forEach((row,i)=>{row.querySelector('strong').textContent=rows[i][1];const percent=row.querySelector('small');if(percent)percent.textContent=rows[i][2];});
+    showSurface(readout);
+    const height=readoutHeight||(readoutHeight=readout.offsetHeight);
     let x=position.x+12,y=position.y-height-12;
-    if(x+width>1432)x=position.x-width-12;
+    if(!preview.hidden){const r=box(preview);x=r.x+r.width+12;y=r.y+12;if(x+width>1432)x=r.x-width-12;}
+    if(x+width>1432)x=1432-width;
     if(y<8)y=position.y+16;
-    readout.style.left=clamp(x,8,1432-width)+'px';readout.style.top=clamp(y,8,892-height)+'px';
+    readout.style.transform=`translate3d(${clamp(x,8,1432-width)}px,${clamp(y,8,892-height)}px,0)`;
   }
   function mark(el,ratio){let guide=el.querySelector('.chart-hover-guide');if(!guide){guide=document.createElement('span');guide.className='chart-hover-guide';guide.innerHTML='<i></i>';el.append(guide);}guide.style.left=(ratio*100)+'%';}
   function sectionRows(key,ratio=null){
@@ -67,10 +75,10 @@ export function initDashboardHover(){
   }
   function showPreview(trigger,key){
     if(!available())return;
-    clearTimeout(hideTimer);const changed=activeTrigger!==trigger;if(changed)dismiss();activeTrigger=trigger;activeKey=key;
+    clearTimeout(hideTimer);const changed=activeKey!==key||preview.hidden;if(activeTrigger!==trigger){activeTrigger?.removeAttribute('aria-describedby');activeTrigger?.classList.remove('hover-source-active');}activeTrigger=trigger;activeKey=key;
     trigger.classList.add('hover-source-active');placeLayer();
     if(!miniatureAssetsReady){const r=box(trigger);trigger.setAttribute('aria-describedby',readout.id);renderReadout('观测周期 '+timeAt(.585),sectionRows(key),{x:r.x+r.width*.6,y:r.y},{width:key==='function'?184:160,compact:true,node:'744:113820'});return;}
-    trigger.setAttribute('aria-describedby',preview.id);preview.dataset.nodeId=miniatureNodes[key];preview.className='hover-preview '+(key==='guild'||key==='function'?'hover-preview-wide':'');preview.classList.toggle('period-date-axis',usesDateAxis());preview.innerHTML=miniatureMarkup(key);showSurface(preview,{restart:changed});revealChart(preview,{duration:700,delay:70});hideSurface(readout);
+    trigger.setAttribute('aria-describedby',preview.id);preview.dataset.nodeId=miniatureNodes[key];preview.className='hover-preview '+(key==='guild'||key==='function'?'hover-preview-wide':'');preview.classList.toggle('period-date-axis',usesDateAxis());if(changed)preview.innerHTML=miniatureMarkup(key);showSurface(preview);if(changed)revealChart(preview,{duration:520,delay:30});hideSurface(readout);
     const r=box(key==='income'?trigger.closest('.income-chart'):trigger),width=preview.offsetWidth,height=preview.offsetHeight;let left=clamp(r.x+r.width/2-width/2,8,1432-width),top=r.y+(key==='income'?r.height*.55:0)-height-12;if(top<8)top=r.y+r.height+10;
     preview.style.left=left+'px';preview.style.top=clamp(top,8,892-height)+'px';
   }
@@ -83,13 +91,14 @@ export function initDashboardHover(){
     for(const trigger of $$(selector))activate(trigger,groupNames[key],key);
   }
   layer.addEventListener('pointerenter',()=>clearTimeout(hideTimer));layer.addEventListener('pointerleave',later);
-  preview.addEventListener('pointermove',event=>{const chart=preview.querySelector('.hover-mini-chart');if(!chart||!activeKey)return;const p=coordinates(event,chart);if(event.target.closest('.hover-mini-chart')){mark(chart,p.ratio);renderReadout('观测周期 '+timeAt(p.ratio),sectionRows(activeKey,p.ratio),p,{width:160,compact:true,node:'744:113820'});}});
-  preview.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight'].includes(event.key))return;event.preventDefault();focusIndex=clamp(focusIndex+(event.key==='ArrowRight'?1:-1),0,24);const chart=preview.querySelector('.hover-mini-chart'),r=box(chart),ratio=focusIndex/24;mark(chart,ratio);renderReadout('观测周期 '+timeAt(ratio),sectionRows(activeKey,ratio),{x:r.x+r.width*ratio,y:r.y+60},{width:160,compact:true});});
+  const previewMove=framePointer(event=>{const chart=preview.querySelector('.hover-mini-chart');if(!chart||!activeKey)return;const p=coordinates(event,chart),ratio=p.ratio*Number(chart.dataset.displayEnd||1);if(event.target.closest('.hover-mini-chart')){mark(chart,p.ratio);renderReadout('观测周期 '+timeAt(ratio),sectionRows(activeKey,ratio),p,{width:160,compact:true,node:'744:113820'});}});
+  preview.addEventListener('pointermove',previewMove);preview.addEventListener('pointerleave',()=>previewMove.cancel());
+  preview.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight'].includes(event.key))return;event.preventDefault();focusIndex=clamp(focusIndex+(event.key==='ArrowRight'?1:-1),0,24);const chart=preview.querySelector('.hover-mini-chart'),r=box(chart),ratio=focusIndex/24,dataRatio=ratio*Number(chart.dataset.displayEnd||1);mark(chart,ratio);renderReadout('观测周期 '+timeAt(dataRatio),sectionRows(activeKey,dataRatio),{x:r.x+r.width*ratio,y:r.y+60},{width:160,compact:true});});
 
   function wireChart(el,label,readRows,options={}){
     if(!el)return;el.tabIndex=0;el.setAttribute('aria-label',label+'，悬浮或用左右方向键查看演示数据');
-    function show(event){if(!available())return;clearTimeout(hideTimer);if(activeTrigger!==el)dismiss();activeTrigger=el;hideSurface(preview);el.setAttribute('aria-describedby',readout.id);const r=box(el),p=event?coordinates(event,el):{x:r.x+r.width*focusIndex/24,y:r.y+r.height*.6,ratio:focusIndex/24};mark(el,p.ratio);const ratio=p.ratio*Number(el.dataset.displayEnd||1),data=readRows(ratio,event);renderReadout((options.prefix||'观测周期 ')+timeAt(ratio),data,p,options);}
-    el.addEventListener('pointermove',show);el.addEventListener('pointerleave',later);el.addEventListener('focus',()=>show());el.addEventListener('blur',later);el.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight'].includes(e.key))return;e.preventDefault();focusIndex=clamp(focusIndex+(e.key==='ArrowRight'?1:-1),0,24);show();});
+    function show(event){if(!available())return;clearTimeout(hideTimer);if(activeTrigger!==el)dismiss();activeTrigger=el;hideSurface(preview);el.setAttribute('aria-describedby',readout.id);const r=box(el),p=event?coordinates(event,el):{x:r.x+r.width*focusIndex/24,y:r.y+r.height*.6,ratio:focusIndex/24};mark(el,p.ratio);const ratio=p.ratio*Number(el.dataset.displayEnd||1),data=readRows(ratio,event);renderReadout((options.prefix||'观测周期 ')+timeAt(ratio),data,{...p,y:r.y},options);}
+    const move=framePointer(show);el.addEventListener('pointermove',move);el.addEventListener('pointerleave',()=>{move.cancel();later();});el.addEventListener('focus',()=>show());el.addEventListener('blur',later);el.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight'].includes(e.key))return;e.preventDefault();focusIndex=clamp(focusIndex+(e.key==='ArrowRight'?1:-1),0,24);show();});
   }
   const trafficRows=(id,container=$('#graph'),ratio=null)=>{
     const values=querySegments(id==='0'?'gift':'traffic').map(r=>[r.label,formatValue(ratio===null?r.value:pointAt(r.points,ratio).value,'money'),r.percent.toFixed(1)+'%']);
@@ -130,10 +139,12 @@ export function initDashboardHover(){
   function decorateSparklines(){for(const cell of $$('.sparkline-cell')){cell.tabIndex=0;cell.setAttribute('aria-label',cell.closest('tr').querySelector('th').textContent.trim()+'营收贡献趋势');}}
   decorateSparklines();new MutationObserver(decorateSparklines).observe(matrix.querySelector('tbody'),{childList:true});
   matrix?.addEventListener('focusin',event=>{const cell=event.target.closest('.sparkline-cell');if(!cell)return;const r=box(cell),row=cell.closest('tr');activeTrigger=cell;cell.setAttribute('aria-describedby',readout.id);renderReadout('观测时间 '+timeAt(.5),[matrixReadout(row,.5)],{x:r.x+r.width/2,y:r.y},{width:172,compact:true});});matrix?.addEventListener('focusout',later);
-  document.addEventListener('dashboard:period',event=>{period=event.detail;dismiss();});
+  document.addEventListener('dashboard:period',event=>{period=event.detail;rowColors=null;readoutSignature='';dismiss();});
+  document.addEventListener('dashboard:region',()=>{rowColors=null;readoutSignature='';dismiss();});
   document.addEventListener('keydown',event=>{if(['Tab','ArrowLeft','ArrowRight'].includes(event.key))interactionMode='keyboard';if(event.key==='Escape'&&(!preview.hidden||!readout.hidden)){event.preventDefault();event.stopImmediatePropagation();dismiss();}},true);
   document.addEventListener('pointerdown',event=>{interactionMode='pointer';if(!layer.contains(event.target)&&!activeTrigger?.contains(event.target))dismiss();},true);
   new MutationObserver(dismiss).observe(dashboard,{attributes:true,attributeFilter:['class']});
   new MutationObserver(()=>{if($('dialog[open]'))dismiss();}).observe(document.body,{subtree:true,attributes:true,attributeFilter:['open']});
-  addEventListener('resize',dismiss);addEventListener('blur',dismiss);
+  addEventListener('resize',()=>{viewport=null;placeLayer();dismiss();});addEventListener('blur',dismiss);
+  placeLayer();
 }

@@ -1,7 +1,8 @@
 /* Movement belongs to the surfaces; chart refreshes never replay entrances. */
 @media(prefers-reduced-motion:no-preference){
-  .hover-preview,.hover-readout{transition:left 160ms cubic-bezier(.22,1,.36,1),top 160ms cubic-bezier(.22,1,.36,1);transform-origin:center bottom}
-  .chart-hover-guide,.comparison-hover-guide{transition:left 90ms linear}
+  .hover-preview{transition:left 160ms cubic-bezier(.22,1,.36,1),top 160ms cubic-bezier(.22,1,.36,1);transform-origin:center bottom}
+  .hover-readout{transition:transform 75ms linear;will-change:transform,opacity}
+  .chart-hover-guide,.comparison-hover-guide{transition:none}
   .comparison-hover-pop{transition:left 150ms cubic-bezier(.22,1,.36,1)}
   .dashboard-modal[open]::backdrop{animation:dashboard-backdrop-in 240ms ease both}
   .dashboard-modal.is-closing::backdrop{animation:dashboard-backdrop-out 170ms ease both}
@@ -15,3 +16,16 @@
 }
 @keyframes dashboard-backdrop-in{from{opacity:0}to{opacity:1}}
 @keyframes dashboard-backdrop-out{from{opacity:1}to{opacity:0}}
+/* Stable frosted surfaces: inspecting a chart does not change its material or
+   repeatedly resample the moving globe underneath it. */
+.hover-preview,.hover-readout,.hover-readout-compact[data-node-id="744:113820"],.comparison-hover-pop,.ranking-explanation{
+ background:linear-gradient(145deg,#304b60f7,#132d40fa);
+ backdrop-filter:none;
+ border:1px solid #96c1ff70;
+ box-shadow:inset 0 1px 0 #d6edff18,0 8px 24px #0003;
+}
+.hover-readout{left:0;top:0;pointer-events:none}
+.dashboard-modal,#supply-config-dialog{
+ background:linear-gradient(145deg,#36455bf7,#202b44fc);
+ backdrop-filter:none;
+}
