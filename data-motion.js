@@ -8,7 +8,7 @@ export function framePointer(callback){
   handler.cancel=()=>{cancelAnimationFrame(frame);frame=0;};
   return handler;
 }
-const motions=new WeakMap(),surfaces=new WeakMap(),paths=new WeakMap();
+const motions=new WeakMap(),surfaces=new WeakMap(),paths=new WeakMap(),counters=new WeakMap();
 const ease='cubic-bezier(.22,1,.36,1)';
 export function cancelUI(element,channel='surface'){motions.get(element)?.get(channel)?.cancel();}
 export function animateUI(element,frames,{duration=360,delay=0,channel='surface',...options}={}){
@@ -24,8 +24,9 @@ export function animateUI(element,frames,{duration=360,delay=0,channel='surface'
 export function showSurface(element,{restart=false}={}){
   const previous=surfaces.get(element),entering=element.hidden||previous==='closing';
   if(!entering&&!restart)return false;
+  const opacity=previous==='closing'&&!element.hidden?getComputedStyle(element).opacity:0;
   surfaces.set(element,'open');element.hidden=false;
-  animateUI(element,[{opacity:0},{opacity:1}],{duration:170});
+  animateUI(element,[{opacity},{opacity:1}],{duration:170});
   return true;
 }
 export function hideSurface(element,{immediate=false}={}){
@@ -54,6 +55,7 @@ export function countValues(elements,{delay=0,duration=650}={}){
     const value=Number((match[2]+(match[3]||'')).replaceAll(',','')),decimals=match[3]?.length-1||0;
     const small=element.querySelector('small'),text=element.firstChild;
     if(!text||text.nodeType!==Node.TEXT_NODE)return;
+    const token={};counters.set(element,token);element.dataset.numberMotion='running';
     const start=performance.now()+delay+Math.min(index,8)*35;
     const render=number=>{
       const [whole,fraction]=number.toFixed(decimals).split('.');
@@ -63,10 +65,10 @@ export function countValues(elements,{delay=0,duration=650}={}){
     };
     render(0);
     const tick=now=>{
-      if(!element.isConnected)return;
+      if(!element.isConnected||counters.get(element)!==token)return;
       const progress=Math.max(0,Math.min(1,(now-start)/duration));
       render(value*(1-Math.pow(1-progress,3)));
-      if(progress<1)requestAnimationFrame(tick);
+      if(progress<1)requestAnimationFrame(tick);else{delete element.dataset.numberMotion;counters.delete(element);}
     };requestAnimationFrame(tick);
   });
 }

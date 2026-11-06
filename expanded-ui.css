@@ -1,0 +1,51 @@
+/* Figma LoQk4iFDPuSY3g9rOxzStY / 8:4886. Scoped to expanded analysis. */
+body:has(.analysis-view){background:#010106}
+.dashboard.analysis-view{background:linear-gradient(0deg,rgba(1,1,6,.2),rgba(36,87,208,.2) 69.231%,rgba(1,1,6,.2)),#010106}
+.analysis-view .left-column{padding-top:6px}
+.analysis-view .supply-panel,.analysis-view .traffic-panel,.analysis-view .contribution-panel,
+.analysis-view .ranking-panel{background:rgba(37,41,84,.25);backdrop-filter:blur(6px);border:0;border-radius:24px}
+.analysis-view .metrics-panel.expanded{top:124px;left:344px;width:720px;height:422px;padding:21px 16px 16px;background:none;backdrop-filter:none;border:0}
+.analysis-view .metrics-panel::before{display:none}
+.analysis-panel-surface,.analysis-panel-notch{display:none;pointer-events:none}
+.analysis-view .analysis-panel-surface{display:block;position:absolute;left:0;top:0;z-index:0}
+.analysis-view .analysis-panel-notch{display:block;position:absolute;left:309.14px;top:2.88px;z-index:1}
+.analysis-view .metric-tabs,.analysis-view .metric-card-strip,.analysis-view .analysis-trend{position:relative;z-index:1}
+.analysis-view .metric-tabs{background:none;border-radius:0;gap:20px}
+.analysis-view .metric-tabs button{height:32px;line-height:24px}
+.analysis-view .metric-tabs button[aria-selected=true]::after{background:#096ff5}
+.analysis-view .metric-card-strip{height:80px;margin-top:8px}
+.analysis-view .metrics-panel.expanded .metric-cards{height:80px;gap:12px;margin:0;background:rgba(0,0,0,.05)}
+.analysis-view .metric-card{height:80px;padding:8px 24px 8px 8px;gap:4px;border-radius:8px;background:rgba(7,91,251,.1);backdrop-filter:none}
+.analysis-view .metric-card.is-active{border-radius:6px;background:linear-gradient(180deg,rgba(7,113,251,.8) 57.971%,rgba(7,113,251,0) 115.94%)}
+.analysis-view .metric-value{color:#ffffffd9}
+.analysis-view .metric-card.is-active .metric-value{color:#fff}
+.analysis-view .metric-label{font-size:12px;line-height:16px;gap:4px}
+.analysis-view .metric-label>img{width:auto;height:auto}
+.analysis-view .metric-change{color:#2dccd3}
+.analysis-view .metric-change.negative{color:#f1204a}
+.analysis-view .modal-settings-trigger{top:21px;right:16px;width:20px;height:20px;background:#ffffff1a}
+.analysis-view .expand-metrics{top:118px!important;left:684px;width:40px;height:28px;transform:none}
+.analysis-view .expand-metrics>img{transform:scaleY(-1)}
+.analysis-view .analysis-trend{margin-top:8px}
+.analysis-view .trend-toolbar{height:28px;color:#ffffff99}
+.analysis-view .revenue-trend-chart{--plot-left:42px;--plot-right:16px;--plot-top:8px;--plot-height:192px}
+.analysis-view .trend-y-axis{font-size:11px}
+.analysis-view .trend-x-axis{font-size:12px}
+.analysis-view .contribution-panel{top:554px;left:344px;width:720px;height:246px;padding:16px 16px 12px}
+.analysis-view .perspective-toggle{background:#ffffff1a}
+.analysis-view .contribution-table tbody tr{height:32px}
+.analysis-view .contribution-table td>span{color:#fff}
+.analysis-view .contribution-table .local-contribution{border:.5px solid #2388ff;background:#096ff51a;border-radius:8px;font-size:14px;font-weight:700}
+.analysis-view .sparkline-cell>svg{display:block;width:120px;height:24px;overflow:visible}
+.analysis-view .ranking-panel{height:801px;margin-top:-5px;padding:16px}
+.analysis-view .ranking-tabs{padding:0 28px 0 4px;gap:4px}
+.analysis-view .ranking-tabs button{padding:0 4px}
+.analysis-view .ranking-config-trigger{top:20px;right:16px}
+.analysis-view .ranking-list{display:block;height:720px;flex:none;gap:0;mask-image:none}
+.analysis-view .creator-row{height:60px;flex:none}
+.analysis-view .creator-row:nth-child(1){background:linear-gradient(90deg,#4a79bc40,#4a79bc30 23.258%,#4a79bc00)}
+.analysis-view .creator-row:nth-child(2){background:linear-gradient(90deg,#4a79bc33,#4a79bc26 23.258%,#4a79bc00)}
+.analysis-view .creator-row:nth-child(3){background:linear-gradient(90deg,#4a79bc1a,#4a79bc14 23.258%,#4a79bc00)}
+.analysis-view .more-creators-trigger{position:absolute;bottom:0;left:0;width:336px;height:81.707px;padding:0 0 15px;align-items:flex-end;background:linear-gradient(0deg,#030b24 17.747%,#26384800 100%);backdrop-filter:none;border-radius:0 0 24px 24px;transform:none;margin:0}
+.analysis-view .overview-more{display:none}
+.analysis-view .analysis-more{display:flex}

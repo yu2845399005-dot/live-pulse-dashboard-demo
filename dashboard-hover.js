@@ -1,11 +1,11 @@
 import {CHART_COLORS,OVERVIEW_CHART_COLORS,chartColors} from './chart-palette.mjs?v=20261106-home-ui';
 const viewColors=rows=>chartColors(rows,OVERVIEW_CHART_COLORS);
-import {metricReadout,getScope,queryFacts,currentMetricGroups,querySegments,querySeries} from './data-context.js?v=20261106-smooth-data';
+import {metricReadout,getScope,getDataNow,currentMetricGroups,querySegments,querySeries} from './data-context.js?v=20261106-smooth-data';
 import {breakdown,formatValue,moneyMatrix,matrixPercent,series,pointAt} from './data-model.mjs?v=20261106-smooth-data';
 import { getPeriod, usesDateAxis, axisMarkup, timeAt, dateAt } from './period-state.js?v=20261106-smooth-data';
 // Figma 744:134677. DOM values are the source of the demo's hover readouts.
 import hoverAssets from './hover-assets.js';
-import {showSurface,hideSurface,revealChart,linePath,framePointer} from './data-motion.js?v=20261106-smooth-data';
+import {showSurface,hideSurface,revealChart,linePath,framePointer} from './data-motion.js?v=20261106-analysis-figma';
 const miniatureAssetsReady = true;
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
@@ -119,8 +119,11 @@ export function initDashboardHover(){
     return [['观测周期 '+dateAt(ratio).replaceAll('-','.'),value],['对比周期 '+dateAt(ratio,true).replaceAll('-','.'),previous]];
   },{prefix:'时间 ',width:186,node:'744:130239'});
 
+  let matrixCache,matrixCacheKey;
   function matrixReadout(row,ratio){
-    const scope=getScope(),data=moneyMatrix(getPeriod(),scope.region),label=row.querySelector('th').textContent.trim(),i=data.labels.indexOf(label);
+    const scope=getScope(),now=getDataNow(),key=JSON.stringify([getPeriod(),scope.region,Math.floor(now.getTime()/60000)]);
+    if(key!==matrixCacheKey){matrixCacheKey=key;matrixCache=moneyMatrix(getPeriod(),scope.region,{now});}
+    const data=matrixCache,label=row.querySelector('th').textContent.trim(),i=data.labels.indexOf(label);
     const consumer=$('[data-perspective="consumer"]').getAttribute('aria-pressed')==='true';
     const override={region:scope.region==='Global'?label:scope.region,subregion:scope.region==='Global'?'Area Total':label};
     const point=pointAt(querySeries('revenue',false,override),ratio);
@@ -128,17 +131,18 @@ export function initDashboardHover(){
     return [label,formatValue(den?point.value*amount/den:0,'money'),i<0?'—':matrixPercent(data,i,i,consumer).toFixed(1)+'%'];
   }
   const matrix=$('.contribution-table');
-  matrix?.addEventListener('pointermove',event=>{
+  const matrixMove=framePointer(event=>{
     const image=event.target.closest('.sparkline-cell>svg,.sparkline-cell>svg *,.sparkline-cell>img:not(.region-crown)'),cell=image?.closest('.sparkline-cell');
     if(!cell||!available()){if(activeTrigger?.classList.contains('sparkline-cell'))dismiss();return;}
     clearTimeout(hideTimer);if(activeTrigger!==cell)dismiss();activeTrigger=cell;hideSurface(preview);
-    const p=coordinates(event,cell),row=cell.closest('tr'),label=row.querySelector('th').textContent.trim(),percent=row.querySelector('.local-contribution')?.textContent||'—';
-    cell.setAttribute('aria-describedby',readout.id);mark(cell,p.ratio);renderReadout('观测时间 '+timeAt(p.ratio),[matrixReadout(row,p.ratio)],p,{width:172,compact:true,node:'744:134660'});
+    const p=coordinates(event,cell),row=cell.closest('tr'),ratio=p.ratio*(querySeries('revenue').at(-1)?.ratio||1);
+    cell.setAttribute('aria-describedby',readout.id);mark(cell,p.ratio);renderReadout('观测时间 '+timeAt(ratio),[matrixReadout(row,ratio)],p,{width:172,compact:true,node:'744:134660'});
   });
-  matrix?.addEventListener('pointerleave',later);
+  matrix?.addEventListener('pointermove',matrixMove);
+  matrix?.addEventListener('pointerleave',()=>{matrixMove.cancel();later();});
   function decorateSparklines(){for(const cell of $$('.sparkline-cell')){cell.tabIndex=0;cell.setAttribute('aria-label',cell.closest('tr').querySelector('th').textContent.trim()+'营收贡献趋势');}}
   decorateSparklines();new MutationObserver(decorateSparklines).observe(matrix.querySelector('tbody'),{childList:true});
-  matrix?.addEventListener('focusin',event=>{const cell=event.target.closest('.sparkline-cell');if(!cell)return;const r=box(cell),row=cell.closest('tr');activeTrigger=cell;cell.setAttribute('aria-describedby',readout.id);renderReadout('观测时间 '+timeAt(.5),[matrixReadout(row,.5)],{x:r.x+r.width/2,y:r.y},{width:172,compact:true});});matrix?.addEventListener('focusout',later);
+  matrix?.addEventListener('focusin',event=>{const cell=event.target.closest('.sparkline-cell');if(!cell)return;const r=box(cell),row=cell.closest('tr'),ratio=.5*(querySeries('revenue').at(-1)?.ratio||1);activeTrigger=cell;cell.setAttribute('aria-describedby',readout.id);renderReadout('观测时间 '+timeAt(ratio),[matrixReadout(row,ratio)],{x:r.x+r.width/2,y:r.y},{width:172,compact:true});});matrix?.addEventListener('focusout',later);
   document.addEventListener('dashboard:period',event=>{period=event.detail;rowColors=null;readoutSignature='';dismiss();});
   document.addEventListener('dashboard:region',()=>{rowColors=null;readoutSignature='';dismiss();});
   document.addEventListener('keydown',event=>{if(['Tab','ArrowLeft','ArrowRight'].includes(event.key))interactionMode='keyboard';if(event.key==='Escape'&&(!preview.hidden||!readout.hidden)){event.preventDefault();event.stopImmediatePropagation();dismiss();}},true);

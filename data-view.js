@@ -5,7 +5,7 @@ import {localDate,minuteOfDay} from './dashboard-clock.mjs';
 import {getPeriod,axisMarkup} from './period-state.js?v=20261106-smooth-data';
 import {getScope,queryFacts,currentMetricGroups,querySeries,querySegments} from './data-context.js?v=20261106-smooth-data';
 import {breakdown,formatValue,series,moneyMatrix,matrixPercent} from './data-model.mjs?v=20261106-smooth-data';
-import {linePath,syncSeries,revealItems,countValues} from './data-motion.js?v=20261106-smooth-data';
+import {linePath,syncSeries,revealItems,countValues} from './data-motion.js?v=20261106-analysis-figma';
 const $$=s=>[...document.querySelectorAll(s)],$=s=>document.querySelector(s);
 // Compact labels match Figma's single-decimal amounts; raw facts keep full precision.
 const money=value=>{const unit=value>=1e6?1e6:value>=1e3?1e3:1;return '$'+(value/unit).toFixed(1)+(unit===1e6?'M':unit===1e3?'K':'');};
@@ -48,11 +48,13 @@ export function renderMainTrend(){
  plot.dataset.displayEnd=String(end);
  $('.trend-x-axis').innerHTML=axisMarkup(false,end);
  const p=path(points),last=points.length?620:0;
- if(!svg.querySelector('defs'))svg.innerHTML=`${[0,51,102,153,204].map(y=>`<line x1="0" x2="620" y1="${y}" y2="${y}" stroke="#ffffff15" stroke-dasharray="2 3"/>`).join('')}<defs><linearGradient id="mock-trend-fill" x2="0" y2="1"><stop stop-color="${CHART_COLORS[0]}" stop-opacity=".23"/><stop offset="1" stop-color="${CHART_COLORS[0]}" stop-opacity="0"/></linearGradient></defs>`;
- syncSeries(svg,[{id:'area',d:`${p} L${last.toFixed(2)},204 L0,204 Z`,fill:'url(#mock-trend-fill)'},{id:'current',d:p,stroke:CHART_COLORS[0],width:2},{id:'previous',d:path(other),stroke:CHART_COLORS[1],width:1.5,dash:'5 4'}],{key:JSON.stringify([def.key,getScope(),getPeriod()])});
- document.querySelectorAll('.trend-legend img').forEach((el,i)=>{el.src='data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="2"><path d="M0 1H16" stroke="${CHART_COLORS[i%2]}" stroke-width="2" ${i?'stroke-dasharray="3 3"':''}/></svg>`);});
+ if(!svg.querySelector('defs'))svg.innerHTML=`${[0,51,102,153,204].map(y=>`<line x1="0" x2="620" y1="${y}" y2="${y}" stroke="#ffffff15" stroke-dasharray="2 3"/>`).join('')}<defs><linearGradient id="mock-trend-fill" x2="0" y2="1"><stop stop-color="#2388ff" stop-opacity=".28"/><stop offset="1" stop-color="#2388ff" stop-opacity="0"/></linearGradient><linearGradient id="mock-bar-fill" x2="0" y2="1"><stop stop-color="#2388ff" stop-opacity=".17"/><stop offset="1" stop-color="#2388ff" stop-opacity="0"/></linearGradient></defs>`;
+ const bars=points.length?Array.from({length:24},(_,i)=>{const sample=points[Math.round(i/23*(points.length-1))],x=i*620/24+7,y=204-sample.value/max*204,w=11;return `M${x.toFixed(2)},204 V${(y+5).toFixed(2)} Q${x.toFixed(2)},${y.toFixed(2)} ${(x+5).toFixed(2)},${y.toFixed(2)} H${(x+w-5).toFixed(2)} Q${(x+w).toFixed(2)},${y.toFixed(2)} ${(x+w).toFixed(2)},${(y+5).toFixed(2)} V204 Z`;}).join(' '):'';
+ syncSeries(svg,[{id:'bars',d:bars,fill:'url(#mock-bar-fill)'},{id:'area',d:`${p} L${last.toFixed(2)},204 L0,204 Z`,fill:'url(#mock-trend-fill)'},{id:'current',d:p,stroke:'#2388ff',width:2.5},{id:'previous',d:path(other),stroke:'#1656b6',width:1.5,dash:'5 4'}],{key:JSON.stringify([def.key,getScope(),getPeriod()])});
+ document.querySelectorAll('.trend-legend img').forEach((el,i)=>{const src='assets/figma-analysis-nov06/'+(i?'688a1':'11c4f')+'.svg';if(el.getAttribute('src')!==src)el.src=src;});
  $$('.trend-lines,.trend-bars,.trend-grid').forEach(el=>el.hidden=true);
- $('.trend-y-axis').innerHTML=[1,.75,.5,.25,0].map(r=>`<span style="top:${(1-r)*100}%">${formatValue(max*r,def.unit)}</span>`).join('');
+ const axisValue=value=>['money','count'].includes(def.unit)?(value>=10000?(value/10000).toFixed(1).replace(/\.0$/,'')+'万':value>=1000?(value/1000).toFixed(1).replace(/\.0$/,'')+'K':Math.round(value).toString()):formatValue(value,def.unit);
+ $('.trend-y-axis').innerHTML=[1,.75,.5,.25,0].map(r=>`<span style="top:${(1-r)*100}%">${axisValue(max*r)}</span>`).join('');
  plot.dataset.lastMinute=String(points.at(-1)?.minute??'');
  plot.dataset.lastRatio=String(points.at(-1)?.ratio??'');
  $('.trend-live-label')?.remove();

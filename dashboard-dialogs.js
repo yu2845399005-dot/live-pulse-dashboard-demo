@@ -5,7 +5,7 @@ import {regionRevenueRatio} from './region-scopes.js';
 import { creatorStatus, gradeClass, rankingExplanation } from './ranking-view.js';
 import { getPeriod, setPeriod, today, offsetDate as offset, timeAt, dayDistance, periodError,axisMarkup } from './period-state.js?v=20261106-smooth-data';
 import designAssets from './dialog-assets.js';
-import {animateUI,revealChart,revealItems,linePath,syncSeries,showSurface,hideSurface,reducedMotion,framePointer} from './data-motion.js?v=20261106-smooth-data';
+import {animateUI,revealChart,revealItems,linePath,syncSeries,showSurface,hideSurface,reducedMotion,framePointer} from './data-motion.js?v=20261106-analysis-figma';
 const $ = s => document.querySelector(s);
 const img = (node,key,cls='') => `<img class="${cls}" src="${designAssets[node][key]}" alt="">`;
 const clone = v => JSON.parse(JSON.stringify(v));
@@ -142,7 +142,7 @@ export function initDashboardDialogs(api) {
   initDates();initComparison();
 
   const more=createDialog('more-creators','更多主播榜单','当前榜单按照实时营收进行排序','699:123028',{width:760,height:783,footer:false,body:'<div class="more-creators-list" aria-label="更多主播榜单"></div>'});
-  const moreButton=document.createElement('button');moreButton.type='button';moreButton.className='more-creators-trigger';moreButton.setAttribute('aria-label','查看更多主播榜单');moreButton.innerHTML='<span class="overview-more"><span class="overview-more-divider"><img src="assets/figma-home-nov06/2-1990-95a70.svg" alt=""></span><span>More</span><span class="overview-more-divider"><img src="assets/figma-home-nov06/2-1990-7ce38.svg" alt=""></span></span><span class="analysis-more">查看更多'+img('674:105680','imgIconChevronRight')+'</span>';$('.ranking-panel').append(moreButton);
+  const moreButton=document.createElement('button');moreButton.type='button';moreButton.className='more-creators-trigger';moreButton.setAttribute('aria-label','查看更多主播榜单');moreButton.innerHTML='<span class="overview-more"><span class="overview-more-divider"><img src="assets/figma-home-nov06/2-1990-95a70.svg" alt=""></span><span>More</span><span class="overview-more-divider"><img src="assets/figma-home-nov06/2-1990-7ce38.svg" alt=""></span></span><span class="analysis-more">查看更多<img src="assets/figma-analysis-nov06/e80b1.svg" alt=""></span>';$('.ranking-panel').append(moreButton);
   moreButton.onclick=()=>{
     const labels=['当前榜单按照实时营收进行排序',rankingExplanation(1),rankingExplanation(2)];
     more.querySelector('.modal-header p').textContent=labels[state.ranking];

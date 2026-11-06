@@ -5,15 +5,15 @@ import {queryCreators} from './creator-data.mjs?v=20261106-smooth-data';
 import {metricCards,queryFacts,getScope,getDataNow,refreshSnapshot} from './data-context.js?v=20261106-smooth-data';
 import {dailyFacts,isTodayPeriod,aggregate,metricValue,breakdown,formatValue} from './data-model.mjs?v=20261106-smooth-data';
 import {getPeriod} from './period-state.js?v=20261106-smooth-data';
-import {initDataView} from './data-view.js?v=20261106-smooth-data';
+import {initDataView} from './data-view.js?v=20261106-analysis-figma';
 import { initLayoutEditor } from './layout-editor.js';
 import { subregionsFor, defaultSubregion, regionRevenueRatio, scopedRevenue } from './region-scopes.js';
 import { initRankingControls, creatorStatus, gradeClass, governanceReasons } from './ranking-view.js';
 import { initPeriodControls } from './period-state.js?v=20261106-smooth-data';
 import {entryFrame,counterProgress,smoothProgress} from './entry-motion.mjs?v=20261027-transparent-entry';
-import { initDashboardDialogs, metricDefinitions } from './dashboard-dialogs.js?v=20261106-smooth-data';
-import { initDashboardHover } from './dashboard-hover.js?v=20261106-smooth-data';
-import { initAnalysisView } from './analysis-view.js?v=20261106-smooth-data';
+import { initDashboardDialogs, metricDefinitions } from './dashboard-dialogs.js?v=20261106-analysis-figma';
+import { initDashboardHover } from './dashboard-hover.js?v=20261106-analysis-figma';
+import { initAnalysisView } from './analysis-view.js?v=20261106-analysis-figma';
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 const state = { region: 'Global', subregion: 'Area Total', ranking: 0, page: 1, traffic: 1, metric: 0, inactiveDays: 7, governance: 'all' };
@@ -88,13 +88,24 @@ metricTrack.addEventListener('focusin',event=>{
   else if(right>metricTrack.scrollLeft+metricTrack.clientWidth)metricTrack.scrollTo({left:right-metricTrack.clientWidth,behavior:'smooth'});
 });
 function renderMetrics() {
+  const changeMarkup=m=>m.change===null||m.change===0?'<i class="metric-flat-mark" aria-label="暂无对比值"></i>':`<img src="assets/figma-analysis-nov06/${m.change<0?'b73d8':'49a40'}.svg" alt="${m.change<0?'下降':'上升'}">${Math.abs(m.change).toFixed(1)}%`;
   const selectedKey=$('.metric-card[aria-pressed=true]')?.dataset.metricKey;
   const visible=metricCards(state.metric).filter((_,i)=>state.metricConfig?.groups[state.metric]?.items[i]!==false);
   const signature=visible.map(m=>m.key).join(',');
+  if(metricTrack.dataset.items===signature&&metricTrack.children.length===visible.length){
+    visible.forEach((m,i)=>{
+      const card=metricTrack.children[i],value=card.querySelector('.metric-value');
+      if(value.dataset.numberMotion!=='running'&&value.getAttribute('aria-label')!==m.formatted){value.setAttribute('aria-label',m.formatted);value.innerHTML=metricValueMarkup(m);}
+      const change=card.querySelector('.metric-change'),markup=changeMarkup(m);
+      change.className='metric-change '+(m.change===null||m.change===0?'flat':m.change<0?'negative':'');
+      if(change.innerHTML!==markup)change.innerHTML=markup;
+    });
+    return;
+  }
   if(metricTrack.dataset.items!==signature)metricTrack.scrollLeft=0;
   metricTrack.dataset.items=signature;
   metricTrack.style.setProperty('--metric-count',Math.min(4,visible.length)||1);
-  metricTrack.innerHTML=visible.map(m=>`<article class="metric-card" data-metric-key="${m.key}"${m.key===selectedKey?' aria-pressed="true"':''} title="${m.label} · ${getPeriod().start===getPeriod().end?'当日累计':'周期日均'} · 对比同时间窗 · 模拟数据"><span class="metric-label">${m.label}</span><strong class="metric-value" aria-label="${m.formatted}">${metricValueMarkup(m)}</strong><span class="metric-change ${m.change===null||m.change===0?'flat':m.change<0?'negative':''}">${m.change===null||m.change===0?'<i class="metric-flat-mark" aria-label="暂无对比值"></i>':`<img src="assets/figma-metrics/${m.change<0?'88dea404-2155-4285-8548-677facbc057c':'466050db-c3df-4881-bef5-0caf3244c168'}.svg" alt="${m.change<0?'下降':'上升'}">${Math.abs(m.change).toFixed(1)}%`}</span></article>`).join('');
+  metricTrack.innerHTML=visible.map(m=>`<article class="metric-card" data-metric-key="${m.key}"${m.key===selectedKey?' aria-pressed="true"':''} title="${m.label} · ${getPeriod().start===getPeriod().end?'当日累计':'周期日均'} · 对比同时间窗 · 模拟数据"><span class="metric-label">${m.label}</span><strong class="metric-value" aria-label="${m.formatted}">${metricValueMarkup(m)}</strong><span class="metric-change ${m.change===null||m.change===0?'flat':m.change<0?'negative':''}">${m.change===null||m.change===0?'<i class="metric-flat-mark" aria-label="暂无对比值"></i>':`<img src="assets/figma-analysis-nov06/${m.change<0?'b73d8':'49a40'}.svg" alt="${m.change<0?'下降':'上升'}">${Math.abs(m.change).toFixed(1)}%`}</span></article>`).join('');
   updateMetricNavigation();
 }
 $$('[data-metric]').forEach(button => button.addEventListener('click', () => { state.metric = Number(button.dataset.metric); selectTab($$('[data-metric]'), button); renderMetrics(); }));
@@ -106,7 +117,8 @@ const trafficSets=()=>breakdown(queryFacts().revenue,state.traffic===0?'gift':st
 $$('[data-traffic]').forEach(button => button.addEventListener('click', () => {
   state.traffic = Number(button.dataset.traffic); selectTab($$('[data-traffic]'), button);
   $('#traffic-stats').innerHTML = trafficSets().map(([label,value,percent],i) => `<div class="stat-row"><span><img src="${assets.dots[i === 0 ? 0 : i === 3 ? 2 : 1]}" alt="">${label}</span><span class="stat-value">${value}<small>${percent}</small></span></div>`).join('');
-  $('#graph').style.transform = state.traffic === 1 ? '' : state.traffic === 0 ? 'scaleX(-1)' : 'scaleY(-1)';
+  // Each data series already has its own profile; keep time running left to right.
+  $('#graph').style.transform = '';
 }));
 function getCreators() {
   return queryCreators({...state,period:getPeriod(),now:getDataNow(),sort:$('#sort-select').value,window:$('#live-select').value});

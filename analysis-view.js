@@ -5,7 +5,7 @@ import {getPeriod} from './period-state.js?v=20261106-smooth-data';
 import { subregionsFor, globalRegions as regions } from './region-scopes.js';
 // Figma 725:23088. Expand the existing dashboard without resetting its state.
 import { initSupplyConfig } from './supply-config.js';
-import {animateUI,cancelUI,revealChart,revealItems,countValues} from './data-motion.js?v=20261106-smooth-data';
+import {animateUI,cancelUI,revealChart,revealItems,countValues} from './data-motion.js?v=20261106-analysis-figma';
 const asset = name => `assets/figma-metrics/${name}.svg`;
 const image = (name, className = '') => `<img src="${asset(name)}" alt="" class="${className}">`;
 const sparklines = ['e6f85aa4-548c-4129-9e20-a2d3a7131655', '55164af7-735f-4a3b-9d0c-fcf6c9a15e81',
@@ -33,11 +33,12 @@ export function initAnalysisView({ setRegion, setSubregion }) {
   toggle.setAttribute('aria-controls', 'metric-trend regional-contributions');
   toggle.setAttribute('aria-label', '展开指标分析');
   panel.id = 'metrics-panel';
+  panel.insertAdjacentHTML('afterbegin','<img class="analysis-panel-surface" src="assets/figma-analysis-nov06/31749.svg" alt=""><img class="analysis-panel-notch" src="assets/figma-analysis-nov06/c2c01.svg" alt="">');
   panel.insertAdjacentHTML('beforeend', `
     <section class="analysis-trend" id="metric-trend" aria-label="主播营收趋势" hidden>
       <div class="trend-toolbar">
         <div class="trend-legend"><span>${image('573e3a67-2ebd-4b17-a795-c84f3b4e59dd')}观测周期</span><span>${image('82516037-1c2c-4fe0-a3ab-6d50ddc02cb9')}对比周期</span></div>
-        <button class="compare-regions">横向对比各大区趋势 ${image('84bd2bed-45de-4ea9-98fe-e9dc899b310b')}</button>
+        <button class="compare-regions">横向对比各大区趋势 <img src="assets/figma-analysis-nov06/c8d71.svg" alt=""></button>
       </div>
       <div class="revenue-trend-chart" role="img" aria-label="观测周期营收总体上升至3.2万，对比周期约2万；当前展示演示数据">
         <div class="trend-y-axis"><span>4万</span><span>3万</span><span>2万</span><span>1万</span><span>0</span></div>
@@ -114,12 +115,12 @@ export function initAnalysisView({ setRegion, setSubregion }) {
     matrix.querySelector('table').style.width=tableWidth+'px';
     matrix.querySelector('colgroup').innerHTML='<col class="region-name-col"><col class="sparkline-col">'+columns.map(()=>`<col class="matrix-data-col" style="width:${columnWidth}px">`).join('');
     matrix.querySelector('thead tr').innerHTML=`<th scope="col">${rowHeading}</th><th scope="col" class="contribution-trend-heading">${trendHeading}</th>${columns.map(name=>`<th scope="col"><span>${name}</span></th>`).join('')}`;
-    matrix.querySelector('tbody').innerHTML=rows.map((name,i)=>`<tr><th scope="row"><button data-analysis-region="${name}"${regional&&name===currentSubregion?' aria-current="true"':''}>${name}</button></th><td class="sparkline-cell"><svg viewBox="0 0 120 25" width="120" height="25" aria-hidden="true"><path d="${sparkPath(name)}" fill="none" stroke="${CHART_COLORS[0]}" stroke-width="1.5"/></svg>${i===0?(regional?'<span class="region-crown">'+scopeImage('imgCrown')+'</span>':image('0434a56e-b989-46fe-b67a-a04042c7086d','region-crown')):''}</td>${columns.map((_,j)=>{
+    matrix.querySelector('tbody').innerHTML=rows.map((name,i)=>{const path=sparkPath(name);return `<tr><th scope="row"><button data-analysis-region="${name}"${regional&&name===currentSubregion?' aria-current="true"':''}>${name}</button></th><td class="sparkline-cell"><svg viewBox="0 0 120 25" width="120" height="24" aria-hidden="true"><defs><linearGradient id="spark-fill-${i}" x2="0" y2="1"><stop stop-color="#2388ff" stop-opacity=".65"/><stop offset="1" stop-color="#2388ff" stop-opacity="0"/></linearGradient></defs><path d="${path} L120,25 L0,25 Z" fill="url(#spark-fill-${i})"/><path d="${path}" fill="none" stroke="#2388ff" stroke-width="1.5"/></svg>${i===0?'<img class="region-crown" src="assets/figma-analysis-nov06/77428.svg" alt="">':''}</td>${columns.map((_,j)=>{
       const row=regional?i-1:i;
       const value=row<0?data.amounts.reduce((sum,_,r)=>sum+(consumer?data.amounts[j][r]:data.amounts[r][j]),0)/(consumer?data.payerTotals.reduce((a,b)=>a+b,0):data.total)*100:matrixPercent(data,row,j,consumer);
       const local=regional?children.length&&i===j+1:i===j;
       return `<td><span class="${local?'local-contribution':''}">${value===null?'—':value.toFixed(1)+'%'}</span></td>`;
-    }).join('')}</tr>`).join('');
+    }).join('')}</tr>`;}).join('');
   }
   document.addEventListener('dashboard:period',renderContributions);
   document.addEventListener('dashboard:mock-refresh',renderContributions);
@@ -140,7 +141,7 @@ export function initAnalysisView({ setRegion, setSubregion }) {
       card.setAttribute('role', 'button'); card.tabIndex = 0;
       card.setAttribute('aria-pressed', String(i===activeCard));
       const label = card.querySelector('.metric-label');
-      if (!label.querySelector('img')) label.insertAdjacentHTML('beforeend', image('3b4cfa8e-4d22-44cc-a2ab-5acb05754c84'));
+      if (!label.querySelector('img')) label.insertAdjacentHTML('beforeend', '<img src="assets/figma-analysis-nov06/d3f01.svg" alt="">');
       if (!card.querySelector('.metric-change')) {
         const changes = metric===0 ? ['23.5%','15.2%','–','23.5%'] : ['12.8%','8.2%','–','6.5%'];
         card.insertAdjacentHTML('beforeend', `<span class="metric-change ${i===1?'negative':i===2?'flat':''}">${i===2?'':image(i===1?'88dea404-2155-4285-8548-677facbc057c':i===3?'2ef66a63-8e1b-4736-b609-66fe83705c69':'466050db-c3df-4881-bef5-0caf3244c168')}${changes[i]}</span>`);
@@ -160,6 +161,7 @@ export function initAnalysisView({ setRegion, setSubregion }) {
     cancelUI(panel,'layout');
     expanded = value;
     incomeRing.src=value?'assets/figma-left/imgRing.svg':originalIncomeRing;
+    toggle.querySelector('img').src=value?'assets/figma-analysis-nov06/ede00.svg':'assets/figma-home-nov06/2-2777-62e5d.svg';
     dashboard.classList.toggle('analysis-view',value);
     dashboard.querySelector('.earth-frame').contentWindow.postMessage({type:'earth:layout',height:(value?503:620)-126},location.origin);
     panel.classList.toggle('expanded',value);

@@ -1,0 +1,17 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="720" height="422" viewBox="0 0 720 422" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<foreignObject x="-12" y="-12" width="744" height="446"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(6px);clip-path:url(#bgblur_0_0_151_clip_path);height:100%;width:100%"></div></foreignObject><g id="&#232;&#131;&#140;&#230;&#153;&#175;" data-figma-bg-blur-radius="12">
+<use xlink:href="#stroke0_0_151" fill="#252954" fill-opacity="0.2"/>
+<mask id="stroke1_0_151" fill="white">
+<use xlink:href="#stroke0_0_151"/>
+</mask>
+<path d="M696 0C709.255 1.08235e-05 720 10.7452 720 24V398C720 411.255 709.255 422 696 422H24C10.7452 422 4.83225e-07 411.255 0 398V24C0 10.7452 10.7452 6.7647e-07 24 0H315C328.255 0 339.397 13.8385 351.75 18.6453C353.998 19.52 356.443 20 359 20C361.557 20 364.002 19.52 366.25 18.6453C378.603 13.8385 389.745 0 403 0H696Z" stroke-width="4" stroke="url(#paint0_radial_0_151)" mask="url(#stroke1_0_151)"/>
+</g>
+<defs>
+<clipPath id="bgblur_0_0_151_clip_path" transform="translate(12 12)"><path d="M696 0C709.255 1.08235e-05 720 10.7452 720 24V398C720 411.255 709.255 422 696 422H24C10.7452 422 4.83225e-07 411.255 0 398V24C0 10.7452 10.7452 6.7647e-07 24 0H315C328.255 0 339.397 13.8385 351.75 18.6453C353.998 19.52 356.443 20 359 20C361.557 20 364.002 19.52 366.25 18.6453C378.603 13.8385 389.745 0 403 0H696Z"/>
+</clipPath><radialGradient id="paint0_radial_0_151" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(359.003 0.0842989) rotate(90) scale(340.96 479.353)">
+<stop stop-color="#C4C4E9" stop-opacity="0.4"/>
+<stop offset="1" stop-opacity="0"/>
+</radialGradient>
+<path id="stroke0_0_151" d="M696 0C709.255 1.08235e-05 720 10.7452 720 24V398C720 411.255 709.255 422 696 422H24C10.7452 422 4.83225e-07 411.255 0 398V24C0 10.7452 10.7452 6.7647e-07 24 0H315C328.255 0 339.397 13.8385 351.75 18.6453C353.998 19.52 356.443 20 359 20C361.557 20 364.002 19.52 366.25 18.6453C378.603 13.8385 389.745 0 403 0H696Z"/>
+</defs>
+</svg>
