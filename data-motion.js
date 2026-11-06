@@ -22,6 +22,31 @@ export function animateUI(element,frames,{duration=360,delay=0,channel='surface'
   animation.finished.then(()=>{if(channels.get(channel)===animation)channels.delete(channel);},()=>{});
   return animation;
 }
+const dialogMotions=new WeakSet();
+export function attachDialogMotion(dialog){
+  if(!dialog||dialogMotions.has(dialog))return;
+  dialogMotions.add(dialog);dialog.classList.add('motion-dialog');
+  const show=dialog.showModal.bind(dialog),close=dialog.close.bind(dialog);
+  let closing=false,entrance,returnFocus;
+  dialog.showModal=()=>{
+    if(dialog.open)return;
+    returnFocus=document.activeElement;show();
+    const base=getComputedStyle(dialog).transform;
+    entrance=animateUI(dialog,[{opacity:0,transform:(base==='none'?'':base)+' translateY(8px) scale(.99)'},{opacity:1,transform:base}],{duration:320,channel:'dialog'});
+    revealItems(dialog.querySelectorAll('.modal-header,.comparison-toolbar,.modal-config-group,.modal-footer,.supply-dialog-header,.supply-mode,.supply-category-option,.supply-dialog-footer'),{delay:50,stagger:28});
+    revealChart(dialog,{delay:130});
+  };
+  dialog.close=(returnValue='')=>{
+    if(!dialog.open||closing)return;
+    if(reducedMotion()){close(returnValue);return;}
+    const current=getComputedStyle(dialog),opacity=current.opacity,base=current.transform;
+    closing=true;dialog.classList.add('is-closing');entrance?.cancel();
+    const exit=animateUI(dialog,[{opacity,transform:base},{opacity:0,transform:(base==='none'?'':base)+' translateY(5px) scale(.995)'}],{duration:180,channel:'dialog',fill:'forwards',easing:'ease-out'});
+    exit.finished.then(()=>{close(returnValue);exit.cancel();closing=false;dialog.classList.remove('is-closing');},()=>{closing=false;dialog.classList.remove('is-closing');});
+  };
+  dialog.addEventListener('cancel',event=>{if(event.defaultPrevented)return;event.preventDefault();dialog.close();});
+  dialog.addEventListener('close',()=>returnFocus?.isConnected&&returnFocus.focus({preventScroll:true}));
+}
 export function showSurface(element,{restart=false}={}){
   const previous=surfaces.get(element),entering=element.hidden||previous==='closing';
   if(!entering&&!restart)return false;

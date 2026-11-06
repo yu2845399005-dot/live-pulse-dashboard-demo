@@ -1,11 +1,11 @@
-import {creatorAvatar} from './creator-avatars.mjs';
-import {series,formatValue,pointAt} from './data-model.mjs?v=20261106-smooth-data';
-import {currentMetricGroups,metricReadout,getScope,querySeries} from './data-context.js?v=20261106-smooth-data';
-import {regionRevenueRatio} from './region-scopes.js';
-import { creatorStatus, gradeClass, rankingExplanation } from './ranking-view.js';
-import { getPeriod, setPeriod, today, offsetDate as offset, timeAt, dayDistance, periodError,axisMarkup } from './period-state.js?v=20261106-smooth-data';
-import designAssets from './dialog-assets.js';
-import {animateUI,revealChart,revealItems,linePath,syncSeries,showSurface,hideSurface,reducedMotion,framePointer} from './data-motion.js?v=20261106-smooth-expand';
+import {creatorAvatar} from './creator-avatars.mjs?v=20261106-responsive-polish';
+import {series,formatValue,pointAt} from './data-model.mjs?v=20261106-responsive-polish';
+import {currentMetricGroups,metricReadout,getScope,querySeries} from './data-context.js?v=20261106-responsive-polish';
+import {regionRevenueRatio} from './region-scopes.js?v=20261106-responsive-polish';
+import { creatorStatus, gradeClass, rankingExplanation } from './ranking-view.js?v=20261106-responsive-polish';
+import { getPeriod, setPeriod, today, offsetDate as offset, timeAt, dayDistance, periodError,axisMarkup } from './period-state.js?v=20261106-responsive-polish';
+import designAssets from './dialog-assets.js?v=20261106-responsive-polish';
+import {attachDialogMotion,animateUI,revealChart,revealItems,linePath,syncSeries,showSurface,hideSurface,framePointer} from './data-motion.js?v=20261106-responsive-polish';
 const $ = s => document.querySelector(s);
 const img = (node,key,cls='') => `<img class="${cls}" src="${designAssets[node][key]}" alt="">`;
 const clone = v => JSON.parse(JSON.stringify(v));
@@ -26,29 +26,10 @@ function createDialog(id,title,subtitle,node,{width=653,height,body='',footer=tr
   document.body.append(dialog);
   const resize=()=>dialog.style.setProperty('--modal-scale',String(Math.min(innerWidth/1440,innerHeight/900)));
   addEventListener('resize',resize);resize();
-  let returnFocus,closing=false,entrance;
-  const nativeClose=dialog.close.bind(dialog);
-  dialog.openModal=()=>{
-    if(dialog.open)return;
-    returnFocus=document.activeElement;resize();dialog.showModal();
-    const base=getComputedStyle(dialog).transform;
-    entrance=animateUI(dialog,[{opacity:0,transform:base+' translateY(12px) scale(.985)'},{opacity:1,transform:base}],{duration:340});
-    revealItems(dialog.querySelectorAll('.modal-header,.comparison-toolbar,.modal-config-group,.modal-footer'),{delay:70});
-    revealChart(dialog,{delay:160});
-  };
-  dialog.close=(returnValue='')=>{
-    if(!dialog.open||closing)return;
-    if(reducedMotion()){nativeClose(returnValue);return;}
-    closing=true;dialog.classList.add('is-closing');
-    const style=getComputedStyle(dialog),base=style.transform;
-    entrance?.cancel();
-    const exit=animateUI(dialog,[{opacity:style.opacity,transform:base},{opacity:0,transform:base+' translateY(7px) scale(.99)'}],{duration:170,fill:'forwards',easing:'ease-out'});
-    exit.finished.then(()=>{nativeClose(returnValue);exit.cancel();dialog.classList.remove('is-closing');closing=false;},()=>{closing=false;dialog.classList.remove('is-closing');});
-  };
-  dialog.addEventListener('cancel',event=>{if(event.defaultPrevented)return;event.preventDefault();dialog.close();});
+  attachDialogMotion(dialog);
+  dialog.openModal=()=>{if(!dialog.open){resize();dialog.showModal();}};
   dialog.querySelector('.modal-close').onclick=()=>dialog.close();
   dialog.querySelector('.modal-cancel')?.addEventListener('click',()=>dialog.close());
-  dialog.addEventListener('close',()=>returnFocus?.focus({preventScroll:true}));
   dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
   return dialog;
 }
@@ -211,7 +192,7 @@ function initComparison(){
     const max=curves.flat(2).reduce((max,p)=>Math.max(max,p.value),1)*1.1;
     const end=curves[0][0].at(-1)?.ratio||1;
     dialog.querySelector('.comparison-hit-area').dataset.displayEnd=String(end);
-    dialog.querySelector('.comparison-x').innerHTML=axisMarkup(false,end);
+    dialog.querySelector('.comparison-x').innerHTML=axisMarkup(false,end,1192);
     dialog.querySelector('.comparison-y').innerHTML=[1,.75,.5,.25,0].map(n=>`<span>${formatValue(max*n,def.unit)}</span>`).join('');
     const colors=['#248aff','#32c5ff','#5e8bff','#68dcca','#ba89ff','#efb94f'];
     curves.forEach((pair,i)=>{
@@ -244,7 +225,7 @@ function initComparison(){
       });
       return `<div><span>${regions[i]}</span>${values.map((value,j)=>`<span class="comparison-hover-value"><strong>${value}</strong><span>${value==='—'?'—':shares[j]}</span></span>`).join('')}</div>`;
     }).join('')}</div>`;
-    guide.style.left=left+'px';pop.style.left=Math.min(1280-252,Math.max(0,left+4))+'px';guide.hidden=false;showSurface(pop);hit.setAttribute('aria-describedby',pop.id);
+    guide.style.left=left+'px';guide.hidden=false;showSurface(pop);pop.style.left=Math.min(1280-pop.offsetWidth,Math.max(0,left+4))+'px';hit.setAttribute('aria-describedby',pop.id);
   }
   const move=framePointer(event=>{const bounds=hit.getBoundingClientRect();show((event.clientX-bounds.left)/bounds.width);});
   hit.addEventListener('pointermove',move);

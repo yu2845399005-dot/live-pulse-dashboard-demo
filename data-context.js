@@ -1,5 +1,5 @@
-import {getPeriod} from './period-state.js?v=20261106-smooth-data';
-import {aggregate,metricGroups,metricValue,series,segmentSeries,pointAt,formatValue} from './data-model.mjs?v=20261106-smooth-data';
+import {getPeriod} from './period-state.js?v=20261106-responsive-polish';
+import {aggregate,metricGroups,metricValue,series,segmentSeries,pointAt,formatValue} from './data-model.mjs?v=20261106-responsive-polish';
 let scope={region:'Global',subregion:'Area Total'};
 // Every visible board reads the same timestamp, refreshed as one snapshot.
 let snapshotNow=new Date();

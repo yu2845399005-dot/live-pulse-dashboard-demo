@@ -1,4 +1,4 @@
-import {globalRegions} from './region-scopes.js';
+import {globalRegions} from './region-scopes.js?v=20261106-responsive-polish';
 // Stable fictional identities: no rotating URL or rank-based photo assignment.
 const photoIds=['SEA&CCA-6','SEA&CCA-4','SEA&CCA-3','METAP-2','SEA&CCA-2','EU+-10','EU+-9','AMS&ANZ-3','SEA&CCA-12','NEA-1','METAP-1','EU+-7'];
 const photos=['assets/figma-nov02/new-39-2189-4af96.png','assets/figma-nov02/new-39-2189-37604.png','assets/figma/1-664-9cb7a.png',...Array.from({length:8},(_,i)=>`assets/avatars/creator-${String(i+4).padStart(2,'0')}.jpg`),'assets/figma-nov02/new-39-2189-0fc8f.png'];

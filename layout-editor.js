@@ -1,5 +1,5 @@
-import {LAYOUT_KEY,cloneLayout,moveLayout,layoutHeight,validLayout} from './layout-model.js';
-import {cancelUI,framePointer,animateUI} from './data-motion.js?v=20261106-smooth-expand';
+import {LAYOUT_KEY,cloneLayout,moveLayout,layoutHeight,validLayout} from './layout-model.js?v=20261106-responsive-polish';
+import {cancelUI,framePointer,animateUI} from './data-motion.js?v=20261106-responsive-polish';
 const {createElement:h,useState,useRef,useEffect,useLayoutEffect}=window.React;
 const {createRoot,createPortal,flushSync}=window.ReactDOM;
 const definitions=[

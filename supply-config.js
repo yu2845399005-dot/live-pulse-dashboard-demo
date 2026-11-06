@@ -1,3 +1,4 @@
+import {attachDialogMotion} from './data-motion.js?v=20261106-responsive-polish';
 const asset = file => `assets/figma-supply-config/${file}.svg`;
 const icons = { drag: 'dbecccec-02a8-42a1-8173-7d89b3919fff', on: 'fbf6856e-131d-4a90-93e8-663823f10590', tick: '9f1b9153-3d50-4299-a287-aa3a027a3881', close: '69ddf0bd-21c7-435d-8c19-4cbdfcc07e08' };
 const image = key => `<img src="${asset(icons[key])}" alt="">`;
@@ -56,6 +57,7 @@ export function initSupplyConfig(dashboard) {
       </form>
     </dialog>`);
   const dialog=document.querySelector('#supply-config-dialog');
+  attachDialogMotion(dialog);
   const form=dialog.querySelector('form');
   const list=dialog.querySelector('.supply-category-list');
   const scaleDialog=()=>dialog.style.setProperty('--supply-dialog-scale',String(Math.min(innerWidth/1440,innerHeight/900)));

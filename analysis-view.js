@@ -1,11 +1,11 @@
-import {CHART_COLORS} from './chart-palette.mjs';
-import {getDataNow,querySeries} from './data-context.js?v=20261106-smooth-data';
-import {moneyMatrix,matrixPercent} from './data-model.mjs?v=20261106-smooth-data';
-import {getPeriod} from './period-state.js?v=20261106-smooth-data';
-import { subregionsFor, globalRegions as regions } from './region-scopes.js';
+import {CHART_COLORS} from './chart-palette.mjs?v=20261106-responsive-polish';
+import {getDataNow,querySeries} from './data-context.js?v=20261106-responsive-polish';
+import {moneyMatrix,matrixPercent} from './data-model.mjs?v=20261106-responsive-polish';
+import {getPeriod} from './period-state.js?v=20261106-responsive-polish';
+import { subregionsFor, globalRegions as regions } from './region-scopes.js?v=20261106-responsive-polish';
 // Figma 725:23088. Expand the existing dashboard without resetting its state.
-import { initSupplyConfig } from './supply-config.js';
-import {animateUI,cancelUI,revealChart,revealItems,countValues} from './data-motion.js?v=20261106-smooth-expand';
+import { initSupplyConfig } from './supply-config.js?v=20261106-responsive-polish';
+import {animateUI,cancelUI,revealChart,revealItems,countValues} from './data-motion.js?v=20261106-responsive-polish';
 const asset = name => `assets/figma-metrics/${name}.svg`;
 const image = (name, className = '') => `<img src="${asset(name)}" alt="" class="${className}">`;
 const sparklines = ['e6f85aa4-548c-4129-9e20-a2d3a7131655', '55164af7-735f-4a3b-9d0c-fcf6c9a15e81',

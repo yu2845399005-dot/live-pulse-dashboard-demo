@@ -1,11 +1,11 @@
-import {CHART_COLORS,OVERVIEW_CHART_COLORS,chartColors,chartDot} from './chart-palette.mjs?v=20261106-home-ui';
+import {CHART_COLORS,OVERVIEW_CHART_COLORS,chartColors,chartDot} from './chart-palette.mjs?v=20261106-responsive-polish';
 const overview=()=>!document.querySelector('.analysis-view');
 const viewColors=rows=>chartColors(rows,OVERVIEW_CHART_COLORS);
-import {localDate,minuteOfDay} from './dashboard-clock.mjs';
-import {getPeriod,axisMarkup} from './period-state.js?v=20261106-smooth-data';
-import {getScope,queryFacts,currentMetricGroups,querySeries,querySegments} from './data-context.js?v=20261106-smooth-data';
-import {breakdown,formatValue,series,moneyMatrix,matrixPercent} from './data-model.mjs?v=20261106-smooth-data';
-import {linePath,syncSeries,revealItems,countValues} from './data-motion.js?v=20261106-smooth-expand';
+import {localDate,minuteOfDay} from './dashboard-clock.mjs?v=20261106-responsive-polish';
+import {getPeriod,axisMarkup} from './period-state.js?v=20261106-responsive-polish';
+import {getScope,queryFacts,currentMetricGroups,querySeries,querySegments} from './data-context.js?v=20261106-responsive-polish';
+import {breakdown,formatValue,series,moneyMatrix,matrixPercent} from './data-model.mjs?v=20261106-responsive-polish';
+import {linePath,syncSeries,revealItems,countValues} from './data-motion.js?v=20261106-responsive-polish';
 const $$=s=>[...document.querySelectorAll(s)],$=s=>document.querySelector(s);
 // Compact labels match Figma's single-decimal amounts; raw facts keep full precision.
 const money=value=>{const unit=value>=1e6?1e6:value>=1e3?1e3:1;return '$'+(value/unit).toFixed(1)+(unit===1e6?'M':unit===1e3?'K':'');};

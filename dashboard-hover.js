@@ -1,11 +1,11 @@
-import {CHART_COLORS,OVERVIEW_CHART_COLORS,chartColors} from './chart-palette.mjs?v=20261106-home-ui';
+import {CHART_COLORS,OVERVIEW_CHART_COLORS,chartColors} from './chart-palette.mjs?v=20261106-responsive-polish';
 const viewColors=rows=>chartColors(rows,OVERVIEW_CHART_COLORS);
-import {metricReadout,getScope,getDataNow,currentMetricGroups,querySegments,querySeries} from './data-context.js?v=20261106-smooth-data';
-import {breakdown,formatValue,moneyMatrix,matrixPercent,series,pointAt} from './data-model.mjs?v=20261106-smooth-data';
-import { getPeriod, usesDateAxis, axisMarkup, timeAt, dateAt } from './period-state.js?v=20261106-smooth-data';
+import {metricReadout,getScope,getDataNow,currentMetricGroups,querySegments,querySeries} from './data-context.js?v=20261106-responsive-polish';
+import {breakdown,formatValue,moneyMatrix,matrixPercent,series,pointAt} from './data-model.mjs?v=20261106-responsive-polish';
+import { getPeriod, usesDateAxis, axisMarkup, timeAt, dateAt } from './period-state.js?v=20261106-responsive-polish';
 // Figma 744:134677. DOM values are the source of the demo's hover readouts.
-import hoverAssets from './hover-assets.js';
-import {showSurface,hideSurface,revealChart,linePath,framePointer} from './data-motion.js?v=20261106-smooth-expand';
+import hoverAssets from './hover-assets.js?v=20261106-responsive-polish';
+import {showSurface,hideSurface,revealChart,linePath,framePointer} from './data-motion.js?v=20261106-responsive-polish';
 const miniatureAssetsReady = true;
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
@@ -37,7 +37,7 @@ export function initDashboardHover(){
   document.body.append(layer);
   const preview=layer.querySelector('.hover-preview'),readout=layer.querySelector('.hover-readout');
   let activeTrigger=null,activeKey=null,hideTimer=null,focusIndex=6,interactionMode='pointer';
-  let readoutSignature='',readoutHeight=0,rowColors,viewport,layerViewport;
+  let readoutSignature='',readoutHeight=0,readoutWidth=0,readoutSizeKey='',rowColors,viewport,layerViewport;
   let period=getPeriod();
   function scale(){return (viewport||(viewport=dashboard.getBoundingClientRect())).width/1440;}
   function placeLayer(){const r=viewport||(viewport=dashboard.getBoundingClientRect());if(layerViewport===r)return;layerViewport=r;layer.style.left=r.left+'px';layer.style.top=r.top+'px';layer.style.transform=`scale(${r.width/1440})`;}
@@ -48,19 +48,21 @@ export function initDashboardHover(){
   function coordinates(event,el){const r=box(el),base=dashboard.getBoundingClientRect(),s=scale();return {x:(event.clientX-base.left)/s,y:(event.clientY-base.top)/s,ratio:clamp(((event.clientX-base.left)/s-r.x)/r.width,0,1)};}
 
   function renderReadout(title,rows,position,{width=165,compact=false,node=''}={}){
-    placeLayer();readout.classList.toggle('hover-readout-compact',compact);readout.style.width=width+'px';readout.dataset.nodeId=node;
+    placeLayer();readout.classList.toggle('hover-readout-compact',compact);readout.style.width='max-content';readout.style.minWidth=width+'px';readout.classList.toggle('hover-readout-has-percent',rows.some(row=>row[2]!==undefined));readout.dataset.nodeId=node;
     if(!rowColors){rowColors=new Map();for(const group of ['income','content','guild','function','gift','traffic']){const segments=breakdown(1,group,getScope().region+getScope().subregion),colors=viewColors(segments);segments.forEach((row,i)=>rowColors.set(row.label,colors[i]));}}
     const signature=JSON.stringify([width,compact,rows.map(r=>[r[0],r[2]!==undefined])]);
     if(signature!==readoutSignature){
       readout.innerHTML=`<div class="hover-readout-title"></div><div class="hover-readout-rows">${rows.map(([label,value,percent])=>`<div><span>${rowColors.has(label)?`<i class="hover-series-dot" style="background:${rowColors.get(label)}"></i>`:''}${escape(label)}</span><strong></strong>${percent!==undefined?'<small></small>':''}</div>`).join('')}</div>`;
-      readoutSignature=signature;readoutHeight=0;
+      readoutSignature=signature;readoutHeight=0;readoutSizeKey='';
     }
     readout.firstElementChild.textContent=title;
     [...readout.lastElementChild.children].forEach((row,i)=>{row.querySelector('strong').textContent=rows[i][1];const percent=row.querySelector('small');if(percent)percent.textContent=rows[i][2];});
     showSurface(readout);
-    const height=readoutHeight||(readoutHeight=readout.offsetHeight);
+    const sizeKey=JSON.stringify([signature,title.length,rows.map(row=>row.map(value=>String(value).length))]);
+    if(sizeKey!==readoutSizeKey){readoutWidth=readout.offsetWidth;readoutHeight=readout.offsetHeight;readoutSizeKey=sizeKey;}
+    width=readoutWidth;const height=readoutHeight;
     let x=position.x+12,y=position.y-height-12;
-    if(!preview.hidden){const r=box(preview);x=r.x+r.width+12;y=r.y+12;if(x+width>1432)x=r.x-width-12;}
+    if(activeKey&&!preview.hidden){const r=box(preview);x=r.x+r.width+12;y=r.y+12;if(x+width>1432)x=r.x-width-12;}
     if(x+width>1432)x=1432-width;
     if(y<8)y=position.y+16;
     readout.style.transform=`translate3d(${clamp(x,8,1432-width)}px,${clamp(y,8,892-height)}px,0)`;

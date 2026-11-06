@@ -1,4 +1,5 @@
-import {localDate} from './dashboard-clock.mjs';
+import {fitAxisTicks} from './axis-layout.mjs?v=20261106-responsive-polish';
+import {localDate} from './dashboard-clock.mjs?v=20261106-responsive-polish';
 // Shared calendar state for the header, all trend axes and hover readouts.
 export const offsetDate=(value,days)=>{const date=new Date(value+'T12:00:00Z');date.setUTCDate(date.getUTCDate()+days);return date.toISOString().slice(0,10);};
 export const dayDistance=(start,end)=>Math.round((Date.parse(end)-Date.parse(start))/86400000);
@@ -14,13 +15,13 @@ export function axisTicks(value=period,mini=false){
   const days=dayDistance(value.start,value.end),count=Math.min(days+1,7);
   return Array.from({length:count},(_,i)=>{const offset=count===1?0:Math.round(i*days/(count-1));return {ratio:days?offset/days:0,observation:offsetDate(value.start,offset).slice(5).replace('-','.'),comparison:offsetDate(value.compare,offset).slice(5).replace('-','.')};});
 }
-export const axisMarkup=(mini=false,end=1)=>{
+export const axisMarkup=(mini=false,end=1,width=mini?301.755:620)=>{
   end=Math.max(.0001,end);
   let ticks=axisTicks(period,mini).filter(t=>t.ratio<=end);
   if(end<.999&&!usesDateAxis()){
-    ticks=ticks.filter(t=>t.ratio/end<.91);
     ticks.push({ratio:end,observation:timeAt(end)});
   }
+  ticks=fitAxisTicks(ticks,{end,width,edgeAnchored:mini});
   return ticks.map(t=>`<span class="period-axis-tick" style="--tick-ratio:${t.ratio/end*100}%"><span class="period-axis-observation">${t.observation}</span>${t.comparison?`<span class="period-axis-comparison">${t.comparison}</span>`:''}</span>`).join('');
 };
 export function periodError(value){

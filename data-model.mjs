@@ -1,5 +1,5 @@
-import {localDate,minuteOfDay,dayProgress} from './dashboard-clock.mjs';
-import {globalRegions,subregionsFor,regionRevenueRatio} from './region-scopes.js';
+import {localDate,minuteOfDay,dayProgress} from './dashboard-clock.mjs?v=20261106-responsive-polish';
+import {globalRegions,subregionsFor,regionRevenueRatio} from './region-scopes.js?v=20261106-responsive-polish';
 // Deterministic, local-only mock facts. No business data or backend API is used.
 export const REFERENCE_REVENUE=56930640;
 const dayMs=86400000,sum=a=>a.reduce((x,y)=>x+y,0);
