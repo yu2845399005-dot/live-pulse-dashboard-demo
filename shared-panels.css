@@ -9,3 +9,9 @@
 /* Globe overview has no visual metric selection; analysis keeps its active series. */
 .dashboard:not(.analysis-view) .metric-card-strip .metric-card.is-active{background:rgba(7,91,251,.1);border-radius:8px;backdrop-filter:blur(8.5px)}
 .dashboard:not(.analysis-view) .metric-card-strip .metric-card.is-active .metric-value{color:rgba(255,255,255,.85)}
+
+/* Feather the overview viewport edge without changing the globe or its camera. */
+.dashboard:not(.analysis-view) .earth-frame{
+ -webkit-mask-image:linear-gradient(180deg,transparent 0,rgba(0,0,0,.24) 10px,rgba(0,0,0,.72) 28px,#000 48px,#000 88%,transparent 100%);
+ mask-image:linear-gradient(180deg,transparent 0,rgba(0,0,0,.24) 10px,rgba(0,0,0,.72) 28px,#000 48px,#000 88%,transparent 100%);
+}

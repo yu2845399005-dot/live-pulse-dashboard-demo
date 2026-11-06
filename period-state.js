@@ -14,7 +14,15 @@ export function axisTicks(value=period,mini=false){
   const days=dayDistance(value.start,value.end),count=Math.min(days+1,7);
   return Array.from({length:count},(_,i)=>{const offset=count===1?0:Math.round(i*days/(count-1));return {ratio:days?offset/days:0,observation:offsetDate(value.start,offset).slice(5).replace('-','.'),comparison:offsetDate(value.compare,offset).slice(5).replace('-','.')};});
 }
-export const axisMarkup=(mini=false)=>axisTicks(period,mini).map(t=>`<span class="period-axis-tick" style="--tick-ratio:${t.ratio*100}%"><span class="period-axis-observation">${t.observation}</span>${t.comparison?`<span class="period-axis-comparison">${t.comparison}</span>`:''}</span>`).join('');
+export const axisMarkup=(mini=false,end=1)=>{
+  end=Math.max(.0001,end);
+  let ticks=axisTicks(period,mini).filter(t=>t.ratio<=end);
+  if(end<.999&&!usesDateAxis()){
+    ticks=ticks.filter(t=>t.ratio/end<.91);
+    ticks.push({ratio:end,observation:timeAt(end)});
+  }
+  return ticks.map(t=>`<span class="period-axis-tick" style="--tick-ratio:${t.ratio/end*100}%"><span class="period-axis-observation">${t.observation}</span>${t.comparison?`<span class="period-axis-comparison">${t.comparison}</span>`:''}</span>`).join('');
+};
 export function periodError(value){
   if(![value.start,value.end,value.compare].every(date=>/^\d{4}-\d{2}-\d{2}$/.test(date)&&!Number.isNaN(Date.parse(date))&&new Date(date).toISOString().slice(0,10)===date))return '请选择完整有效的日期。';
   if(value.end<value.start)return '结束日期不能早于开始日期。';

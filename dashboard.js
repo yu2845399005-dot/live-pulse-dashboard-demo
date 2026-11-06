@@ -5,22 +5,22 @@ import {queryCreators} from './creator-data.mjs';
 import {metricCards,queryFacts,getScope,getDataNow,refreshSnapshot} from './data-context.js';
 import {dailyFacts,isTodayPeriod,aggregate,metricValue,breakdown,formatValue} from './data-model.mjs';
 import {getPeriod} from './period-state.js';
-import {initDataView} from './data-view.js';
+import {initDataView} from './data-view.js?v=20261106-ui-motion';
 import { initLayoutEditor } from './layout-editor.js';
 import { subregionsFor, defaultSubregion, regionRevenueRatio, scopedRevenue } from './region-scopes.js';
 import { initRankingControls, creatorStatus, gradeClass, governanceReasons } from './ranking-view.js';
 import { initPeriodControls } from './period-state.js';
 import {entryFrame,counterProgress,smoothProgress} from './entry-motion.mjs?v=20261027-transparent-entry';
-import { initDashboardDialogs, metricDefinitions } from './dashboard-dialogs.js';
-import { initDashboardHover } from './dashboard-hover.js';
-import { initAnalysisView } from './analysis-view.js?v=figma-725-23088';
+import { initDashboardDialogs, metricDefinitions } from './dashboard-dialogs.js?v=20261106-ui-motion';
+import { initDashboardHover } from './dashboard-hover.js?v=20261106-ui-motion';
+import { initAnalysisView } from './analysis-view.js?v=20261106-ui-motion';
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 const state = { region: 'Global', subregion: 'Area Total', ranking: 0, page: 1, traffic: 1, metric: 0, inactiveDays: 7, governance: 'all' };
 const assets = {
   portraits: ['assets/figma-nov02/new-39-2189-4af96.png','assets/figma-nov02/new-39-2189-37604.png','assets/figma/1-664-9cb7a.png',
     ...Array.from({length:8},(_,i)=>`assets/avatars/creator-${String(i+4).padStart(2,'0')}.jpg`),'assets/figma-nov02/new-39-2189-0fc8f.png'],
-  globe: 'assets/figma/1-664-8c599.svg', live: 'assets/figma/1-664-eb01d.svg',
+  globe: 'assets/figma-home-nov06/2-1990-64385.svg', live: 'assets/figma-home-nov06/2-1990-ef41d.svg',
   dots: ['assets/figma-nov03/e75fb.svg','assets/figma-nov03/e396d.svg','assets/figma-nov03/11b53.svg']
 };
 // The design is a fixed 1440 × 900 presentation canvas. Scale it as one unit.
@@ -113,7 +113,7 @@ function getCreators() {
 }
 function renderRanking() {
   const creators=getCreators(),region=state.region;
-  $('#ranking-list').innerHTML = creators.slice((state.page-1)*12,state.page*12).map((c,i) => `<button class="creator-row" aria-label="查看 ${c.name} 详情">${state.ranking===0?`<span class="rank">${(state.page-1)*12+i+1}</span>`:''}<span class="avatar-frame"><img class="avatar" src="${creatorAvatar(c)}" alt="${c.name}">${state.ranking===0?'<img class="avatar-ring" src="assets/figma-nov02/new-39-2189-a6ffd.svg" alt="">':''}</span><span class="creator-info"><span class="creator-top"><span class="creator-name"><span class="creator-display-name">${c.name}</span><span class="grade ${gradeClass(c.grade)}">${c.grade}</span></span>${state.ranking===0?`<span class="creator-revenue">${c.metric==='revenue'?'$':''}${c.value.toLocaleString('en-US')}</span>`:''}</span><span class="creator-meta"><img src="${assets.globe}" alt="">${c.region}<img class="live-icon" src="${state.ranking===2?'assets/figma-ranking/clear.svg':assets.live}" alt="">${creatorStatus(c,state.ranking)}</span></span></button>`).join('');
+  $('#ranking-list').innerHTML = creators.slice((state.page-1)*12,state.page*12).map((c,i) => `<button class="creator-row" aria-label="查看 ${c.name} 详情">${state.ranking===0?`<span class="rank">${(state.page-1)*12+i+1}</span>`:''}<span class="avatar-frame"><img class="avatar" src="${creatorAvatar(c)}" alt="${c.name}">${state.ranking===0&&c.grade==='Top'?'<img class="avatar-ring" src="assets/figma-nov02/new-39-2189-a6ffd.svg" alt="">':''}</span><span class="creator-info"><span class="creator-top"><span class="creator-name"><span class="creator-display-name">${c.name}</span><span class="grade ${gradeClass(c.grade)}">${c.grade}</span></span>${state.ranking===0?`<span class="creator-revenue">${c.metric==='revenue'?'$':''}${c.value.toLocaleString('en-US')}</span>`:''}</span><span class="creator-meta"><img src="${assets.globe}" alt="">${c.region}<img class="live-icon" src="${state.ranking===2?'assets/figma-ranking/clear.svg':assets.live}" alt="">${creatorStatus(c,state.ranking)}</span></span></button>`).join('');
   if(!creators.length)$('#ranking-list').innerHTML=`<p class="ranking-empty">${state.ranking!==0&&!isTodayPeriod(getPeriod())?'此榜单仅在观测周期为今日时生效':'暂无符合条件的主播'}</p>`;
   document.dispatchEvent(new CustomEvent('dashboard:ranking'));
   const pageButtons = $$('[data-page]');

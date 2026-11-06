@@ -5,6 +5,7 @@ import {getPeriod} from './period-state.js';
 import { subregionsFor, globalRegions as regions } from './region-scopes.js';
 // Figma 725:23088. Expand the existing dashboard without resetting its state.
 import { initSupplyConfig } from './supply-config.js';
+import {animateUI,cancelUI,revealChart,revealItems,countValues} from './data-motion.js';
 const asset = name => `assets/figma-metrics/${name}.svg`;
 const image = (name, className = '') => `<img src="${asset(name)}" alt="" class="${className}">`;
 const sparklines = ['e6f85aa4-548c-4129-9e20-a2d3a7131655', '55164af7-735f-4a3b-9d0c-fcf6c9a15e81',
@@ -78,10 +79,10 @@ export function initAnalysisView({ setRegion, setSubregion }) {
   contentGroups[1].querySelector('span').textContent='非优质主播';
   contentGroups[0].querySelector('p').innerHTML='<strong>$24.5M</strong><small>33.7%</small>';
   contentGroups[1].querySelector('p').innerHTML='<strong>$29.2M</strong><small>66.3%</small>';
-  dashboard.querySelector('.comparison>img').src='assets/figma-left/imgGroup1321314714.svg';
+  dashboard.querySelector('.comparison>img').src='assets/figma-home-nov06/2-3029-54193.svg';
   dashboard.querySelectorAll('.function-row>img').forEach((img,i)=>img.src=`assets/figma-left/imgFrame214724${1789+i}.svg`);
   dashboard.querySelectorAll('.guild-stats .stat-row>span:first-child>img').forEach((img,i)=>img.src=`assets/figma-left/imgIndicator${i||''}.svg`);
-  dashboard.querySelectorAll('.analysis-side-settings img').forEach(img=>img.src='assets/figma-left/imgIconSetting02.svg');
+  dashboard.querySelectorAll('.analysis-side-settings img').forEach(img=>img.src='assets/figma-home-nov06/2-3029-8e9bb.svg');
   initSupplyConfig(dashboard);
   // Preserve the existing metric selector and give the expanded view its compact control.
   const pickerLabel = document.createElement('label');
@@ -98,7 +99,8 @@ export function initAnalysisView({ setRegion, setSubregion }) {
     const sparkPath=name=>{
       const points=querySeries('revenue',false,{region:regional?currentRegion:name,subregion:regional?name:'Area Total'});
       const max=points.reduce((value,p)=>Math.max(value,p.value),1)*1.1;
-      return points.filter((_,i)=>i%Math.max(1,Math.floor(points.length/80))===0).map((p,i)=>`${i?'L':'M'}${p.ratio*120},${25-p.value/max*23}`).join(' ');
+      const end=points.at(-1)?.ratio||1;
+      return points.filter((_,i)=>i%Math.max(1,Math.floor(points.length/80))===0||i===points.length-1).map((p,i)=>`${i?'L':'M'}${p.ratio/end*120},${25-p.value/max*23}`).join(' ');
     };
     matrix.classList.toggle('regional-scope',regional);matrix.dataset.region=currentRegion;
     matrix.querySelector('caption').textContent=`${currentRegion} ${consumer?'消费':'供给'}视角营收贡献百分比（模拟数据；大区内 Ops 子矩阵不含外大区流向）`;
@@ -150,6 +152,8 @@ export function initAnalysisView({ setRegion, setSubregion }) {
     if(records.some(r=>r.target===cards)) decorateCards();
   }).observe(cards,{childList:true});
   function setExpanded(value, { updateUrl = false } = {}) {
+    const changed=expanded!==value,before=panel.getBoundingClientRect();
+    cancelUI(panel,'layout');
     expanded = value;
     incomeRing.src=value?'assets/figma-left/imgRing.svg':originalIncomeRing;
     dashboard.classList.toggle('analysis-view',value);
@@ -161,6 +165,20 @@ export function initAnalysisView({ setRegion, setSubregion }) {
     dashboard.querySelector('.region-panels').inert = value;
     dashboard.querySelector('.region-summary').inert = value;
     decorateCards();
+    if(changed){
+      const after=panel.getBoundingClientRect(),scale=dashboard.getBoundingClientRect().width/1440;
+      panel.style.transformOrigin='top left';
+      animateUI(panel,[{transform:`translate(${(before.left-after.left)/scale}px,${(before.top-after.top)/scale}px) scale(${before.width/after.width},${before.height/after.height})`},{transform:'translate(0,0) scale(1,1)'}],{duration:460,channel:'layout'});
+      revealItems(panel.querySelectorAll('.metric-tabs,.metric-card-strip,.analysis-trend'),{delay:120,stagger:65});
+      if(value){
+        revealItems([matrix],{delay:240});
+        revealItems(matrix.querySelectorAll('tbody tr'),{delay:290,stagger:45});
+        revealChart(panel,{delay:230,duration:900});
+        revealChart(matrix,{delay:330,duration:650});
+        countValues(panel.querySelectorAll('.metric-value'),{delay:150,duration:600});
+      }
+      document.dispatchEvent(new CustomEvent('dashboard:analysis',{detail:{expanded:value}}));
+    }
     if(updateUrl) {
       const url = new URL(location.href);
       url.hash = value ? 'analysis' : '';

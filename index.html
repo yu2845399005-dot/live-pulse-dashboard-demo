@@ -5,17 +5,19 @@
 <meta name="theme-color" content="#060613">
 <title>TikTok LIVE · Global dashboard</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="dashboard.css?v=20261105-particle-polish">
+<link rel="stylesheet" href="dashboard.css?v=20261106-gentle-clusters">
 <link rel="stylesheet" href="analysis-view.css?v=figma-725-23088">
 <link rel="stylesheet" href="supply-config.css">
 <link rel="stylesheet" href="dashboard-dialogs.css">
 <link rel="stylesheet" href="dashboard-hover.css">
 <link rel="stylesheet" href="layout-editor.css">
 <link rel="stylesheet" href="metric-cards.css">
-<link rel="stylesheet" href="shared-panels.css">
+<link rel="stylesheet" href="shared-panels.css?v=20261106-ui-fade">
+<link rel="stylesheet" href="homepage-ui.css?v=20261106-ui-motion">
+<link rel="stylesheet" href="data-motion.css?v=20261106-ui-motion">
 <script src="vendor/react.production.min.js"></script>
 <script src="vendor/react-dom.production.min.js"></script>
-<script src="dashboard.js?v=20261105-particle-polish" type="module"></script>
+<script src="dashboard.js?v=20261106-ui-motion" type="module"></script>
 </head>
 <body>
 <main class="dashboard" id="dashboard" aria-label="TikTok LIVE 全球数据看板">
@@ -25,8 +27,8 @@
 <div class="update-line"><span id="update-time">当前数据更新于: 21:13:02 10-18 (GMT+0)</span><button class="icon-button tiny" id="refresh-data" aria-label="刷新数据"><span class="refresh-glyph" aria-hidden="true"></span></button></div>
 </div>
 <div class="headline">
-<div class="brand-line"><div class="brand" aria-label="TikTok LIVE"><img src="assets/figma-nov02/new-39-302-46440.svg" alt="" class="tiktok-logo" ><img src="assets/figma-nov02/new-39-302-3f782.svg" alt="" class="live-logo" ></div><i class="brand-divider"></i><h1>Global dashboard</h1><div class="region-select"><button class="region-return" id="region-return" aria-label="返回全球概览" title="返回全球概览" inert>Global</button><select id="region-select" aria-label="选择区域"><option>Global</option><option>AMS&ANZ</option><option>EU+</option><option>METAP</option><option>NEA</option><option>SEA&CCA</option></select><img src="assets/figma/1-608-21f97.svg" alt="" class="" ></div></div>
-<div class="total" aria-label="总营收 56,779,450 美元"><span>$</span><strong data-total="56779450">0</strong></div><div class="realtime-caption"><img src="assets/figma-nov02/new-39-302-7f5d8.svg" alt=""><span>今日实时累计</span><img src="assets/figma-nov02/new-39-302-db8d5.svg" alt=""></div>
+<div class="brand-line"><div class="brand" aria-label="TikTok LIVE"><img src="assets/figma-home-nov06/2-2888-afbc4.svg" alt="" class="tiktok-logo" ><img src="assets/figma-home-nov06/2-2888-3f782.svg" alt="" class="live-logo" ></div><i class="brand-divider"></i><h1>Global dashboard</h1><div class="region-select"><button class="region-return" id="region-return" aria-label="返回全球概览" title="返回全球概览" inert>Global</button><select id="region-select" aria-label="选择区域"><option>Global</option><option>AMS&ANZ</option><option>EU+</option><option>METAP</option><option>NEA</option><option>SEA&CCA</option></select><img src="assets/figma-home-nov06/2-2888-5c542.svg" alt="" class="" ></div></div>
+<div class="total" aria-label="总营收 56,779,450 美元"><span>$</span><strong data-total="56779450">0</strong></div><div class="realtime-caption"><img src="assets/figma-home-nov06/2-2888-7f5d8.svg" alt=""><span>今日实时累计</span><img src="assets/figma-home-nov06/2-2888-db8d5.svg" alt=""></div>
 </div>
 <div class="utility-tools"><button class="language-control" id="language" aria-label="切换语言">EN <img src="assets/figma-nov02/new-39-3369-b4bae.svg" alt=""></button><button class="icon-button" id="help" aria-label="查看看板说明"><img src="assets/figma-nov03/2cccf.svg" alt="" class="" ></button><button class="icon-button" id="share" aria-label="复制看板链接"><img src="assets/figma-nov03/46aab.svg" alt="" class="" ></button><button class="icon-button" id="settings" aria-label="地球显示设置"><img src="assets/figma-nov03/266c3.svg" alt="" class="" ></button></div>
 </header>
@@ -46,18 +48,18 @@
 </section>
 </aside>
 <section class="center-column" aria-label="全球区域概览">
-<div class="earth-stage"><iframe class="earth-frame" src="./earth-demo/demo.html?embed=dashboard&amp;v=20261105-particle-polish" title="互动地球：悬停放大颗粒，拖动旋转，滚轮缩放，双击复位" loading="eager"></iframe></div>
+<div class="earth-stage"><iframe class="earth-frame" src="./earth-demo/demo.html?embed=dashboard&amp;v=20261106-gentle-clusters" title="互动地球：悬停放大颗粒，拖动旋转，滚轮缩放，双击复位" loading="eager"></iframe></div>
 <div class="region-panels" aria-label="地区营收"><svg class="region-guides" width="720" height="620" aria-hidden="true"></svg><button class="region-card" data-region="AMS&ANZ" aria-label="查看 AMS&ANZ 区域" aria-pressed="false" inert><span>AMS&ANZ</span><strong><small>$</small>7.5M</strong></button><button class="region-card" data-region="EU+" aria-label="查看 EU+ 区域" aria-pressed="false" inert><span>EU+</span><strong><small>$</small>11.5M</strong></button><button class="region-card" data-region="METAP" aria-label="查看 METAP 区域" aria-pressed="false" inert><span>METAP</span><strong><small>$</small>9.5M</strong></button><button class="region-card" data-region="NEA" aria-label="查看 NEA 区域" aria-pressed="false" inert><span>NEA</span><strong><small>$</small>10.5M</strong></button><button class="region-card" data-region="SEA&CCA" aria-label="查看 SEA&CCA 区域" aria-pressed="false" inert><span>SEA&CCA</span><strong><small>$</small>19.5M</strong></button></div>
 <section class="region-summary" aria-labelledby="region-summary-title" inert>
   <div class="region-summary-heading"><h2 id="region-summary-title">其他地区</h2><span class="region-summary-count" aria-hidden="true"></span></div>
   <div class="region-summary-list"></div>
 </section>
-<button class="expand-metrics" id="expand-metrics" aria-label="展开或收起指标" disabled aria-hidden="true"><img src="assets/figma-nov03/62e5d.svg" alt="" class="" ></button>
+<button class="expand-metrics" id="expand-metrics" aria-label="展开或收起指标" disabled aria-hidden="true"><img src="assets/figma-home-nov06/2-2777-62e5d.svg" alt="" class="" ></button>
 <section class="panel metrics-panel" data-node-id="1:2023"><div class="tabs metric-tabs" role="tablist" aria-label="核心指标"><button role="tab" aria-selected="true" data-metric="0">Revenue</button><button role="tab" aria-selected="false" data-metric="1">流量效率</button><button role="tab" aria-selected="false" data-metric="2">供给规模</button><select class="metric-picker" id="metric-picker" aria-label="指标选择"><option value="" selected disabled>指标选择</option><option value="0">Revenue</option><option value="1">流量效率</option><option value="2">供给规模</option></select></div><div class="metric-card-strip"><div class="metric-cards" id="metric-cards"></div><button class="metric-scroll metric-scroll-prev" aria-label="查看前面的指标" hidden><img src="assets/figma-metrics/card-arrow.svg" alt=""></button><button class="metric-scroll metric-scroll-next" aria-label="查看后面的指标" hidden><img src="assets/figma-metrics/card-arrow.svg" alt=""></button></div></section>
 </section>
 <aside class="panel ranking-panel" aria-label="主播排行榜" data-node-id="1:664">
 <div class="tabs ranking-tabs" role="tablist" aria-label="主播榜单"><button role="tab" aria-selected="true" data-ranking="0">Top LIVE</button><button role="tab" aria-selected="false" data-ranking="1">未开播大主播</button><button role="tab" aria-selected="false" data-ranking="2">被治理大主播</button></div>
-<div class="ranking-filters"><label><select id="sort-select" aria-label="榜单排序"><option value="revenue">Revenue</option><option value="watch">Watch UV</option><option value="show">Show UV</option><option value="acu">ACU</option><option value="fans">Fans Num</option></select><img src="assets/figma/1-664-fbbeb.svg" alt="" class="" ></label><i></i><label><select id="live-select" aria-label="直播筛选"><option value="all">All LIVE</option><option value="last10">LAST 10min</option></select><img src="assets/figma/1-664-fbbeb.svg" alt="" class="" ></label></div>
+<div class="ranking-filters"><label><select id="sort-select" aria-label="榜单排序"><option value="revenue">Revenue</option><option value="watch">Watch UV</option><option value="show">Show UV</option><option value="acu">ACU</option><option value="fans">Fans Num</option></select><img src="assets/figma-home-nov06/2-1990-9945b.svg" alt="" class="" ></label><i></i><label><select id="live-select" aria-label="直播筛选"><option value="all">All LIVE</option><option value="last10">LAST 10min</option></select><img src="assets/figma-home-nov06/2-1990-9945b.svg" alt="" class="" ></label></div>
 <div id="ranking-list" class="ranking-list"></div>
 <nav class="pagination" aria-label="榜单分页"><span>共10页</span><button id="previous-page" aria-label="上一页"><img src="assets/figma/1-664-642f0.svg" alt="" class="" ></button><button data-page="1" aria-current="page">1</button><button data-page="2">2</button><span>...</span><button data-page="10">10</button><button id="next-page" aria-label="下一页"><img src="assets/figma/1-664-7ef53.svg" alt="" class="" ></button></nav>
 </aside>

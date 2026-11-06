@@ -18,7 +18,7 @@ export const particleStyleShader = `
 `;
 
 export function createSignalParticles(scene, surface, camera, morph, reducedMotion) {
-  const count=1600;
+  const count=450;
   const positions=new Float32Array(count*3);
   const seeds=new Float32Array(count*3);
   const indices=new Uint32Array(count);
@@ -48,23 +48,24 @@ export function createSignalParticles(scene, surface, camera, morph, reducedMoti
     signalUp:{value:new THREE.Vector3()},
     signalRight:{value:new THREE.Vector3()},
     signalOpacity:{value:0},
+    particleTwinkleStrength:shared.particleTwinkleStrength,
   };
   const material=new THREE.ShaderMaterial({
     uniforms,transparent:true,depthWrite:false,depthTest:false,toneMapped:false,
     vertexShader:`
       attribute vec3 signalSeed;
-      uniform float particleTime; uniform float morphShape;
+      uniform float particleTime; uniform float morphShape; uniform float particleTwinkleStrength;
       uniform vec3 signalUp; uniform vec3 signalRight;
       varying float life; varying float brightness; varying float facing;
       void main(){
         life=fract(particleTime*mix(.16,.24,signalSeed.y)+signalSeed.x);
-        float height=mix(.16+.20*signalSeed.y,.40+.30*signalSeed.y,morphShape);
+        float height=mix(.10+.12*signalSeed.y,.40+.30*signalSeed.y,morphShape);
         float sideways=sin(life*4.+signalSeed.z*6.283)*.045*life;
         vec3 world=position+signalUp*height*life+signalRight*sideways;
         facing=mix(dot(normalize(position),normalize(cameraPosition-position)),1.,morphShape);
-        brightness=mix(.55,1.,signalSeed.z);
+        brightness=mix(.55,1.,signalSeed.z)*(1.+particleTwinkleStrength*.025*sin(particleTime*.55+signalSeed.x*31.));
         gl_Position=projectionMatrix*viewMatrix*vec4(world,1.);
-        gl_PointSize=mix(1.05,1.8,signalSeed.z)*float(${Math.min(devicePixelRatio,2).toFixed(1)});
+        gl_PointSize=mix(.8,1.6,signalSeed.z)*float(${Math.min(devicePixelRatio,2).toFixed(1)});
       }`,
     fragmentShader:`
       uniform float morphShape; uniform float entryRed; uniform float signalOpacity;
@@ -79,7 +80,7 @@ export function createSignalParticles(scene, surface, camera, morph, reducedMoti
           clearance=1.-smoothstep(.005,.08,texture2D(regionMask,uv).a);
         float dotAlpha=particleProfile(gl_PointCoord-.5,brightness);
         float alpha=dotAlpha*particleLifetime(life)*brightness*signalOpacity*entryRed*clearance
-          *smoothstep(.02,.18,facing)*mix(.22,.48,morphShape);
+          *smoothstep(.02,.18,facing)*mix(.11,.48,morphShape);
         gl_FragColor=vec4(particleColor(brightness),alpha);
         #include <colorspace_fragment>
       }`,

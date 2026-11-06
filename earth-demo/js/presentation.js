@@ -4,7 +4,7 @@ import './presentation-base.js?v=20261103-light-globe';
 import {createCountryRegions} from './country-regions.js';
 import {entryFrame} from '../../entry-motion.mjs?v=20261027-transparent-entry';
 import {createRegionMorph,globeFloatShader} from './region-morph.js?v=20261105-particle-polish';
-import {createSignalParticles,particleStyleShader} from './signal-particles.js?v=20261105-particle-polish';
+import {createSignalParticles,particleStyleShader} from './signal-particles.js?v=20261106-gentle-clusters';
 
 const earth = window.__earth;
 const scene = earth.parent;
@@ -99,11 +99,39 @@ function updateKeyLight() {
   atmosphere.material.uniforms.keyLight.value.copy(keyLightWorld);
 }
 
-// A single land mask generates an even particle field across whole continents.
-// Country identities and border channels are deliberately never rendered.
+// Geographic data anchors also guide the surrounding live-activity clusters.
+const regions = [
+  { id: 'AMS', lat: 40.7, lon: -74.0, size: 0.068 },
+  { id: 'EU', lat: 48.2, lon: 16.4, size: 0.062 },
+  { id: 'METAP', lat: 39.9, lon: 32.9, size: 0.068 },
+  { id: 'NEA', lat: 37.6, lon: 127.0, size: 0.058 },
+  { id: 'SEA', lat: 1.3, lon: 103.8, size: 0.055 },
+];
+// Compact cores, feathered halos and separated secondary hubs.
+const activityDirections=[
+ ...regions.map(({lat,lon})=>({lat,lon,weight:1,spread:.0064})),
+ {lat:34.1,lon:-118.2,weight:.66,spread:.0032},
+ {lat:-23.5,lon:-46.6,weight:.72,spread:.0040},
+ {lat:-33.9,lon:151.2,weight:.78,spread:.0040},
+ {lat:24.5,lon:54.4,weight:.58,spread:.0030},
+ {lat:-26.2,lon:28.0,weight:.62,spread:.0036},
+ {lat:35.7,lon:139.7,weight:.60,spread:.0030},
+ {lat:19.1,lon:72.9,weight:.58,spread:.0036},
+ {lat:30.0,lon:31.2,weight:.70,spread:.0036},
+ {lat:6.5,lon:3.4,weight:.66,spread:.0040},
+ {lat:-4.4,lon:15.3,weight:.48,spread:.0030},
+ {lat:-1.3,lon:36.8,weight:.56,spread:.0032},
+ {lat:19.4,lon:-99.1,weight:.60,spread:.0036},
+ {lat:4.7,lon:-74.1,weight:.58,spread:.0034},
+ {lat:23.7,lon:90.4,weight:.54,spread:.0030},
+ {lat:14.6,lon:121.0,weight:.62,spread:.0034},
+ {lat:-6.2,lon:106.8,weight:.58,spread:.0030},
+].map(({lat,lon,...cluster})=>({...cluster,direction:coordinates(lat,lon,1)}));
+// These localized hubs augment the independent spherical base field.
 const cutUniforms = {
   presentationCenter: {value:new THREE.Vector2()}, presentationRadius:{value:1},landMask:{value:null},
-  entryTerrain:{value:isDashboardEmbed?0:1},entryRed:{value:isDashboardEmbed?0:1}
+  entryTerrain:{value:isDashboardEmbed?0:1},entryRed:{value:isDashboardEmbed?0:1},
+  particleTwinkleStrength:{value:reducedMotion?0:1}
 };
 const cutShader = `
  uniform vec2 presentationCenter; uniform float presentationRadius;
@@ -138,7 +166,6 @@ const [atlas]=await Promise.all([
  isDashboardEmbed ? loadDashboardLandMask().catch(()=>createCountryRegions()) : createCountryRegions(),
  window.__earthTexturesReady,
 ]);
-const nightMap = earth.material.uniforms.nightTexture?.value.image;
 earth.material = new THREE.ShaderMaterial({uniforms:cutUniforms,transparent:isDashboardEmbed,
  vertexShader:`varying vec3 vNormal; varying vec2 vUv; void main(){vUv=uv;vNormal=normalize(normalMatrix*normal);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
  fragmentShader:cutShader+`varying vec3 vNormal; varying vec2 vUv; uniform sampler2D landMask;void main(){
@@ -160,54 +187,46 @@ earth.material = new THREE.ShaderMaterial({uniforms:cutUniforms,transparent:isDa
 cutUniforms.landMask.value=atlas;
 earth.material.needsUpdate=true;
 const {data,width,height}=atlas.image;
-// Keep geographic outlines from the land mask. The existing night texture
-// adds density around settled areas, while inland land still gets sparse dots.
-const lightCanvas=document.createElement('canvas');
-lightCanvas.width=720;
-lightCanvas.height=360;
-const lightContext=lightCanvas.getContext('2d',{willReadFrequently:true});
-if(nightMap?.naturalWidth)lightContext.drawImage(nightMap,0,0,720,360);
-const nightPixels=lightContext.getImageData(0,0,720,360).data;
+// The land mask softly biases local clusters toward their geographic surface.
 function isLand(x,y){
  const wrappedX=(x+width)%width;
  return data[(Math.max(0,Math.min(height-1,y))*width+wrappedX)*4]>=10;
 }
-function particleDensity(lat,lon,x,y,position){
- const lightX=Math.min(719,Math.floor((lon+180)*2));
- const lightY=Math.min(359,Math.floor((90-lat)*2));
- const lightIndex=(lightY*720+lightX)*4;
- const light=THREE.MathUtils.smoothstep(nightPixels[lightIndex],18,110);
- const coastX=Math.round(width/180);
- const coastY=Math.round(height/90);
- const coastal=!isLand(x-coastX,y)||!isLand(x+coastX,y)||
-   !isLand(x,y-coastY)||!isLand(x,y+coastY);
- // A sphere-space field creates patches of different sizes without a seam.
- const {x:px,y:py,z:pz}=position;
- const broad=Math.sin(15*px+9*py+2*Math.sin(8*pz))*Math.cos(11*pz-7*py);
- const detail=Math.sin(32*px-21*pz)*Math.cos(27*py+15*pz);
- const patches=THREE.MathUtils.smoothstep(broad*.68+detail*.32,-.18,.63);
- const density=Math.max(light,patches*(coastal ? 1 : .85));
- return density;
+function particleDensity(position){
+ let activity=0;
+ for(const {direction,spread,weight} of activityDirections){
+  const alignment=position.dot(direction)/2.006;
+  activity=Math.max(activity,weight*Math.exp((alignment-1)/spread));
+ }
+ return activity;
 }
 const positions=[];
 const particleTones=[];
+const particleLand=[];
+const particleSizes=[];
 let particleSeed=11931;
 function particleRandom(){particleSeed=(Math.imul(particleSeed,1664525)+1013904223)>>>0;return particleSeed/4294967296;}
-const cellSize=.052,cells=new Map();
+const cellSize=.058,cells=new Map();
 const pointSpacings=[];
 const cellKey=(x,y,z)=>`${x},${y},${z}`;
-for(let i=0;i<190000;i++){
+for(let i=0;i<460000;i++){
  const lat=THREE.MathUtils.radToDeg(Math.asin(2*particleRandom()-1));
  const lon=particleRandom()*360-180;
  if(lat< -79 || lat>84)continue;
  const x=Math.min(width-1,Math.floor((lon+180)/360*width));
  const y=Math.min(height-1,Math.floor((lat+90)/180*height));
- if(!isLand(x,y))continue;
+ const land=isLand(x,y);
  const pos=coordinates(lat,lon,2.006);
- const density=particleDensity(lat,lon,x,y,pos);
- if(particleRandom()>.045+.95*density*density)continue;
- const spacing=THREE.MathUtils.lerp(cellSize,.019,density);
- const tone=THREE.MathUtils.clamp(.24+density*.55+particleRandom()*.25,0,1);
+ const density=particleDensity(pos);
+ // An independent, gently patchy base field remains visible on every hemisphere.
+ // Local activity adds density on top of it instead of replacing that field.
+ const variation=.65+.7*(.5+.5*Math.sin(pos.x*7.3+pos.z*4.1)*Math.cos(pos.y*8.7-pos.z*2.4));
+ const background=.0085*variation*(land?1.25:1.);
+ const probability=background+.99*Math.pow(density,1.28)*(land?1:.48);
+ if(particleRandom()>probability)continue;
+ const spacing=THREE.MathUtils.lerp(cellSize,.015,Math.pow(density,.7));
+ const core=Math.pow(density,.65);
+ let tone=THREE.MathUtils.clamp(.57+core*.28+particleRandom()*.10,0,1);
  const cx=Math.floor(pos.x/cellSize),cy=Math.floor(pos.y/cellSize),cz=Math.floor(pos.z/cellSize);
  let separated=true;
  for(let dx=-1;dx<=1 && separated;dx++)for(let dy=-1;dy<=1 && separated;dy++)for(let dz=-1;dz<=1 && separated;dz++){
@@ -219,35 +238,46 @@ for(let i=0;i<190000;i++){
   }
  }
  if(!separated)continue;
+ // Larger, pale accents belong to the core; the halo stays fine and dark.
+ let size=1.30+particleRandom()*.45+core*(.30+particleRandom()*.65);
+ if(particleRandom()<density*density*.055){size=2.45+particleRandom()*.35;tone=.94+particleRandom()*.06;}
+ particleSizes.push(size);
  const key=cellKey(cx,cy,cz),bucket=cells.get(key)||[];
  bucket.push(positions.length);cells.set(key,bucket);
- pointSpacings.push(spacing);particleTones.push(tone);positions.push(pos.x,pos.y,pos.z);
+ pointSpacings.push(spacing);particleTones.push(tone);particleLand.push(Number(land));positions.push(pos.x,pos.y,pos.z);
 }
 cells.clear();
 const geometry=new THREE.BufferGeometry();
 geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
 geometry.setAttribute('particleTone',new THREE.Float32BufferAttribute(particleTones,1));
+geometry.setAttribute('particleLand',new THREE.Float32BufferAttribute(particleLand,1));
+geometry.setAttribute('particleSize',new THREE.Float32BufferAttribute(particleSizes,1));
 const hoverAmounts=new Float32Array(positions.length/3);
 const hoverAttribute=new THREE.BufferAttribute(hoverAmounts,1).setUsage(THREE.DynamicDrawUsage);
 geometry.setAttribute('hoverAmount',hoverAttribute);
 const particles=new THREE.Points(geometry,new THREE.ShaderMaterial({
  uniforms:cutUniforms,transparent:true,depthWrite:false,depthTest:false,toneMapped:false,
- vertexShader:`attribute float hoverAmount; attribute float particleTone;
+ vertexShader:`attribute float hoverAmount; attribute float particleTone; attribute float particleLand; attribute float particleSize;
  attribute vec3 morphSource; attribute vec3 morphTarget; attribute vec3 morphScatter;
  attribute float morphDelay; attribute float morphTone;
  uniform float morphEnabled; uniform float morphProgress; uniform float morphShape;
- uniform float particleTime; uniform float particleFloatStrength;
+ uniform float particleTime; uniform float particleFloatStrength; uniform float particleTwinkleStrength;
+ varying float vTwinkle; varying float vTerrain;
  varying float vTone; varying float vHover; varying float facing; varying float vShape; varying float vFloat;
  varying float vSignalLife; varying float vGlobalEmission;
  ${globeFloatShader}
  void main(){vec3 floated=floatingGlobePosition(position,particleTone,particleTime,particleFloatStrength);
  vec4 p=modelViewMatrix*vec4(floated,1.);vHover=hoverAmount;vTone=mix(particleTone,morphTone,morphShape);vShape=morphShape;
  vFloat=clamp(length(floated-position)/.6,0.,1.)*(1.-morphShape);
+ vTerrain=mix(particleLand,1.,morphShape);
+ float phase=dot(position,vec3(37.1,59.7,23.3))+particleTone*31.;
+ vTwinkle=1.+particleTwinkleStrength*(.025*sin(particleTime*(.32+particleTone*.25)+phase)
+   +.008*sin(particleTime*.70+phase*1.7));
  vSignalLife=globeSignalAge(position,particleTone,particleTime);
  vGlobalEmission=particleFloatStrength*(1.-morphShape);
  facing=dot(normalize(normalMatrix*normalize(position)),normalize(-p.xyz));
  float depthScale=clamp(6.5/-p.z,.8,1.15);
- float baseSize=(mix(1.,1.9,particleTone)+mix(4.3,7.8,particleTone)*hoverAmount)*depthScale*mix(1.,1.9,hoverAmount);
+ float baseSize=(particleSize+mix(4.3,7.8,particleTone)*hoverAmount)*depthScale*mix(1.,1.9,hoverAmount);
  if(morphEnabled>.5){
    float t=smoothstep(0.,1.,clamp((morphProgress-morphDelay)/(1.-morphDelay),0.,1.));
    vec3 world=mix(morphSource,morphTarget,t)+morphScatter*sin(3.14159265*t)*(1.-t*.4);
@@ -255,10 +285,11 @@ const particles=new THREE.Points(geometry,new THREE.ShaderMaterial({
    facing=mix(facing,1.,morphShape);
  }
  gl_Position=projectionMatrix*p;
- gl_PointSize=mix(baseSize,mix(1.,1.9,vTone)+hoverAmount*5.,morphShape)*float(${Math.min(devicePixelRatio,2).toFixed(1)})*mix(1.,1.4,vFloat);
+ gl_PointSize=mix(baseSize*mix(.72,1.,particleLand),min(particleSize,2.8)+hoverAmount*5.,morphShape)*float(${Math.min(devicePixelRatio,2).toFixed(1)})*mix(1.,1.4,vFloat);
  }`,
  fragmentShader:cutShader+`varying float vTone; varying float vHover; varying float facing; varying float vShape; varying float vFloat;
  varying float vSignalLife; varying float vGlobalEmission;
+ varying float vTwinkle; varying float vTerrain;
  ${particleStyleShader}
  void main(){if(facing<.015)discard;
  vec2 pointOffset=gl_PointCoord-.5;
@@ -282,12 +313,12 @@ const particles=new THREE.Points(geometry,new THREE.ShaderMaterial({
  // The surface and emitted signals share their profile and blue palette.
  float clarity=smoothstep(.34,.84,vTone);
  float idleEdge=particleProfile(pointOffset,vTone);
- float idleVisibility=mix(.19,.96,clarity)*mix(.57,1.,cap);
- vec3 idleColor=particleColor(vTone);
+ float idleVisibility=mix(.45,.98,clarity)*mix(.88,1.,cap);
+ vec3 idleColor=mix(particleColor(vTone),vec3(.72,.88,1.),smoothstep(.90,1.,vTone)*.45);
  float idleWeight=1.-smoothstep(0.,.34,vHover);
  float idleAlpha=idleEdge*idleVisibility*smoothstep(.015,.15,facing)*entryRed;
- float signalFade=particleLifetime(vSignalLife);
- gl_FragColor=vec4(mix(color,idleColor,idleWeight),mix(opacity,idleAlpha,idleWeight)*mix(1.,.9,vShape)*mix(1.,.65,vFloat)*mix(1.,signalFade,vGlobalEmission));
+ float signalFade=mix(.95,1.,particleLifetime(vSignalLife));
+ gl_FragColor=vec4(mix(color,idleColor,idleWeight),mix(opacity,idleAlpha,idleWeight)*mix(1.,.9,vShape)*mix(1.,.65,vFloat)*mix(1.,signalFade,vGlobalEmission)*mix(.75,1.,vTerrain)*vTwinkle);
  #include <colorspace_fragment>
  }`
 }));
@@ -304,14 +335,14 @@ const signalParticles=createSignalParticles(scene,particles,camera,regionMorph,r
 const contextParticles=new THREE.Points(geometry,new THREE.ShaderMaterial({
   uniforms:{contextOpacity:{value:0},particleTime:cutUniforms.particleTime,particleFloatStrength:cutUniforms.particleFloatStrength,globeSignalUp:cutUniforms.globeSignalUp,
     regionMask:cutUniforms.regionMask,regionMaskRect:cutUniforms.regionMaskRect,regionViewport:cutUniforms.regionViewport},transparent:true,depthWrite:false,depthTest:false,toneMapped:false,
-  vertexShader:`attribute float particleTone; varying float tone; varying float facing;
+  vertexShader:`attribute float particleTone; attribute float particleSize; varying float tone; varying float facing;
     uniform float particleTime; uniform float particleFloatStrength;
     ${globeFloatShader}
     void main(){vec3 floated=floatingGlobePosition(position,particleTone,particleTime,particleFloatStrength);
     vec4 p=modelViewMatrix*vec4(floated,1.);tone=particleTone;
     facing=dot(normalize(normalMatrix*normalize(position)),normalize(-p.xyz));
     gl_Position=projectionMatrix*p;
-    gl_PointSize=mix(1.,1.9,particleTone)*float(${Math.min(devicePixelRatio,2).toFixed(1)})*clamp(6.5/-p.z,.8,1.15);}`,
+    gl_PointSize=particleSize*.8*float(${Math.min(devicePixelRatio,2).toFixed(1)})*clamp(6.5/-p.z,.8,1.15);}`,
   fragmentShader:`uniform float contextOpacity; varying float tone; varying float facing;
     uniform sampler2D regionMask; uniform vec4 regionMaskRect; uniform vec2 regionViewport;
     ${particleStyleShader}
@@ -443,13 +474,6 @@ updatePresentationFrame();
 
 // Fixed geographic anchor points. The planet's own depth buffer occludes the
 // back side; an extra horizon fade prevents billboard halos leaking at the limb.
-const regions = [
-  { id: 'AMS', lat: 40.7, lon: -74.0, size: 0.068 },
-  { id: 'EU', lat: 48.2, lon: 16.4, size: 0.062 },
-  { id: 'METAP', lat: 39.9, lon: 32.9, size: 0.068 },
-  { id: 'NEA', lat: 37.6, lon: 127.0, size: 0.058 },
-  { id: 'SEA', lat: 1.3, lon: 103.8, size: 0.055 },
-];
 const group = new THREE.Group();
 group.name = 'regional-light-points';
 earth.add(group);

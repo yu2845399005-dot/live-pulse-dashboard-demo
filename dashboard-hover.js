@@ -1,9 +1,11 @@
-import {chartColors} from './chart-palette.mjs';
+import {CHART_COLORS,OVERVIEW_CHART_COLORS,chartColors} from './chart-palette.mjs?v=20261106-home-ui';
+const viewColors=rows=>chartColors(rows,OVERVIEW_CHART_COLORS);
 import {metricReadout,getScope,queryFacts,currentMetricGroups,querySegments,querySeries} from './data-context.js';
 import {breakdown,formatValue,moneyMatrix,matrixPercent,series,pointAt} from './data-model.mjs';
 import { getPeriod, usesDateAxis, axisMarkup, timeAt, dateAt } from './period-state.js';
 // Figma 744:134677. DOM values are the source of the demo's hover readouts.
 import hoverAssets from './hover-assets.js';
+import {showSurface,hideSurface,revealChart,revealItems,linePath} from './data-motion.js';
 const miniatureAssetsReady = true;
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
@@ -26,8 +28,8 @@ const curveLabels={
 
 function miniatureMarkup(key){
   const rows=querySegments(key),max=rows.flatMap(r=>r.points).reduce((max,p)=>Math.max(max,p.value),1)*1.1;
-  const colors=chartColors(rows);
-  return `<div class="hover-mini-chart" tabindex="0" aria-label="${groupNames[key]}非累计趋势，使用左右方向键查看数据"><svg viewBox="0 0 278 100" width="278" height="100">${rows.map((r,i)=>`<path d="${r.points.filter((_,k)=>k%Math.max(1,Math.floor(r.points.length/200))===0).map((p,k)=>`${k?'L':'M'}${p.ratio*278},${100-p.value/max*94}`).join(' ')}" fill="none" stroke="${colors[i]}" stroke-width="1.5"/>`).join('')}</svg></div><div class="hover-mini-timeline">${axisMarkup(true)}</div>`;
+  const colors=viewColors(rows);
+  return `<div class="hover-mini-chart" tabindex="0" aria-label="${groupNames[key]}非累计趋势，使用左右方向键查看数据"><svg viewBox="0 0 278 100" width="278" height="100">${rows.map((r,i)=>`<path d="${linePath(r.points,278,100,max)}" fill="none" stroke="${colors[i]}" stroke-width="1.5"/>`).join('')}</svg></div><div class="hover-mini-timeline">${axisMarkup(true)}</div>`;
 }
 
 export function initDashboardHover(){
@@ -41,16 +43,16 @@ export function initDashboardHover(){
   function scale(){const r=dashboard.getBoundingClientRect();return r.width/1440;}
   function placeLayer(){const r=dashboard.getBoundingClientRect();layer.style.left=r.left+'px';layer.style.top=r.top+'px';layer.style.transform=`scale(${scale()})`;}
   function box(el){const r=el.getBoundingClientRect(),base=dashboard.getBoundingClientRect(),s=scale();return{x:(r.left-base.left)/s,y:(r.top-base.top)/s,width:r.width/s,height:r.height/s};}
-  function dismiss(){clearTimeout(hideTimer);preview.hidden=readout.hidden=true;activeTrigger?.removeAttribute('aria-describedby');activeTrigger?.classList.remove('hover-source-active');activeTrigger=null;activeKey=null;$$('.chart-hover-guide').forEach(el=>el.remove());}
+  function dismiss(){clearTimeout(hideTimer);hideSurface(preview);hideSurface(readout);activeTrigger?.removeAttribute('aria-describedby');activeTrigger?.classList.remove('hover-source-active');activeTrigger=null;activeKey=null;$$('.chart-hover-guide').forEach(el=>el.remove());}
   function later(){clearTimeout(hideTimer);hideTimer=setTimeout(()=>{if(!layer.matches(':hover')&&!activeTrigger?.matches(':hover')&&!(interactionMode==='keyboard'&&activeTrigger?.contains(document.activeElement))&&!layer.contains(document.activeElement))dismiss();},180);}
   function available(){return !$('dialog[open]');}
   function coordinates(event,el){const r=box(el),base=dashboard.getBoundingClientRect(),s=scale();return {x:(event.clientX-base.left)/s,y:(event.clientY-base.top)/s,ratio:clamp(((event.clientX-base.left)/s-r.x)/r.width,0,1)};}
 
   function renderReadout(title,rows,position,{width=165,compact=false,node=''}={}){
     placeLayer();readout.classList.toggle('hover-readout-compact',compact);readout.style.width=width+'px';readout.dataset.nodeId=node;
-    const rowColors=new Map();for(const group of ['income','content','guild','function','gift','traffic']){const segments=breakdown(queryFacts().revenue,group,getScope().region+getScope().subregion),colors=chartColors(segments);segments.forEach((row,i)=>rowColors.set(row.label,colors[i]));}
+    const rowColors=new Map();for(const group of ['income','content','guild','function','gift','traffic']){const segments=breakdown(queryFacts().revenue,group,getScope().region+getScope().subregion),colors=viewColors(segments);segments.forEach((row,i)=>rowColors.set(row.label,colors[i]));}
     readout.innerHTML=`<div class="hover-readout-title">${escape(title)}</div><div class="hover-readout-rows">${rows.map(([label,value,percent])=>`<div><span>${rowColors.has(label)?`<i class="hover-series-dot" style="background:${rowColors.get(label)}"></i>`:''}${escape(label)}</span><strong>${escape(value)}</strong>${percent!==undefined?`<small>${escape(percent)}</small>`:''}</div>`).join('')}</div>`;
-    readout.hidden=false;
+    if(showSurface(readout))revealItems(readout.querySelectorAll('.hover-readout-rows>div'),{delay:30,stagger:24});
     const height=readout.offsetHeight;
     let x=position.x+12,y=position.y-height-12;
     if(x+width>1432)x=position.x-width-12;
@@ -65,10 +67,10 @@ export function initDashboardHover(){
   }
   function showPreview(trigger,key){
     if(!available())return;
-    clearTimeout(hideTimer);if(activeTrigger!==trigger)dismiss();activeTrigger=trigger;activeKey=key;
+    clearTimeout(hideTimer);const changed=activeTrigger!==trigger;if(changed)dismiss();activeTrigger=trigger;activeKey=key;
     trigger.classList.add('hover-source-active');placeLayer();
     if(!miniatureAssetsReady){const r=box(trigger);trigger.setAttribute('aria-describedby',readout.id);renderReadout('观测周期 '+timeAt(.585),sectionRows(key),{x:r.x+r.width*.6,y:r.y},{width:key==='function'?184:160,compact:true,node:'744:113820'});return;}
-    trigger.setAttribute('aria-describedby',preview.id);preview.dataset.nodeId=miniatureNodes[key];preview.className='hover-preview '+(key==='guild'||key==='function'?'hover-preview-wide':'');preview.classList.toggle('period-date-axis',usesDateAxis());preview.innerHTML=miniatureMarkup(key);preview.hidden=false;readout.hidden=true;
+    trigger.setAttribute('aria-describedby',preview.id);preview.dataset.nodeId=miniatureNodes[key];preview.className='hover-preview '+(key==='guild'||key==='function'?'hover-preview-wide':'');preview.classList.toggle('period-date-axis',usesDateAxis());preview.innerHTML=miniatureMarkup(key);showSurface(preview,{restart:changed});revealChart(preview,{duration:700,delay:70});hideSurface(readout);
     const r=box(key==='income'?trigger.closest('.income-chart'):trigger),width=preview.offsetWidth,height=preview.offsetHeight;let left=clamp(r.x+r.width/2-width/2,8,1432-width),top=r.y+(key==='income'?r.height*.55:0)-height-12;if(top<8)top=r.y+r.height+10;
     preview.style.left=left+'px';preview.style.top=clamp(top,8,892-height)+'px';
   }
@@ -86,7 +88,7 @@ export function initDashboardHover(){
 
   function wireChart(el,label,readRows,options={}){
     if(!el)return;el.tabIndex=0;el.setAttribute('aria-label',label+'，悬浮或用左右方向键查看演示数据');
-    function show(event){if(!available())return;clearTimeout(hideTimer);if(activeTrigger!==el)dismiss();activeTrigger=el;preview.hidden=true;el.setAttribute('aria-describedby',readout.id);const r=box(el),p=event?coordinates(event,el):{x:r.x+r.width*focusIndex/24,y:r.y+r.height*.6,ratio:focusIndex/24};mark(el,p.ratio);const data=readRows(p.ratio,event);renderReadout((options.prefix||'观测周期 ')+timeAt(p.ratio),data,p,options);}
+    function show(event){if(!available())return;clearTimeout(hideTimer);if(activeTrigger!==el)dismiss();activeTrigger=el;hideSurface(preview);el.setAttribute('aria-describedby',readout.id);const r=box(el),p=event?coordinates(event,el):{x:r.x+r.width*focusIndex/24,y:r.y+r.height*.6,ratio:focusIndex/24};mark(el,p.ratio);const ratio=p.ratio*Number(el.dataset.displayEnd||1),data=readRows(ratio,event);renderReadout((options.prefix||'观测周期 ')+timeAt(ratio),data,p,options);}
     el.addEventListener('pointermove',show);el.addEventListener('pointerleave',later);el.addEventListener('focus',()=>show());el.addEventListener('blur',later);el.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight'].includes(e.key))return;e.preventDefault();focusIndex=clamp(focusIndex+(e.key==='ArrowRight'?1:-1),0,24);show();});
   }
   const trafficRows=(id,container=$('#graph'),ratio=null)=>{
@@ -120,7 +122,7 @@ export function initDashboardHover(){
   matrix?.addEventListener('pointermove',event=>{
     const image=event.target.closest('.sparkline-cell>svg,.sparkline-cell>svg *,.sparkline-cell>img:not(.region-crown)'),cell=image?.closest('.sparkline-cell');
     if(!cell||!available()){if(activeTrigger?.classList.contains('sparkline-cell'))dismiss();return;}
-    clearTimeout(hideTimer);if(activeTrigger!==cell)dismiss();activeTrigger=cell;preview.hidden=true;
+    clearTimeout(hideTimer);if(activeTrigger!==cell)dismiss();activeTrigger=cell;hideSurface(preview);
     const p=coordinates(event,cell),row=cell.closest('tr'),label=row.querySelector('th').textContent.trim(),percent=row.querySelector('.local-contribution')?.textContent||'—';
     cell.setAttribute('aria-describedby',readout.id);mark(cell,p.ratio);renderReadout('观测时间 '+timeAt(p.ratio),[matrixReadout(row,p.ratio)],p,{width:172,compact:true,node:'744:134660'});
   });
