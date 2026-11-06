@@ -5,15 +5,15 @@ import {queryCreators} from './creator-data.mjs?v=20261106-smooth-data';
 import {metricCards,queryFacts,getScope,getDataNow,refreshSnapshot} from './data-context.js?v=20261106-smooth-data';
 import {dailyFacts,isTodayPeriod,aggregate,metricValue,breakdown,formatValue} from './data-model.mjs?v=20261106-smooth-data';
 import {getPeriod} from './period-state.js?v=20261106-smooth-data';
-import {initDataView} from './data-view.js?v=20261106-analysis-figma';
-import { initLayoutEditor } from './layout-editor.js';
+import {initDataView} from './data-view.js?v=20261106-smooth-expand';
+import { initLayoutEditor } from './layout-editor.js?v=20261106-smooth-expand';
 import { subregionsFor, defaultSubregion, regionRevenueRatio, scopedRevenue } from './region-scopes.js';
 import { initRankingControls, creatorStatus, gradeClass, governanceReasons } from './ranking-view.js';
 import { initPeriodControls } from './period-state.js?v=20261106-smooth-data';
 import {entryFrame,counterProgress,smoothProgress} from './entry-motion.mjs?v=20261027-transparent-entry';
-import { initDashboardDialogs, metricDefinitions } from './dashboard-dialogs.js?v=20261106-analysis-figma';
-import { initDashboardHover } from './dashboard-hover.js?v=20261106-analysis-figma';
-import { initAnalysisView } from './analysis-view.js?v=20261106-analysis-figma';
+import { initDashboardDialogs, metricDefinitions } from './dashboard-dialogs.js?v=20261106-smooth-expand';
+import { initDashboardHover } from './dashboard-hover.js?v=20261106-smooth-expand';
+import { initAnalysisView } from './analysis-view.js?v=20261106-smooth-expand';
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 const state = { region: 'Global', subregion: 'Area Total', ranking: 0, page: 1, traffic: 1, metric: 0, inactiveDays: 7, governance: 'all' };
@@ -25,6 +25,7 @@ const assets = {
 };
 // The design is a fixed 1440 × 900 presentation canvas. Scale it as one unit.
 function fitDashboard() {
+  if($('#dashboard').classList.contains('layout-dragging'))return;
   const height=Number($('#dashboard').dataset.canvasHeight)||900;
   const scale = Math.min(innerWidth / 1440, innerHeight / height);
   const scene = $('#dashboard');

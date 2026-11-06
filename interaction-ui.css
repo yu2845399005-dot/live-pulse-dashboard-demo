@@ -1,0 +1,53 @@
+/* Detailed hover and layout controls, Figma 9:26190 and 9:15718. */
+@font-face{font-family:Inter;src:url('./assets/fonts/InterVariable.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+.hover-preview{background:rgba(136,209,255,.2);backdrop-filter:blur(8.15px);border:1px solid #9baaca;border-radius:24px;box-shadow:0 0 .5px #0005,0 4px 3px #0000001a;padding:12px 8px 12px 32px;height:154px}
+.hover-preview-income{width:350px}
+.hover-preview-wide{width:355.7576px;padding-left:44px}
+.hover-preview .hover-mini-chart{width:277.755px;height:100px;margin-left:12px;overflow:visible}
+.hover-mini-chart>svg{display:block;position:relative;z-index:1;overflow:visible}
+.hover-mini-chart:focus{outline:none}
+.hover-mini-chart:focus-visible{outline:1px solid #96c1ff40;outline-offset:4px;border-radius:6px}
+.hover-mini-grid{position:absolute;inset:0;pointer-events:none}
+.hover-mini-grid img{position:absolute;opacity:.1}
+.hover-mini-grid .hover-grid-x{top:.18px}
+.hover-mini-grid .hover-grid-y{left:.14px;top:99.59px}
+.hover-preview .hover-curve-label{left:auto;right:calc(100% + 5px);transform:none;text-align:right;max-width:51px;font-size:10px;font-weight:400;line-height:10px;color:#ffffff66;pointer-events:none}
+.hover-preview .hover-mini-timeline{width:301.755px;height:16px;margin:12px 0 0;font-family:Inter,TikTok,sans-serif;font-size:12px;line-height:16px;color:#ffffff66}
+.hover-mini-timeline>.period-axis-tick:first-child{transform:translateX(0)}
+.hover-mini-timeline>.period-axis-tick:last-child{transform:translateX(-100%)}
+.hover-preview-tip{position:absolute;left:calc(50% - 16px);top:calc(100% + 1px);width:32px;height:6px;pointer-events:none}
+.hover-preview-tip img{position:absolute;left:13px;top:-13px;transform:rotate(-90deg);transform-origin:center}
+.hover-preview.period-date-axis{height:166px}
+.hover-preview.period-date-axis .hover-mini-timeline{height:28px}
+/* Both hover layers keep a fixed material when the pointer enters the chart. */
+.hover-readout,.hover-readout-compact[data-node-id="744:113820"]{background:rgba(35,65,85,.92);backdrop-filter:blur(8.15px);border:.75px solid #96c1ff;border-radius:12px;box-shadow:0 4px 12px #0002;font-family:Inter,TikTok,sans-serif;font-size:10px}
+.hover-readout-title{font-size:12px;line-height:16px;font-weight:500;padding:8px 12px}
+.hover-readout-rows{gap:8px;padding:0 12px 8px}
+.hover-readout-rows>div{display:grid;grid-template-columns:minmax(0,1fr) 42px 32px;gap:4px;line-height:12px;min-height:12px}
+.hover-readout-rows>div:not(:has(small)){grid-template-columns:minmax(0,1fr) auto}
+.hover-readout-rows>div>span{min-width:0;white-space:nowrap}
+.hover-readout-rows strong{font-size:10px;min-width:0;font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.hover-readout-rows small{font-size:10px;min-width:0;color:#ffffff66;text-align:right}
+.layout-hide{left:-8px;top:-8px;width:28px;height:28px;padding:0;display:grid;place-items:center;border-radius:52.973px;background:#ffffff1a;backdrop-filter:none}
+.layout-hide img{width:auto;height:auto}
+.layout-resize{right:-4px;bottom:-4px;width:60px;height:60px}
+.layout-resize img{left:20.61px;top:20.31px;width:auto;height:auto}
+.layout-edit-toolbar{height:56px;left:16px;top:16px;width:1408px;padding:4px 8px 4px 16px;gap:16px;background:linear-gradient(110deg,#394556f2,#465778f0 70%,#343d58f5);backdrop-filter:none;border:1px solid #00000017;border-radius:20px;font-size:16px}
+.layout-save{height:40px;line-height:16px;padding:12px 24px;border-radius:12px;background:#113be1}
+.layout-cancel{height:48px;width:100px}
+.layout-slot.is-editable{outline:none}
+.layout-slot.is-editable:has(.layout-drag-surface:hover),.layout-slot.is-editable:focus-within{outline:1px solid #96c1ff70;outline-offset:-1px}
+.layout-hidden-list{font-size:14px}
+.metrics-panel.is-view-transitioning{overflow:hidden;will-change:top,height}
+/* Fade the page's blue analysis atmosphere while the panel moves into place. */
+.dashboard::before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,rgba(1,1,6,.2),rgba(36,87,208,.2) 69.231%,rgba(1,1,6,.2)),#010106;opacity:0;z-index:0}
+.dashboard.analysis-view{background:#051310}
+.dashboard.analysis-view::before{opacity:1}
+@media(prefers-reduced-motion:no-preference){
+ .dashboard::before{transition:opacity 500ms ease}
+ .layout-hide,.layout-resize{transition:opacity 150ms ease,background-color 150ms ease}
+ .layout-hide:hover{background:#ffffff2b}
+ .layout-resize:hover{filter:brightness(1.2)}
+ .layout-save,.layout-cancel,.layout-reset{transition:background-color 160ms ease,opacity 160ms ease}
+ .dashboard.layout-editing:not(.layout-dragging){transition:transform 180ms ease,left 180ms ease,top 180ms ease}
+}

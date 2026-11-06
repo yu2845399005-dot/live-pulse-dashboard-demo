@@ -5,7 +5,7 @@ import {getPeriod} from './period-state.js?v=20261106-smooth-data';
 import { subregionsFor, globalRegions as regions } from './region-scopes.js';
 // Figma 725:23088. Expand the existing dashboard without resetting its state.
 import { initSupplyConfig } from './supply-config.js';
-import {animateUI,cancelUI,revealChart,revealItems,countValues} from './data-motion.js?v=20261106-analysis-figma';
+import {animateUI,cancelUI,revealChart,revealItems,countValues} from './data-motion.js?v=20261106-smooth-expand';
 const asset = name => `assets/figma-metrics/${name}.svg`;
 const image = (name, className = '') => `<img src="${asset(name)}" alt="" class="${className}">`;
 const sparklines = ['e6f85aa4-548c-4129-9e20-a2d3a7131655', '55164af7-735f-4a3b-9d0c-fcf6c9a15e81',
@@ -27,6 +27,7 @@ export function initAnalysisView({ setRegion, setSubregion }) {
   secondary.querySelector('select').addEventListener('change',event=>setSubregion(event.target.value));
   let activeCard = 0;
   let expanded = false;
+  let transitionSequence=0;
   const incomeRing=dashboard.querySelector('.income-chart .ring img');
   const originalIncomeRing=incomeRing.getAttribute('src');
   toggle.setAttribute('aria-expanded', 'false');
@@ -157,8 +158,9 @@ export function initAnalysisView({ setRegion, setSubregion }) {
     if(records.some(r=>r.target===cards)) decorateCards();
   }).observe(cards,{childList:true});
   function setExpanded(value, { updateUrl = false } = {}) {
-    const changed=expanded!==value,before=panel.getBoundingClientRect();
+    const changed=expanded!==value,before=panel.getBoundingClientRect(),beforeToggle=toggle.getBoundingClientRect(),beforeStyle=getComputedStyle(panel),beforePadding=beforeStyle.paddingTop;
     cancelUI(panel,'layout');
+    cancelUI(toggle,'layout');
     expanded = value;
     incomeRing.src=value?'assets/figma-left/imgRing.svg':originalIncomeRing;
     toggle.querySelector('img').src=value?'assets/figma-analysis-nov06/ede00.svg':'assets/figma-home-nov06/2-2777-62e5d.svg';
@@ -172,15 +174,21 @@ export function initAnalysisView({ setRegion, setSubregion }) {
     dashboard.querySelector('.region-summary').inert = value;
     decorateCards();
     if(changed){
+      const sequence=++transitionSequence;
       const after=panel.getBoundingClientRect(),scale=dashboard.getBoundingClientRect().width/1440;
-      panel.style.transformOrigin='top left';
-      animateUI(panel,[{transform:`translate(${(before.left-after.left)/scale}px,${(before.top-after.top)/scale}px) scale(${before.width/after.width},${before.height/after.height})`},{transform:'translate(0,0) scale(1,1)'}],{duration:460,channel:'layout'});
-      revealItems(panel.querySelectorAll('.metric-tabs,.metric-card-strip,.analysis-trend'),{delay:120,stagger:65});
+      const parent=panel.offsetParent.getBoundingClientRect(),finalStyle=getComputedStyle(panel),afterToggle=toggle.getBoundingClientRect();
+      const geometry=animateUI(panel,[{top:(before.top-parent.top)/scale+'px',left:(before.left-parent.left)/scale+'px',width:before.width/scale+'px',height:before.height/scale+'px',paddingTop:beforePadding},{top:finalStyle.top,left:finalStyle.left,width:finalStyle.width,height:finalStyle.height,paddingTop:finalStyle.paddingTop}],{duration:640,easing:'cubic-bezier(.22,.78,.22,1)',channel:'layout'});
+      panel.classList.add('is-view-transitioning');
+      const finish=()=>{if(sequence===transitionSequence)panel.classList.remove('is-view-transitioning');};
+      if(geometry)geometry.finished.then(finish,finish);else finish();
+      animateUI(toggle,[{transform:`translate(${(beforeToggle.left-afterToggle.left)/scale}px,${(beforeToggle.top-afterToggle.top)/scale}px)`},{transform:'translate(0,0)'}],{duration:640,easing:'cubic-bezier(.22,.78,.22,1)',channel:'layout'});
+      animateUI(panel.querySelector('.metric-card-strip'),[{opacity:.75},{opacity:1}],{duration:380,delay:80,channel:'content'});
       if(value){
-        revealItems([matrix],{delay:240});
-        revealItems(matrix.querySelectorAll('tbody tr'),{delay:290,stagger:45});
-        revealChart(panel,{delay:230,duration:900});
-        revealChart(matrix,{delay:330,duration:650});
+        revealItems([trend],{delay:210});
+        revealItems([matrix],{delay:360});
+        revealItems(matrix.querySelectorAll('tbody tr'),{delay:400,stagger:45});
+        revealChart(panel,{delay:300,duration:900});
+        revealChart(matrix,{delay:440,duration:650});
         countValues(panel.querySelectorAll('.metric-value'),{delay:150,duration:600});
       }
       document.dispatchEvent(new CustomEvent('dashboard:analysis',{detail:{expanded:value}}));
@@ -192,6 +200,7 @@ export function initAnalysisView({ setRegion, setSubregion }) {
     }
   }
   toggle.addEventListener('click',()=>setExpanded(!expanded,{updateUrl:true}));
+  document.addEventListener('dashboard:open-analysis',()=>setExpanded(true,{updateUrl:true}));
   document.addEventListener('keydown',event=>{
     if(event.key==='Escape'&&expanded&&!document.querySelector('dialog[open]')) {
       setExpanded(false,{updateUrl:true});toggle.focus();

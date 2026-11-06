@@ -5,7 +5,7 @@ import {regionRevenueRatio} from './region-scopes.js';
 import { creatorStatus, gradeClass, rankingExplanation } from './ranking-view.js';
 import { getPeriod, setPeriod, today, offsetDate as offset, timeAt, dayDistance, periodError,axisMarkup } from './period-state.js?v=20261106-smooth-data';
 import designAssets from './dialog-assets.js';
-import {animateUI,revealChart,revealItems,linePath,syncSeries,showSurface,hideSurface,reducedMotion,framePointer} from './data-motion.js?v=20261106-analysis-figma';
+import {animateUI,revealChart,revealItems,linePath,syncSeries,showSurface,hideSurface,reducedMotion,framePointer} from './data-motion.js?v=20261106-smooth-expand';
 const $ = s => document.querySelector(s);
 const img = (node,key,cls='') => `<img class="${cls}" src="${designAssets[node][key]}" alt="">`;
 const clone = v => JSON.parse(JSON.stringify(v));

@@ -1,4 +1,5 @@
 import {LAYOUT_KEY,cloneLayout,moveLayout,layoutHeight,validLayout} from './layout-model.js';
+import {cancelUI,framePointer,animateUI} from './data-motion.js?v=20261106-smooth-expand';
 const {createElement:h,useState,useRef,useEffect,useLayoutEffect}=window.React;
 const {createRoot,createPortal,flushSync}=window.ReactDOM;
 const definitions=[
@@ -8,7 +9,7 @@ const definitions=[
   {id:'contribution',name:'区域贡献',selector:'#regional-contributions',minW:360,minH:180},
   {id:'ranking',name:'主播榜单',selector:'.ranking-panel',minW:240,minH:320}
 ];
-const icon=name=>h('img',{src:`assets/figma-layout/${name}.svg`,alt:'',draggable:false});
+const icon=name=>h('img',{src:`assets/${name==='close'?'figma-layout-nov06':'figma-layout'}/${name}.svg`,alt:'',draggable:false});
 function Card({item,definition,editing,begin,hide,keyboard}){
   const host=useRef(null),original=useRef(null);
   useLayoutEffect(()=>{
@@ -36,7 +37,7 @@ export function initLayoutEditor(){
     live.current={editing,layout,saved,expanded};
     function capture(){
       const nodes=definitions.map(def=>document.querySelector(def.selector)),transitions=nodes.map(node=>node.style.transition);
-      nodes.forEach(node=>node.style.transition='none');
+      nodes.forEach(node=>{cancelUI(node,'layout');cancelUI(node,'content');node.style.transition='none';});
       const rect=dashboard.getBoundingClientRect(),scale=rect.width/1440;
       const result=definitions.map((def,index)=>{const node=nodes[index],box=node.getBoundingClientRect(),transform=new DOMMatrixReadOnly(getComputedStyle(node).transform);return {id:def.id,x:(box.left-rect.left)/scale-transform.m41,y:(box.top-rect.top)/scale-transform.m42,w:box.width/scale,h:box.height/scale,baseW:box.width/scale,baseH:box.height/scale,minW:def.minW,minH:def.minH,hidden:false};});
       nodes.forEach((node,index)=>node.style.transition=transitions[index]);return result;
@@ -55,17 +56,17 @@ export function initLayoutEditor(){
     useEffect(()=>{
       const observer=new MutationObserver(()=>setExpanded(dashboard.classList.contains('analysis-view')));observer.observe(dashboard,{attributes:true,attributeFilter:['class']});
       const enter=()=>{
-        if(!dashboard.classList.contains('analysis-view'))document.querySelector('#expand-metrics').click();
+        if(!dashboard.classList.contains('analysis-view'))document.dispatchEvent(new Event('dashboard:open-analysis'));
         if(!baseline.current)baseline.current=capture();
         history.current={past:[],future:[]};setDraft(cloneLayout(live.current.saved||baseline.current));setError('');setEditing(true);setExpanded(true);
       };
       trigger.addEventListener('click',enter);
-      const move=event=>{const g=gesture.current;if(!g)return;const original=g.before.find(item=>item.id===g.id),dx=(event.clientX-g.startX)/g.scale,dy=(event.clientY-g.startY)/g.scale;setDraft(moveLayout(g.before,g.id,g.kind==='move'?{x:original.x+dx,y:original.y+dy}:{w:original.w+dx,h:original.h+dy}));};
-      const end=()=>{const g=gesture.current;if(!g)return;if(JSON.stringify(g.before)!==JSON.stringify(live.current.layout)){history.current.past.push(g.before);history.current.future=[];}gesture.current=null;setMoving(null);};
-      const aborted=()=>{if(gesture.current)setDraft(gesture.current.before);gesture.current=null;setMoving(null);};
+      const move=framePointer(event=>{const g=gesture.current;if(!g)return;const original=g.before.find(item=>item.id===g.id),dx=(event.clientX-g.startX)/g.scale,dy=(event.clientY-g.startY)/g.scale;setDraft(moveLayout(g.before,g.id,g.kind==='move'?{x:original.x+dx,y:original.y+dy}:{w:original.w+dx,h:original.h+dy}));});
+      const end=()=>{const g=gesture.current;if(!g)return;flushSync(()=>move.flush());if(JSON.stringify(g.before)!==JSON.stringify(live.current.layout)){history.current.past.push(g.before);history.current.future=[];}gesture.current=null;setMoving(null);};
+      const aborted=()=>{move.cancel();if(gesture.current)setDraft(gesture.current.before);gesture.current=null;setMoving(null);};
       const keys=event=>{if(!live.current.editing)return;if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();cancel();}else if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='z'){event.preventDefault();const from=event.shiftKey?'future':'past',to=event.shiftKey?'past':'future';if(history.current[from].length){history.current[to].push(cloneLayout(live.current.layout));setDraft(history.current[from].pop());}}};
       document.addEventListener('pointermove',move);document.addEventListener('pointerup',end);document.addEventListener('pointercancel',aborted);document.addEventListener('keydown',keys,true);
-      return()=>{observer.disconnect();trigger.removeEventListener('click',enter);document.removeEventListener('pointermove',move);document.removeEventListener('pointerup',end);document.removeEventListener('pointercancel',aborted);document.removeEventListener('keydown',keys,true);};
+      return()=>{move.cancel();observer.disconnect();trigger.removeEventListener('click',enter);document.removeEventListener('pointermove',move);document.removeEventListener('pointerup',end);document.removeEventListener('pointercancel',aborted);document.removeEventListener('keydown',keys,true);};
     },[]);
     useLayoutEffect(()=>{
       dashboard.classList.toggle('layout-editing',editing);dashboard.classList.toggle('has-custom-layout',!!layout&&expanded);dashboard.classList.toggle('layout-dragging',!!moving);
@@ -73,6 +74,11 @@ export function initLayoutEditor(){
       const height=layout&&expanded?layoutHeight(layout):900;dashboard.dataset.canvasHeight=height;dashboard.style.height=height+'px';
       document.dispatchEvent(new CustomEvent('dashboard:layout-size'));
     },[editing,layout,expanded,moving]);
+    useLayoutEffect(()=>{
+      if(!editing)return;
+      animateUI(dashboard.querySelector('.layout-edit-toolbar'),[{opacity:0,transform:'translateY(-5px)'},{opacity:1,transform:'translateY(0)'}],{duration:220});
+      dashboard.querySelectorAll('.layout-hide,.layout-resize').forEach((control,index)=>animateUI(control,[{opacity:0},{opacity:1}],{duration:170,delay:Math.min(index,5)*15}));
+    },[editing]);
     if(!expanded||!layout)return null;
     return createPortal(h(window.React.Fragment,null,
       layout.map(item=>h(Card,{key:item.id,item,definition:definitions.find(def=>def.id===item.id),editing,begin,hide,keyboard})),

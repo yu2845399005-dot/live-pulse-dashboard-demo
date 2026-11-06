@@ -6,6 +6,7 @@ export function framePointer(callback){
   let frame=0,latest;
   const handler=event=>{latest=event;if(!frame)frame=requestAnimationFrame(()=>{frame=0;callback(latest);});};
   handler.cancel=()=>{cancelAnimationFrame(frame);frame=0;};
+  handler.flush=()=>{if(frame){cancelAnimationFrame(frame);frame=0;callback(latest);}};
   return handler;
 }
 const motions=new WeakMap(),surfaces=new WeakMap(),paths=new WeakMap(),counters=new WeakMap();

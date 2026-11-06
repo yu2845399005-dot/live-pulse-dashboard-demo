@@ -5,13 +5,14 @@ import {breakdown,formatValue,moneyMatrix,matrixPercent,series,pointAt} from './
 import { getPeriod, usesDateAxis, axisMarkup, timeAt, dateAt } from './period-state.js?v=20261106-smooth-data';
 // Figma 744:134677. DOM values are the source of the demo's hover readouts.
 import hoverAssets from './hover-assets.js';
-import {showSurface,hideSurface,revealChart,linePath,framePointer} from './data-motion.js?v=20261106-analysis-figma';
+import {showSurface,hideSurface,revealChart,linePath,framePointer} from './data-motion.js?v=20261106-smooth-expand';
 const miniatureAssetsReady = true;
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
 const escape = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const clamp = (value,min,max) => Math.min(max,Math.max(min,value));
-const miniatureNodes = {income:'744:113772',content:'744:116101',guild:'744:118378',function:'744:125775'};
+const miniatureNodes = {income:'9:27788',content:'9:34198',guild:'9:37453',function:'9:35821'};
+const previewColors={income:['#0046a3','#002049','#012e69','#3d71ff'],content:['#3d71ff','#8dc1ff'],guild:['#3d71ff','#8dc1ff','#8dc1ff'],function:['#3d71ff','#8dc1ff','#8dc1ff','#8dc1ff','#8dc1ff','#8dc1ff']};
 const fieldRows = {
   income:()=>$$('.categories .category').filter(el=>!el.hidden).map(el=>[el.querySelector('span').textContent,el.querySelector('strong').textContent,el.querySelector('span:last-child').textContent]),
   content:()=>$$('.comparison>div').map(el=>[el.querySelector('span').textContent,el.querySelector('p').textContent.match(/\$[\d.]+M/)?.[0]||'—',el.querySelector('small').textContent]),
@@ -19,17 +20,14 @@ const fieldRows = {
   function:()=>$$('.function-row').filter(el=>!el.hidden).map(el=>[el.querySelector('span').textContent,el.querySelector('strong').textContent,el.querySelector('small').textContent])
 };
 const groupNames={income:'收入分层',content:'内容分类',guild:'公会分层',function:'功能场景'};
-const curveLabels={
-  income:[['Top',-14,27],['Pre-top',-21,15],['Mature',-20,38],['G4+',-13.5,50]],
-  content:[['非优质主播',-23,26],['优质主播',-18,45]],
-  guild:[['高价值公会',-27,26],['普通公会',-22,42],['非公会',-17,59]],
-  function:[['LIVE Goal',-27,6],['Gallery',-22,22],['Fans Club',-28,39],['Cohost',-22,55],['Multiguest',-29,69],['Solo',-15.5,87]]
-};
-
 function miniatureMarkup(key){
-  const rows=querySegments(key),max=rows.flatMap(r=>r.points).reduce((max,p)=>Math.max(max,p.value),1)*1.1;
-  const colors=viewColors(rows),end=rows[0]?.points.at(-1)?.ratio||1;
-  return `<div class="hover-mini-chart" data-display-end="${end}" tabindex="0" aria-label="${groupNames[key]}非累计趋势，使用左右方向键查看数据"><svg viewBox="0 0 278 100" width="278" height="100">${rows.map((r,i)=>`<path d="${linePath(r.points,278,100,max,{domainEnd:end})}" fill="none" stroke="${colors[i]}" stroke-width="1.5"/>`).join('')}</svg></div><div class="hover-mini-timeline">${axisMarkup(true,end)}</div>`;
+  const enabled=new Set(fieldRows[key]().map(row=>row[0])),rows=querySegments(key).filter(row=>enabled.has(row.label));
+  const max=rows.flatMap(r=>r.points).reduce((max,p)=>Math.max(max,p.value),1)*1.1;
+  const colors=previewColors[key],end=rows[0]?.points.at(-1)?.ratio||1;
+  const labels=rows.map((row,i)=>({i,text:row.label,y:100-(row.points[0]?.value||0)/max*100})).sort((a,b)=>a.y-b.y);
+  labels.forEach((label,i)=>label.y=clamp(label.y,7+i*12,93-(labels.length-1-i)*12));
+  for(let i=1;i<labels.length;i++)labels[i].y=Math.max(labels[i].y,labels[i-1].y+12);
+  return `<div class="hover-mini-chart" data-display-end="${end}" tabindex="0" aria-label="${groupNames[key]}非累计趋势，使用左右方向键查看数据"><div class="hover-mini-grid">${Array.from({length:7},(_,i)=>`<img class="hover-grid-x" style="left:${i*277.76/6}px" src="assets/figma-hover-nov06/grid-x.svg" alt="">`).join('')}<img class="hover-grid-y" src="assets/figma-hover-nov06/grid-y.svg" alt=""></div><svg viewBox="0 0 278 100" width="278" height="100"><defs><linearGradient id="hover-line-gradient-${key}" x1="1" x2="0"><stop stop-color="#52d5ff"/><stop offset=".505208" stop-color="#0047ff"/><stop offset="1" stop-color="#dbb8ff"/></linearGradient></defs>${rows.map((r,i)=>`<path d="${linePath(r.points,278,100,max,{domainEnd:end})}" fill="none" stroke="${i===0?`url(#hover-line-gradient-${key})`:colors[i]||'#8dc1ff'}" stroke-width="2"/>`).join('')}</svg>${labels.map(label=>`<span class="hover-curve-label" style="top:${label.y-5}px" title="${escape(label.text)}">${escape(label.text)}</span>`).join('')}</div><div class="hover-mini-timeline">${axisMarkup(true,end)}</div><span class="hover-preview-tip"><img src="assets/figma-hover-nov06/arrow.svg" alt=""></span>`;
 }
 
 export function initDashboardHover(){
@@ -39,14 +37,14 @@ export function initDashboardHover(){
   document.body.append(layer);
   const preview=layer.querySelector('.hover-preview'),readout=layer.querySelector('.hover-readout');
   let activeTrigger=null,activeKey=null,hideTimer=null,focusIndex=6,interactionMode='pointer';
-  let readoutSignature='',readoutHeight=0,rowColors,viewport;
+  let readoutSignature='',readoutHeight=0,rowColors,viewport,layerViewport;
   let period=getPeriod();
   function scale(){return (viewport||(viewport=dashboard.getBoundingClientRect())).width/1440;}
-  function placeLayer(){if(viewport)return;const r=viewport=dashboard.getBoundingClientRect();layer.style.left=r.left+'px';layer.style.top=r.top+'px';layer.style.transform=`scale(${r.width/1440})`;}
+  function placeLayer(){const r=viewport||(viewport=dashboard.getBoundingClientRect());if(layerViewport===r)return;layerViewport=r;layer.style.left=r.left+'px';layer.style.top=r.top+'px';layer.style.transform=`scale(${r.width/1440})`;}
   function box(el){const r=el.getBoundingClientRect(),base=dashboard.getBoundingClientRect(),s=scale();return{x:(r.left-base.left)/s,y:(r.top-base.top)/s,width:r.width/s,height:r.height/s};}
   function dismiss(){clearTimeout(hideTimer);hideSurface(preview);hideSurface(readout);activeTrigger?.removeAttribute('aria-describedby');activeTrigger?.classList.remove('hover-source-active');activeTrigger=null;activeKey=null;$$('.chart-hover-guide').forEach(el=>el.remove());}
   function later(){clearTimeout(hideTimer);hideTimer=setTimeout(()=>{if(!layer.matches(':hover')&&!activeTrigger?.matches(':hover')&&!(interactionMode==='keyboard'&&activeTrigger?.contains(document.activeElement))&&!layer.contains(document.activeElement))dismiss();},180);}
-  function available(){return !$('dialog[open]');}
+  function available(){return !$('dialog[open]')&&!dashboard.classList.contains('layout-editing');}
   function coordinates(event,el){const r=box(el),base=dashboard.getBoundingClientRect(),s=scale();return {x:(event.clientX-base.left)/s,y:(event.clientY-base.top)/s,ratio:clamp(((event.clientX-base.left)/s-r.x)/r.width,0,1)};}
 
   function renderReadout(title,rows,position,{width=165,compact=false,node=''}={}){
@@ -78,8 +76,9 @@ export function initDashboardHover(){
     clearTimeout(hideTimer);const changed=activeKey!==key||preview.hidden;if(activeTrigger!==trigger){activeTrigger?.removeAttribute('aria-describedby');activeTrigger?.classList.remove('hover-source-active');}activeTrigger=trigger;activeKey=key;
     trigger.classList.add('hover-source-active');placeLayer();
     if(!miniatureAssetsReady){const r=box(trigger);trigger.setAttribute('aria-describedby',readout.id);renderReadout('观测周期 '+timeAt(.585),sectionRows(key),{x:r.x+r.width*.6,y:r.y},{width:key==='function'?184:160,compact:true,node:'744:113820'});return;}
-    trigger.setAttribute('aria-describedby',preview.id);preview.dataset.nodeId=miniatureNodes[key];preview.className='hover-preview '+(key==='guild'||key==='function'?'hover-preview-wide':'');preview.classList.toggle('period-date-axis',usesDateAxis());if(changed)preview.innerHTML=miniatureMarkup(key);showSurface(preview);if(changed)revealChart(preview,{duration:520,delay:30});hideSurface(readout);
-    const r=box(key==='income'?trigger.closest('.income-chart'):trigger),width=preview.offsetWidth,height=preview.offsetHeight;let left=clamp(r.x+r.width/2-width/2,8,1432-width),top=r.y+(key==='income'?r.height*.55:0)-height-12;if(top<8)top=r.y+r.height+10;
+    trigger.setAttribute('aria-describedby',preview.id);preview.dataset.nodeId=miniatureNodes[key];preview.dataset.group=key;preview.className='hover-preview '+(key==='guild'||key==='function'||key==='content'?'hover-preview-wide':'hover-preview-income');preview.classList.toggle('period-date-axis',usesDateAxis());if(changed)preview.innerHTML=miniatureMarkup(key);showSurface(preview);if(changed)revealChart(preview,{duration:520,delay:30});hideSurface(readout);
+    const panel=box(trigger.closest('.supply-panel')),section=box(trigger.closest({income:'.income-chart',content:'.content-breakdown',guild:'.guild-breakdown',function:'.function-breakdown'}[key]));
+    const width=preview.offsetWidth,height=preview.offsetHeight;let left=clamp(panel.x+({income:4,content:45,guild:18,function:-10}[key]),4,1432-width),top=key==='income'?section.y+section.height*.55-height-6:section.y-(key==='function'?122:126);if(top<8)top=section.y+section.height+10;
     preview.style.left=left+'px';preview.style.top=clamp(top,8,892-height)+'px';
   }
   function activate(trigger,label,key){
@@ -147,8 +146,10 @@ export function initDashboardHover(){
   document.addEventListener('dashboard:region',()=>{rowColors=null;readoutSignature='';dismiss();});
   document.addEventListener('keydown',event=>{if(['Tab','ArrowLeft','ArrowRight'].includes(event.key))interactionMode='keyboard';if(event.key==='Escape'&&(!preview.hidden||!readout.hidden)){event.preventDefault();event.stopImmediatePropagation();dismiss();}},true);
   document.addEventListener('pointerdown',event=>{interactionMode='pointer';if(!layer.contains(event.target)&&!activeTrigger?.contains(event.target))dismiss();},true);
-  new MutationObserver(dismiss).observe(dashboard,{attributes:true,attributeFilter:['class']});
+  new MutationObserver(()=>{viewport=null;dismiss();}).observe(dashboard,{attributes:true,attributeFilter:['class']});
   new MutationObserver(()=>{if($('dialog[open]'))dismiss();}).observe(document.body,{subtree:true,attributes:true,attributeFilter:['open']});
   addEventListener('resize',()=>{viewport=null;placeLayer();dismiss();});addEventListener('blur',dismiss);
+  document.addEventListener('dashboard:layout-size',()=>{viewport=null;dismiss();});
+  dashboard.addEventListener('transitionend',event=>{if(event.target===dashboard&&event.propertyName==='transform'){viewport=null;placeLayer();}});
   placeLayer();
 }

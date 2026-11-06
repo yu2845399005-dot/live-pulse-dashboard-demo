@@ -5,7 +5,7 @@ import {localDate,minuteOfDay} from './dashboard-clock.mjs';
 import {getPeriod,axisMarkup} from './period-state.js?v=20261106-smooth-data';
 import {getScope,queryFacts,currentMetricGroups,querySeries,querySegments} from './data-context.js?v=20261106-smooth-data';
 import {breakdown,formatValue,series,moneyMatrix,matrixPercent} from './data-model.mjs?v=20261106-smooth-data';
-import {linePath,syncSeries,revealItems,countValues} from './data-motion.js?v=20261106-analysis-figma';
+import {linePath,syncSeries,revealItems,countValues} from './data-motion.js?v=20261106-smooth-expand';
 const $$=s=>[...document.querySelectorAll(s)],$=s=>document.querySelector(s);
 // Compact labels match Figma's single-decimal amounts; raw facts keep full precision.
 const money=value=>{const unit=value>=1e6?1e6:value>=1e3?1e3:1;return '$'+(value/unit).toFixed(1)+(unit===1e6?'M':unit===1e3?'K':'');};
