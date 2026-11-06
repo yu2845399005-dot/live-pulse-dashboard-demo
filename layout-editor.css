@@ -1,0 +1,30 @@
+/* React layout editor, Figma 744:136888 and 674:107153. */
+.layout-slot{position:absolute;z-index:4;isolation:isolate;border-radius:24px}
+.layout-slot[hidden]{display:none!important}
+.layout-card-frame{position:absolute;left:0;top:0;transform-origin:top left}
+.analysis-view .layout-card-frame.left-column{display:block;height:var(--layout-base-height);padding:0;gap:0;z-index:auto}
+.layout-card-frame>.panel,.analysis-view .layout-card-frame>.panel,.layout-card-frame>.metrics-panel,.analysis-view .layout-card-frame>.metrics-panel{position:absolute!important;inset:0 auto auto 0!important;width:var(--layout-base-width)!important;height:var(--layout-base-height)!important;margin:0!important;transform:none!important;opacity:1!important}
+.layout-editing .header{pointer-events:none}
+.layout-editing .headline{opacity:.5}
+.layout-editing .expand-metrics{pointer-events:none;opacity:.5}
+.layout-editing .dashboard-hover-layer{display:none}
+.layout-editing .layout-card-frame{pointer-events:none;user-select:none}
+.layout-slot.is-editable{outline:1px solid #ffffff33;outline-offset:-1px}
+.layout-slot.is-editable:has(.layout-drag-surface:hover),.layout-slot.is-editable:focus-within{outline:1px solid #96c1ff80}
+.layout-drag-surface{position:absolute;inset:0;cursor:grab;touch-action:none;border-radius:24px;z-index:3}
+.layout-dragging,.layout-dragging .layout-drag-surface{cursor:grabbing;user-select:none}
+.layout-hide{position:absolute;left:-8px;top:-8px;width:28px;height:28px;padding:6px;display:grid;place-items:center;border-radius:53px;background:#ffffff1a;backdrop-filter:blur(8px);z-index:5}
+.layout-hide img,.layout-resize img{pointer-events:none;-webkit-user-drag:none}
+.layout-resize{position:absolute;right:-4px;bottom:-4px;width:60px;height:60px;touch-action:none;cursor:se-resize;z-index:5}
+.layout-resize img{position:absolute;left:20.61px;top:20.31px}
+.layout-edit-toolbar{position:absolute;top:16px;left:16px;width:1408px;height:56px;z-index:30;display:flex;align-items:center;gap:16px;padding:4px 8px 4px 16px;background:#ffffff33;border:1px solid #00000017;border-radius:20px;backdrop-filter:blur(100px);font-size:16px}
+.layout-reset{padding:16px 0;line-height:22px;white-space:nowrap}
+.layout-actions{display:flex;align-items:center;gap:10px;margin-left:auto}
+.layout-cancel{width:100px;height:48px}
+.layout-save{height:40px;padding:12px 24px;border-radius:12px;background:#113be1;font-weight:600;line-height:16px}
+.layout-toolbar-glow{position:absolute;right:42px;bottom:-2px;z-index:-1;pointer-events:none;filter:blur(24px);opacity:.4}
+.layout-hidden-list{position:relative;font-size:14px}
+.layout-hidden-list summary{cursor:pointer;padding:10px;background:#ffffff12;border-radius:8px}
+.layout-hidden-list>div{position:absolute;top:42px;left:0;min-width:140px;background:#283249;border:1px solid #fff3;border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:4px}
+.layout-hidden-list button{padding:8px;text-align:left;white-space:nowrap}
+.layout-error{font-size:14px;color:#ff91a6}

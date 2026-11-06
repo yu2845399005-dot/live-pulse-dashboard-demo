@@ -1,0 +1,22 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="120.067" height="24.7333" viewBox="0 0 120.067 24.7333" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Group 2147259644">
+<path id="Graph line" d="M114.277 4.7929C117.158 4.27821 119.513 5.18549 120.067 4.77961V24.7333H0.067421V8.51969C6.2657 7.86017 8.98104 7.3979 14.8518 7.14542C20.7226 6.89295 22.2898 4.79473 28.281 4.18523C35.541 3.44665 34.9091 3.03296 38.1372 2.07492C41.3654 1.11688 44.2587 0.500304 47.8703 0.817099C54.6465 1.41148 59.3165 4.9476 64.9956 5.5275C70.1408 6.05288 73.3229 5.44794 74.975 7.43183C76.6999 9.50309 79.0271 9.06747 83.5993 9.06747C88.1714 9.06747 92.0082 8.39228 94.5643 6.60943C97.1205 4.82657 101.619 4.05944 107.131 3.31298C110.035 2.9197 112.008 5.19817 114.277 4.7929Z" fill="url(#paint0_linear_0_58)"/>
+<g id="Graph line_2">
+<use xlink:href="#stroke0_0_58" stroke="url(#paint1_linear_0_58)"/>
+<use xlink:href="#stroke0_0_58" stroke="#096FF7"/>
+<use xlink:href="#stroke0_0_58" stroke="#2388FF"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_58" x1="55.4007" y1="-6.59443" x2="55.4007" y2="21.8233" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2388FF"/>
+<stop offset="1" stop-color="#2388FF" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_58" x1="0.0693627" y1="18.0178" x2="120.069" y2="18.0178" gradientUnits="userSpaceOnUse">
+<stop stop-color="#52D5FF"/>
+<stop offset="0.505208" stop-color="#0047FF"/>
+<stop offset="1" stop-color="#DBB7FF"/>
+</linearGradient>
+<path id="stroke0_0_58" d="M119.09 4.79291C118.067 4.79291 117.158 4.27821 114.277 4.79291C112.008 5.19817 110.035 2.9197 107.131 3.31299C101.619 4.05944 97.1202 4.82657 94.5641 6.60943C92.008 8.39228 88.1712 9.06745 83.599 9.06745C79.0268 9.06745 76.6996 9.50309 74.9748 7.43183C73.3227 5.44794 70.1405 6.05288 64.9953 5.5275C59.3162 4.9476 54.6462 1.41148 47.8701 0.817099C44.2585 0.500304 41.3651 1.11688 38.137 2.07492C34.9089 3.03296 35.5408 3.44665 28.2808 4.18523C22.2896 4.79473 20.7224 6.89295 14.8516 7.14543C8.98083 7.3979 6.73294 8.48114 0.733406 8.48056" stroke-width="1.46667" stroke-linecap="square" stroke-linejoin="round"/>
+</defs>
+</svg>

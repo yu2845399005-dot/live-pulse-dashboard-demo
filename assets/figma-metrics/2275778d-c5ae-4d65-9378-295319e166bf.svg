@@ -1,0 +1,28 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="468" height="196.995" viewBox="0 0 468 196.995" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Line 2">
+<g id="Group 2979">
+<mask id="mask0_0_89" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="468" height="197">
+<path id="Mask" d="M468 89.4334C439.13 89.4334 437.723 73.402 403.166 73.4021C368.61 73.4021 373.859 60.8961 348.926 60.8961C323.993 60.8961 321.806 92.1609 292.061 92.1609C262.317 92.1609 256.193 98.0231 233.01 98.0231C209.826 98.0231 197.285 73.4021 174.395 73.4021C154.238 73.4021 142.937 110.138 122.779 110.138C100.743 110.138 88.3883 128.115 66.3521 128.115C44.3159 128.115 23.4795 155.719 1.35788 155.719C0.780121 156.168 1.35788 157.715 1.35788 161.222C1.35788 175.606 1.3569 178.407 1.35788 188.578C1.35788 205.412 1.35788 185.071 1.35788 196.995L0 0H468L468 89.4334Z" fill="url(#paint0_linear_0_89)"/>
+</mask>
+<g mask="url(#mask0_0_89)">
+<rect id="Rectangle 183" opacity="0.3" x="468.333" y="180.12" width="632.098" height="180.121" transform="rotate(180 468.333 180.12)" fill="#2388FF"/>
+</g>
+</g>
+<g id="Chart line">
+<use xlink:href="#stroke0_0_89" stroke="url(#paint1_linear_0_89)"/>
+<use xlink:href="#stroke0_0_89" stroke="#2388FF"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_89" x1="150.072" y1="66.2126" x2="150.551" y2="11.9287" gradientUnits="userSpaceOnUse">
+<stop/>
+<stop offset="1" stop-color="#3B3B3B" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_89" x1="-165.194" y1="62.3961" x2="466" y2="62.3961" gradientUnits="userSpaceOnUse">
+<stop stop-color="#52D5FF"/>
+<stop offset="0.505208" stop-color="#0047FF"/>
+<stop offset="1" stop-color="#DBB7FF"/>
+</linearGradient>
+<path id="stroke0_0_89" d="M466 89.4733C436.766 89.4733 440.309 74.4305 405.317 74.4305C370.324 74.4306 375.64 62.3963 350.392 62.3963C325.144 62.3963 322.929 92.4818 292.809 92.4818C262.689 92.4818 256.488 98.1229 233.012 98.1229C209.536 98.1229 196.837 74.4305 173.657 74.4305C153.246 74.4305 141.802 109.781 121.39 109.781C99.0757 109.781 86.5648 127.08 64.2504 127.08C41.936 127.08 24.3144 155.991 1.99997 155.991" stroke-width="3" stroke-linecap="square"/>
+</defs>
+</svg>

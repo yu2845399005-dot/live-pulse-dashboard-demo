@@ -1,0 +1,50 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="314.574" height="93" viewBox="0 0 314.574 93" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Line">
+<g id="Graph line">
+<use xlink:href="#stroke0_0_716" stroke="url(#paint0_linear_0_716)"/>
+<use xlink:href="#stroke0_0_716" stroke="#3D71FF"/>
+<use xlink:href="#stroke0_0_716" stroke="#096FF7"/>
+</g>
+<g id="Graph line_2">
+<use xlink:href="#stroke1_0_716" stroke="url(#paint1_linear_0_716)"/>
+<use xlink:href="#stroke1_0_716" stroke="#3D71FF"/>
+<use xlink:href="#stroke1_0_716" stroke="#15539D"/>
+</g>
+<g id="Graph line_3">
+<use xlink:href="#stroke2_0_716" stroke="url(#paint2_linear_0_716)"/>
+<use xlink:href="#stroke2_0_716" stroke="#3D71FF"/>
+<use xlink:href="#stroke2_0_716" stroke="#114481"/>
+</g>
+<g id="Graph line_4">
+<use xlink:href="#stroke3_0_716" stroke="url(#paint3_linear_0_716)"/>
+<use xlink:href="#stroke3_0_716" stroke="#3D71FF"/>
+<use xlink:href="#stroke3_0_716" stroke="#143868"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_716" x1="312.9" y1="85.6063" x2="1.49822" y2="85.6063" gradientUnits="userSpaceOnUse">
+<stop stop-color="#52D5FF"/>
+<stop offset="0.505208" stop-color="#0047FF"/>
+<stop offset="1" stop-color="#DBB7FF"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_716" x1="313.396" y1="71" x2="1.39629" y2="71" gradientUnits="userSpaceOnUse">
+<stop stop-color="#52D5FF"/>
+<stop offset="0.505208" stop-color="#0047FF"/>
+<stop offset="1" stop-color="#DBB7FF"/>
+</linearGradient>
+<linearGradient id="paint2_linear_0_716" x1="313.396" y1="92.0001" x2="1.39629" y2="92.0001" gradientUnits="userSpaceOnUse">
+<stop stop-color="#52D5FF"/>
+<stop offset="0.505208" stop-color="#0047FF"/>
+<stop offset="1" stop-color="#DBB7FF"/>
+</linearGradient>
+<linearGradient id="paint3_linear_0_716" x1="313.396" y1="0.99992" x2="1.39629" y2="0.99992" gradientUnits="userSpaceOnUse">
+<stop stop-color="#52D5FF"/>
+<stop offset="0.505208" stop-color="#0047FF"/>
+<stop offset="1" stop-color="#DBB7FF"/>
+</linearGradient>
+<path id="stroke0_0_716" d="M1.49822 28.9523C2.93804 30.6894 9.04883 26.8064 16.5248 29.0092C22.4113 30.7436 27.5319 36.3136 35.0682 37.9968C49.3719 41.1914 61.0458 44.4745 67.679 52.1046C74.3122 59.7348 84.2687 85.6062 96.1335 85.6062C107.998 85.6062 114.037 72.1493 118.513 63.2849C122.801 54.7944 131.058 34.4015 144.41 32.153C159.148 29.6713 171.266 14.5376 188.851 11.9939C198.223 10.6381 205.731 13.2768 214.108 17.377C222.485 21.4771 220.845 23.2476 239.685 26.4085C255.232 29.017 259.299 37.9968 274.534 39.0773C289.769 40.1579 296.815 6.34487 312.9 9.16744" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/>
+<path id="stroke1_0_716" d="M1.39629 39.939C2.83889 40.8914 8.96142 38.7625 16.4517 39.9702C22.3496 40.9211 27.4801 43.9749 35.0308 44.8977C49.362 46.6492 61.0584 48.4492 67.7043 52.6325C74.3502 56.8158 84.3259 71 96.2135 71C108.101 71 114.152 63.6222 118.637 58.7622C122.932 54.1072 131.206 42.9266 144.583 41.6938C159.349 40.3332 171.491 32.036 189.109 30.6414C198.499 29.8981 206.022 31.3448 214.415 33.5927C222.808 35.8407 221.165 36.8114 240.041 38.5444C255.618 39.9745 259.693 44.8977 274.957 45.4901C290.221 46.0826 297.281 27.5443 313.396 29.0918" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/>
+<path id="stroke2_0_716" d="M1.39629 57.9808C2.83889 59.0239 8.96142 56.6923 16.4517 58.015C22.3496 59.0565 27.4801 62.4011 35.0308 63.4118C49.362 65.3301 61.0584 67.3015 67.7043 71.8832C74.3502 76.4649 84.3259 92 96.2135 92C108.101 92 114.152 83.9195 118.637 78.5967C122.932 73.4983 131.206 61.2529 144.583 59.9028C159.349 58.4125 171.491 49.3252 189.109 47.7977C198.499 46.9836 206.022 48.5681 214.415 51.0301C222.808 53.4922 221.165 54.5553 240.041 56.4534C255.618 58.0197 259.693 63.4118 274.957 64.0606C290.221 64.7095 297.281 44.4057 313.396 46.1005" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/>
+<path id="stroke3_0_716" d="M1.39629 66.0802C2.83889 64.0848 8.96142 68.5452 16.4517 66.0148C22.3496 64.0224 27.4801 57.624 35.0308 55.6905C49.362 52.0207 61.0584 48.2493 67.7043 39.4843C74.3502 30.7194 84.3259 1 96.2135 1C108.101 1 114.152 16.4583 118.637 26.6412C122.932 36.3945 131.206 59.8205 144.583 62.4034C159.349 65.2543 171.491 82.6388 189.109 85.5609C198.499 87.1183 206.022 84.0871 214.415 79.3771C222.808 74.6672 221.165 72.6334 240.041 69.0023C255.618 66.0058 259.693 55.6905 274.957 54.4492C290.221 53.208 297.281 92.05 313.396 88.8077" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/>
+</defs>
+</svg>

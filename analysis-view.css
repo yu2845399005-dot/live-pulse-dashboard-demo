@@ -1,0 +1,159 @@
+/* Expanded analysis view, Figma 725:23088, on the existing 1440 × 900 canvas. */
+.analysis-trend[hidden],.contribution-panel[hidden],.function-breakdown[hidden]{display:none}
+.analysis-metric-settings{display:contents}
+.analysis-metric-settings>img{display:none}
+.analysis-side-settings{display:none}
+.analysis-side-controls{display:contents}
+.dashboard .analysis-side-controls{position:absolute;left:266px;top:16px;display:flex;align-items:center;gap:8px}
+.dashboard .analysis-side-controls>.side-note{position:static;font-size:10px;line-height:10px;font-weight:500;color:rgba(216,220,255,.6)}
+.dashboard .analysis-side-settings{display:grid;place-items:center;width:16px;height:16px;padding:2px;background:#ffffff1a;border-radius:4px}
+.dashboard .supply-panel .analysis-side-settings{width:20px;height:20px;padding:4px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+body:has(.analysis-view){background:#010106}
+.analysis-view{background:linear-gradient(0deg,rgba(1,1,6,.2) 0%,rgba(36,87,208,.2) 69.231%,rgba(1,1,6,.2) 100%),#010106}
+.analysis-view .date-tools,.analysis-view .headline{top:18px}
+.analysis-view .utility-tools{top:18px}
+.dashboard .left-column{padding-top:6px;gap:12px}
+.dashboard .supply-panel{height:536px;padding:12px;border:0;background:rgba(37,41,84,.25)}
+.dashboard .traffic-panel{height:242px;flex:none;border:0;padding:12px;background:rgba(37,41,84,.25)}
+.dashboard .supply-panel>.side-note{right:40px;top:20px}
+.dashboard .income-chart{position:absolute;left:12px;top:48px;width:312px;height:90px;margin:0;padding-left:16px;justify-content:flex-start;gap:24px}
+.dashboard .ring{width:90px;height:90px;flex:none}
+.dashboard .ring img{width:90px;height:90px}
+.dashboard .categories{width:182px;height:76px;gap:12px;flex:none}
+.dashboard .category{display:grid;grid-template-columns:6px minmax(50px,1fr) 43px 38px;width:182px;height:10px;align-items:center;font-family:'PingFang SC',sans-serif;font-size:12px;line-height:12px;column-gap:6px;flex:none}
+.dashboard .category i{width:6px;height:6px}
+.dashboard .category>span:first-of-type{font-size:12px;width:50px;color:#fff}
+.dashboard .category strong{font-family:'PingFang HK','PingFang SC',sans-serif;font-size:12px;width:43px;text-align:right;font-weight:600}
+.dashboard .category>span:last-child{width:38px;text-align:right;color:#ffffff66}
+.dashboard .category:nth-child(1) i{background:#0771fb!important}
+.dashboard .category:nth-child(2) i{background:#0046a3!important}
+.dashboard .category:nth-child(3) i{background:#012e69!important}
+.dashboard .category:nth-child(4) i{background:#002049!important}
+.dashboard .content-breakdown{position:absolute;top:154px;left:12px;width:312px;margin:0;padding:0}
+.dashboard .content-bar{margin-top:8px;width:312px}
+.dashboard .content-bar i:first-child{background:#0051bb}
+.dashboard .content-bar i:last-child{background:#0771fb}
+.dashboard .comparison{margin-top:12px}
+.dashboard .comparison small{font-size:12px;color:#ffffff66}
+.dashboard .guild-breakdown{position:absolute;top:254px;left:12px;width:312px;margin:0}
+.dashboard .guild-bar{width:312px;margin-top:8px;mask:none}
+.dashboard .guild-bar i:first-child{background:#0771fb}
+.dashboard .guild-bar i:nth-child(2){background:#0051bb}
+.dashboard .guild-bar i:last-child{background:#002a60}
+.dashboard .guild-stats{margin-top:12px;gap:8px;padding:0}
+.dashboard .guild-stats .stat-row{width:312px}
+.dashboard .guild-stats small{font-size:12px;color:#ffffff66}
+.dashboard .function-breakdown{position:absolute;top:376px;left:12px;width:312px}
+.function-rows{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.function-row{display:grid;grid-template-columns:74px 120px 54px 38px;align-items:center;gap:8px;height:12px;font-size:12px;line-height:12px}
+.function-row strong{font-weight:500;text-align:right}
+.function-row small{font-size:12px;color:#ffffff66;text-align:right}
+.dashboard .traffic-tabs{gap:20px}
+.dashboard .traffic-tabs [data-traffic="2"]{display:none}
+.dashboard .traffic-panel>.side-note{right:40px;top:20px}
+.dashboard .traffic-chart{padding-top:35px;width:312px}
+.dashboard .traffic-bar,.dashboard .traffic-stats,.analysis-view .timeline{display:none}
+.dashboard .traffic-panel::before,.dashboard .ranking-panel::before{display:none}
+.analysis-view .region-panels,.analysis-view .region-summary{visibility:hidden;pointer-events:none;opacity:0}
+/* Use the full dashboard as the animated background's viewport. Keep the same
+   iframe mounted so expanding/collapsing never restarts its WebGL animation.
+   Its virtual camera height stays fixed, preserving the globe's existing size. */
+.analysis-view .center-column{position:static}
+.analysis-view .earth-stage{inset:auto;top:-88px;left:-16px;width:1440px;height:900px;overflow:visible;pointer-events:none;mask-image:none;-webkit-mask-image:none;z-index:0}
+.analysis-view .earth-frame{top:16px;left:0;width:1440px;height:900px;clip-path:none;mask-image:none;-webkit-mask-image:none}
+.analysis-view .metrics-panel.expanded{top:124px;left:344px;width:720px;height:422px;padding:21px 16px 16px;border:0;border-radius:24px;background:rgba(37,41,84,.25)}
+.analysis-view .metrics-panel::before{inset:0;width:720px;height:422px;background:url('./assets/figma-metrics/0747dd8c-12d8-4c57-9e60-8da48e774ea7.svg') no-repeat;pointer-events:none;opacity:.6}
+.dashboard .metric-tabs{background:none;border-radius:0;height:36px}
+.dashboard .analysis-metric-settings{margin-left:auto;position:relative;display:grid;place-items:center;width:20px;height:20px;background:#ffffff1a;border-radius:4px}
+.dashboard .analysis-metric-settings>img{display:block}
+.dashboard .analysis-metric-settings select{position:absolute;inset:0;margin:0;width:20px;height:20px;opacity:0}
+.dashboard .analysis-metric-settings:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+.analysis-view .metrics-panel.expanded .metric-cards{grid-template-columns:repeat(4,1fr);gap:12px;margin-top:8px}
+.dashboard .metric-card{height:80px;gap:4px;padding:8px;border-radius:8px;cursor:pointer}
+.dashboard .metric-card.is-active{background:linear-gradient(180deg,rgba(7,113,251,.8),rgba(7,113,251,0) 116%)}
+.dashboard .metric-card:focus-visible{outline:2px solid #9eccff;outline-offset:2px}
+.dashboard .metric-label{display:flex;align-items:center;gap:4px;font-size:12px;line-height:16px}
+.dashboard .metric-value{font-size:24px;line-height:24px}
+.dashboard .metric-change{display:flex;align-items:center;gap:2px;color:#2dccd3;font-size:12px;line-height:16px}
+.dashboard .metric-change.negative{color:#f1204a}
+.dashboard .metric-change.negative img{transform:scaleY(-1)}
+.dashboard .metric-change.flat{color:#a6aaca}
+.analysis-trend{margin-top:8px;width:688px}
+.trend-toolbar{display:flex;align-items:center;justify-content:space-between;height:28px;font-size:11.431px;color:#ffffff99}
+.trend-legend,.trend-legend>span{display:flex;gap:6px;align-items:center}
+.trend-legend{gap:12px}
+.compare-regions{display:flex;align-items:center;gap:4px;color:#a6aaca;font-size:10px}
+.revenue-trend-chart{position:relative;height:221px;margin-top:4px;color:#ffffff66;font-size:12px}
+.trend-y-axis{position:absolute;left:0;top:0;width:24px;height:204px;display:flex;flex-direction:column;justify-content:space-between;font-size:11.431px}
+.trend-grid{position:absolute;left:35px;top:4.51px}
+.trend-bars{position:absolute;left:34px;top:4px;transform:rotate(180deg)}
+.trend-lines{position:absolute;left:33.09px;top:68.24px}
+.trend-x-axis{position:absolute;left:35px;top:205px;width:646px;display:flex;justify-content:space-between;line-height:16px}
+.analysis-view .expand-metrics{top:119px!important;left:692px;transform:rotate(180deg);z-index:8}
+.analysis-view .contribution-panel{position:absolute;top:554px;left:344px;width:720px;height:246px;padding:16px;border:0;background:rgba(37,41,84,.25)}
+.perspective-toggle{display:flex;gap:8px;align-items:center;width:max-content;padding:4px 8px;background:#ffffff1a;border-radius:4px;height:22px;margin-bottom:12px}
+.perspective-toggle button{font-size:14px;line-height:14px;color:#d8dcff4d}
+.perspective-toggle button[aria-pressed=true]{color:#d8dcffb3;font-weight:600}
+.contribution-table{width:688px;border-collapse:collapse;table-layout:fixed}
+.region-name-col{width:86px}.sparkline-col{width:140px}
+.contribution-table thead th{font-size:12px;font-weight:400;line-height:18px;height:24px;white-space:nowrap;color:#ffffff66;text-align:center;vertical-align:top}
+.contribution-table thead th:first-child,.contribution-table thead th:nth-child(2){text-align:left}
+.contribution-table tbody tr{height:32px}
+.contribution-table tbody th{font-size:14px;font-weight:700;text-align:left;line-height:20px}
+.contribution-table td{position:relative;text-align:center;font-size:12px}
+.contribution-table td>span{display:flex;align-items:center;justify-content:center;width:70px;min-height:28px;margin:auto}
+.contribution-table .local-contribution{font-size:14px;font-weight:700;border:.5px solid #2388ff;background:#096ff51a;border-radius:8px}
+.sparkline-cell>img{position:absolute;top:3px;left:0}
+.sparkline-cell .sparkline-reversed{transform:scaleX(-1)}
+.sparkline-cell .region-crown{left:-54px;top:20px}
+.compare-highlight{outline:1px solid #2388ff;outline-offset:-1px}
+@media(prefers-reduced-motion:no-preference){.contribution-panel{animation:analysis-reveal .3s ease both}.analysis-view .metrics-panel{transition:top .32s ease,height .32s ease}}
+@keyframes analysis-reveal{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* Regional drill-down, Figma 744:146482. */
+.subregion-select[hidden]{display:none}
+.subregion-select{min-width:68px;flex:none;margin-left:-4px}
+.subregion-select select{min-width:68px}
+.has-subregion .brand-line{gap:12px}
+.has-subregion .region-select{flex:none;margin-left:0}
+.has-subregion .region-select:not(.subregion-select){min-width:108px}
+.has-subregion .brand-line{width:max-content;min-width:100%;position:relative;left:50%;transform:translateX(-50%) translateY(var(--panel-shift,10px))}
+.region-select select option{background:#172039;color:white}
+.regional-scope .contribution-table thead th:nth-child(n+3){text-align:left}
+.regional-scope .contribution-table thead th:nth-child(n+3)>span{display:block;width:70px;text-align:center}
+.regional-scope .contribution-table td:nth-child(n+3)>span{margin:0}
+.regional-scope .sparkline-cell>img{top:3px}
+.regional-scope .sparkline-cell .region-crown{position:absolute;left:-54px;top:20px}
+.regional-scope .sparkline-cell .region-crown>img{display:block}
+.regional-scope .contribution-table tbody tr:nth-child(4) .sparkline-cell>img{transform:scaleX(-1)}
+/* Data-driven paths retain the design's chart frame and interaction layer. */
+.data-trend-svg{position:absolute;left:33px;top:0;width:calc(100% - 33px);height:204px;pointer-events:none}
+.trend-y-axis{width:45px;font-size:10px;white-space:nowrap}
+.contribution-table{display:block;overflow:auto;max-height:180px;scrollbar-width:thin}
+.contribution-table colgroup,.contribution-table thead,.contribution-table tbody{min-width:688px}
+.trend-lines[hidden],.trend-bars[hidden]{display:none!important}
+.contribution-table{max-height:none}
+.regional-scope .contribution-table{max-height:180px}
+.data-consumer-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#graph.has-data-series>.graph-line,#graph.has-data-series>.consumer-design-line,.consumer-flat-graph.has-data-series>.graph-line,.consumer-flat-graph.has-data-series>.consumer-design-line{opacity:0!important}
+/* A single plot rectangle aligns SVG, grid, axes and pointer hit testing. */
+.revenue-trend-chart{--plot-left:66px;--plot-right:12px;--plot-top:8px;--plot-height:192px}
+.trend-plot{position:absolute;left:var(--plot-left);right:var(--plot-right);top:var(--plot-top);height:var(--plot-height)}
+.trend-plot .data-trend-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.revenue-trend-chart .trend-grid[hidden]{display:none!important}
+.revenue-trend-chart .trend-y-axis{left:0;top:var(--plot-top);width:calc(var(--plot-left) - 12px);height:var(--plot-height);display:block;text-align:right}
+.revenue-trend-chart .trend-y-axis>span{position:absolute;right:0;transform:translateY(-50%);white-space:nowrap}
+.revenue-trend-chart .trend-x-axis{left:var(--plot-left);right:var(--plot-right);width:auto;top:205px;display:block;position:absolute}
+.trend-live-label{position:absolute;right:12px;top:9px;font-size:10px;color:#9faaca}
+.trend-live-label[hidden]{display:none}
+/* Use a real table inside its scroll viewport so colgroup fills the panel. */
+.contribution-table-scroll{width:100%;overflow:auto;scrollbar-width:thin}
+.contribution-table{display:table;table-layout:fixed;max-height:none;overflow:visible}
+.contribution-table colgroup,.contribution-table thead,.contribution-table tbody{min-width:0}
+.regional-scope .contribution-table{max-height:none}
+.regional-scope .contribution-table-scroll{max-height:180px}
+.contribution-table th,.contribution-table td{box-sizing:border-box;padding:0}
+.contribution-table thead th:nth-child(n+3),.regional-scope .contribution-table thead th:nth-child(n+3){text-align:center}
+.contribution-table thead th:nth-child(n+3)>span,.regional-scope .contribution-table thead th:nth-child(n+3)>span{display:block;width:auto;text-align:center}
+.regional-scope .contribution-table td:nth-child(n+3)>span{margin:auto}
+.dashboard .traffic-panel .traffic-chart>.timeline{display:none!important}

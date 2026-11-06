@@ -1,0 +1,43 @@
+/* Metric card specifications: 754:102337, 754:102468, 754:102815, 754:102990. */
+.metric-card-strip{position:relative;min-width:0}
+.metric-scroll{display:none}
+.dashboard .metric-card-strip{margin-top:8px;height:80px;isolation:isolate}
+.dashboard .metrics-panel .metric-card-strip .metric-cards{
+ display:grid;grid-template-columns:none;grid-auto-flow:column;
+ grid-auto-columns:calc((100% - (var(--metric-count,4) - 1)*12px)/var(--metric-count,4));
+ gap:12px;margin:0;height:80px;overflow-x:auto;overflow-y:hidden;
+ scrollbar-width:none;scroll-snap-type:x mandatory;background:rgba(0,0,0,.05);backdrop-filter:blur(1px)
+}
+.dashboard .metric-cards::-webkit-scrollbar{display:none}
+.dashboard .metric-card-strip.has-overflow .metric-cards{width:calc(100% - 24px)}
+.dashboard .metric-card-strip .metric-card{
+ box-sizing:border-box;min-width:0;height:80px;padding:8px 24px 8px 8px;
+ display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;
+ border-radius:8px;background:rgba(7,91,251,.1);backdrop-filter:blur(8.5px);scroll-snap-align:start
+}
+.dashboard .metric-card-strip .metric-card.is-active{
+ border-radius:6px;background:linear-gradient(180deg,rgba(7,113,251,.8) 57.971%,rgba(7,113,251,0) 115.94%);backdrop-filter:blur(2.5px)
+}
+.dashboard .metric-card-strip .metric-label{font-size:12px;line-height:16px;color:#fff;gap:4px;max-width:100%}
+.dashboard .metric-card-strip .metric-label img{width:12px;height:12px;flex:none}
+.dashboard .metric-card-strip .metric-value{display:flex;align-items:baseline;font-size:24px;line-height:24px;height:24px;font-weight:700;color:rgba(255,255,255,.85);font-variant-numeric:tabular-nums;white-space:nowrap}
+.dashboard .metric-card.is-active .metric-value{color:#fff}
+.dashboard .metric-card-strip .metric-value small{font-size:16px;line-height:20px;font-weight:700}
+.dashboard .metric-card-strip .metric-value .metric-unit{font-size:14px;line-height:14px;margin-left:4px}
+.dashboard .metric-duration{display:flex;gap:6px}
+.dashboard .metric-duration>span{display:flex;align-items:baseline}
+.dashboard .metric-card-strip .metric-change{height:16px;line-height:16px;gap:2px;font-size:12px;font-weight:500;color:#2dccd3}
+.dashboard .metric-card-strip .metric-change.negative{color:#f1204a}
+.dashboard .metric-card-strip .metric-change img{width:10px;height:10px;flex:none}
+.dashboard .metric-flat-mark{display:block;width:8px;height:2px;margin:0 2px;border-radius:100px;background:#98a3b3}
+.dashboard .metric-scroll{position:absolute;top:0;bottom:0;width:12px;display:flex;align-items:center;justify-content:center;padding:0;border:0;border-radius:1.5px;background:rgba(7,91,251,.1);cursor:pointer;z-index:2}
+.dashboard .metric-scroll[hidden]{display:none}
+.dashboard .metric-scroll img{width:12px;height:12px;transform:rotate(90deg)}
+.dashboard .metric-scroll-next{right:0}
+.dashboard .metric-scroll-prev{left:-12px;background:#16234a}
+.dashboard .metric-scroll-prev img{transform:rotate(-90deg)}
+.dashboard .metric-scroll:focus-visible{outline:2px solid #9eccff;outline-offset:2px}
+
+/* Durations keep explicit hours/minutes/seconds, never K/M magnitude suffixes. */
+.dashboard .metric-duration.is-long{font-size:16px;gap:4px}
+.dashboard .metric-card-strip .metric-duration.is-long .metric-unit{font-size:12px;margin-left:2px}

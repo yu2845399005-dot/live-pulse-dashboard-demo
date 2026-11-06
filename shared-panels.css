@@ -1,0 +1,11 @@
+/* One card system on the globe and analysis views. */
+.dashboard .supply-panel,.dashboard .traffic-panel,.dashboard .ranking-panel{background:#0d0e22;border:0;border-radius:24px}
+.dashboard:not(.analysis-view) .metrics-panel{top:620px;height:174px;padding:30px 16px 16px;background:#12162e;border:0;border-radius:24px}
+.dashboard:not(.analysis-view) .metrics-panel::before{display:none}
+.dashboard .metric-tabs{background:none;border-radius:0;height:36px}
+.dashboard .metric-change{display:flex;align-items:center;gap:2px;font-size:12px;line-height:16px}
+.dashboard .metric-change.negative img{transform:scaleY(-1)}
+.dashboard .modal-settings-trigger{top:24px}
+/* Globe overview has no visual metric selection; analysis keeps its active series. */
+.dashboard:not(.analysis-view) .metric-card-strip .metric-card.is-active{background:rgba(7,91,251,.1);border-radius:8px;backdrop-filter:blur(8.5px)}
+.dashboard:not(.analysis-view) .metric-card-strip .metric-card.is-active .metric-value{color:rgba(255,255,255,.85)}

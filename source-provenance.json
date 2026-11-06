@@ -1,0 +1,1315 @@
+{
+  "source_url": "https://live-pulse-dashboard-kleven.dancingmidge1.chatgpt.site/",
+  "copied_at": "2026-11-06",
+  "method": "Published frontend snapshot, with shared original globe assets retained",
+  "shared_globe_source": {
+    "repository": "https://github.com/yu2845399005-dot/tiktok-live-dashboard-demo",
+    "commit": "6ee62b7d1567843595f8081937a5921ab3980997"
+  },
+  "files": [
+    {
+      "path": "analysis-view.css",
+      "sha256": "d5e6ae8fca3fbc5bb842c72271b7bf4e5144169019e89126859829e99da76f82",
+      "bytes": 13498
+    },
+    {
+      "path": "analysis-view.js",
+      "sha256": "ef57aaebdeb55fad994d7e813d8cc676933ececfdff3c5e9db5aca1845c20a5f",
+      "bytes": 14865
+    },
+    {
+      "path": "assets/avatars/creator-04.jpg",
+      "sha256": "d8dab29a5736d5c2b0084d720d3db02c785560071609be501541922928fdf831",
+      "bytes": 3539
+    },
+    {
+      "path": "assets/avatars/creator-05.jpg",
+      "sha256": "a634d4f02fe5b77804943c1d74b8d70e35ffe26454e0e9af9717432a2c72bfde",
+      "bytes": 5242
+    },
+    {
+      "path": "assets/avatars/creator-06.jpg",
+      "sha256": "f07b84f12ef125cbb837a7bd64da401992f5f62bd55fee10d01cd3dcc8abae80",
+      "bytes": 6948
+    },
+    {
+      "path": "assets/avatars/creator-07.jpg",
+      "sha256": "07b2fa37a61afa65b8e621b24da7408d287751fd5e7dcc887855ce077faaa425",
+      "bytes": 4824
+    },
+    {
+      "path": "assets/avatars/creator-08.jpg",
+      "sha256": "ee794ad2b1016f820a8dffbfe5602d0ef612da197096715c1b200aac385c0017",
+      "bytes": 5972
+    },
+    {
+      "path": "assets/avatars/creator-09.jpg",
+      "sha256": "60c2053e9aa4900708d262ddb15313d1f5b9e5daad2c0f6ace8c41f4fd78a015",
+      "bytes": 3615
+    },
+    {
+      "path": "assets/avatars/creator-10.jpg",
+      "sha256": "5185e3c98c24c489079c5723909992de8b99f816555667593f7f8c4370d79839",
+      "bytes": 5270
+    },
+    {
+      "path": "assets/avatars/creator-11.jpg",
+      "sha256": "21d6722e3baa38cb075afdc599a60c8861440a6dea431e7a8ff43f86d05190b9",
+      "bytes": 5147
+    },
+    {
+      "path": "assets/figma-area/imgCrown.svg",
+      "sha256": "51e6c66de900fd7c2726da550786792e46ffc64cc03909717fc6f2b8736a2089",
+      "bytes": 350
+    },
+    {
+      "path": "assets/figma-area/imgIconTreeTriangleDown.svg",
+      "sha256": "fc1ff7cbea756aeac56f033cd886709a27d92d548a6442ea5d8b7156c54fdb4e",
+      "bytes": 460
+    },
+    {
+      "path": "assets/figma-dialogs/05b72fe5-7fe2-4b89-9c72-36ee370939db.svg",
+      "sha256": "f02575f74ac943d98494ac0bbf2489316096ad2ddb87dfb202e5037c23fab3bc",
+      "bytes": 1044
+    },
+    {
+      "path": "assets/figma-dialogs/0cd8a8b0-b87e-42ba-a779-29d00fe99497.svg",
+      "sha256": "828595855c17164a4b4953c92e13ba2f443de6cc4bcd00e5177b5187be7327b3",
+      "bytes": 2974
+    },
+    {
+      "path": "assets/figma-dialogs/0d418b96-ee54-46de-a995-283dbd6838b8.svg",
+      "sha256": "2f39b32fece4d6bc379073b3edc446f08d2100632ae47b1fb171967964e1efd5",
+      "bytes": 230
+    },
+    {
+      "path": "assets/figma-dialogs/11e77d07-c610-44c9-b89d-0ab31f7bd8f8.svg",
+      "sha256": "48ca7f2c4ef408c3b3c7dcc68ae4738dd98b1287563f7ccf75a8567baf283b97",
+      "bytes": 2768
+    },
+    {
+      "path": "assets/figma-dialogs/149f5b5b-4ce1-44a8-9132-969a12d962d2.svg",
+      "sha256": "c5e90dd5a5baf0d919f680fee209571b311f686248f001954c655b7803cf9583",
+      "bytes": 237
+    },
+    {
+      "path": "assets/figma-dialogs/16710bd8-1b0d-4683-9781-fdc76159ff35.svg",
+      "sha256": "c8c45871f58b1cce85610381e9137938d815406945016ac8a4b5416ef4182f50",
+      "bytes": 754
+    },
+    {
+      "path": "assets/figma-dialogs/1b9622e1-de5a-4a17-acf8-248f0b24d7f8.svg",
+      "sha256": "ccc1b7500f67a79b8bb898f4624fda9a336b76577aab6bfe438e29334df80809",
+      "bytes": 507
+    },
+    {
+      "path": "assets/figma-dialogs/1c1fc5e2-7925-4b05-9d15-f9308121bd6c.svg",
+      "sha256": "24eba757196d2fc93f0162f79821c8bd1d0ca9acbf982a0ceda6b50b4a3d1edc",
+      "bytes": 3152
+    },
+    {
+      "path": "assets/figma-dialogs/266a321f-db01-499a-a756-d9b705e50ace.svg",
+      "sha256": "312aeb725e8417f63fcc7c7ca1ed9848114ad8447775bc844362d5322033cfe6",
+      "bytes": 507
+    },
+    {
+      "path": "assets/figma-dialogs/2859e312-2229-496a-82ec-12babff67114.png",
+      "sha256": "04c28d6944019daa049d452a9f469e5330886f255298626611ef72272cce31d1",
+      "bytes": 32607
+    },
+    {
+      "path": "assets/figma-dialogs/2a212885-81f0-42da-8254-2f2f6e3ab39c.svg",
+      "sha256": "523b64c9c6fa3b2e540a61e93236f62d16822a834c15b62a0871e8fee0883487",
+      "bytes": 967
+    },
+    {
+      "path": "assets/figma-dialogs/3585fd04-8559-4955-bf4b-6d2cff2ec875.svg",
+      "sha256": "756c52c257e7e8d48b3d4a3a44c7f246c2ae425ed61c2b5af966c2b6173b2d7d",
+      "bytes": 617
+    },
+    {
+      "path": "assets/figma-dialogs/3820f7cf-6466-448a-a876-5e40ce2538f3.svg",
+      "sha256": "b36e1e29865e029feeec61cc9b38ae674049342cb8b1e49a54892dff092417c1",
+      "bytes": 1506
+    },
+    {
+      "path": "assets/figma-dialogs/3d1cef4c-3bd7-4795-8539-19d4794d843a.svg",
+      "sha256": "a0112e4aee4809bf77983c8f4b88ece9899226281fd2490258c990c79d8d8f9e",
+      "bytes": 284
+    },
+    {
+      "path": "assets/figma-dialogs/3ececb67-64f2-43fb-8235-f1ab96a59637.svg",
+      "sha256": "2e8b3e6af5ae31c5099ae618eebdb8c3cd789760cfc5b87aae7dacaad000b564",
+      "bytes": 272
+    },
+    {
+      "path": "assets/figma-dialogs/41ff70e8-5175-440e-acbd-a010b6898fca.svg",
+      "sha256": "5391d8827b674cb3b45869a9f3bf5895d662184c95574f341e2527d08c4439d9",
+      "bytes": 340
+    },
+    {
+      "path": "assets/figma-dialogs/466267d0-dd40-4c73-b4bb-9c018638f5ec.svg",
+      "sha256": "8ea18970d21ab93cc8e7606b101c2a828ba7138832c131f1b68738c86aa5db11",
+      "bytes": 2974
+    },
+    {
+      "path": "assets/figma-dialogs/471fcef0-49ba-47a4-af56-adaeb2a08a0b.svg",
+      "sha256": "d29f8dd9e8010264de39dfc48ae137d7c08329307f4b70db71c0447da344d1a6",
+      "bytes": 230
+    },
+    {
+      "path": "assets/figma-dialogs/4a9520e5-01cd-4c87-8fa4-1439c5289385.svg",
+      "sha256": "b2a3f8c04b79a0778871ae5df26071b9e27f7d9885dacf708c2cab6f219dbd25",
+      "bytes": 1365
+    },
+    {
+      "path": "assets/figma-dialogs/5055728b-ea4b-4d69-955c-aaba345c3e2e.png",
+      "sha256": "6c6115551c430a87f520b10a4395b66cf7f30b29588b2b9f83477e6b5b20c154",
+      "bytes": 11601
+    },
+    {
+      "path": "assets/figma-dialogs/538ae4b6-3cd9-4a75-9773-4e0b941addba.svg",
+      "sha256": "1ff256817738695cd2a716499c91f3ed09348f44df1a2d57a88d9b713566b375",
+      "bytes": 754
+    },
+    {
+      "path": "assets/figma-dialogs/61ffcbc6-6b3d-4e6e-9db7-56e8c64b17d3.svg",
+      "sha256": "5e613e57365fa326373ebd7350436f80e9fb0806c4c26ad7e535d093a83950fe",
+      "bytes": 259
+    },
+    {
+      "path": "assets/figma-dialogs/620468c6-467d-4f8e-8b59-6f88e0e482aa.svg",
+      "sha256": "f02575f74ac943d98494ac0bbf2489316096ad2ddb87dfb202e5037c23fab3bc",
+      "bytes": 1044
+    },
+    {
+      "path": "assets/figma-dialogs/6a5735dc-4906-4725-b994-9908130397ec.svg",
+      "sha256": "c5e90dd5a5baf0d919f680fee209571b311f686248f001954c655b7803cf9583",
+      "bytes": 237
+    },
+    {
+      "path": "assets/figma-dialogs/71dacd8e-c534-4140-87bf-3ce7741eccfe.svg",
+      "sha256": "8d563ce0604ab6f19cbdafa332cdbcf3c0953e011106ee569c553d9e83a7ea64",
+      "bytes": 489
+    },
+    {
+      "path": "assets/figma-dialogs/78c1e243-bad4-4fad-a338-07e391dec797.svg",
+      "sha256": "3273f09ba052a4c38d556981b281962d711b22ebf87bc005de07145d48da3997",
+      "bytes": 230
+    },
+    {
+      "path": "assets/figma-dialogs/80595288-9036-4fe3-a527-951ae46d1fbe.svg",
+      "sha256": "4a2a2d3bad7e26da1d713c61704af93409dfe67b01ee38aaa3e942cd4f8fc49f",
+      "bytes": 3486
+    },
+    {
+      "path": "assets/figma-dialogs/8c28ddbe-6f01-4162-9a63-8a449dacf8f8.svg",
+      "sha256": "0d0ef153d8c99f44427c9627460f683f1bd3982e24de55ad247a5a26fe645831",
+      "bytes": 251
+    },
+    {
+      "path": "assets/figma-dialogs/8d0d0738-6629-4054-b5fb-b010b420f277.svg",
+      "sha256": "7a9dd579ef105102a8bbea1e79b2ba8d05742487c493aba118325acbcefc19b2",
+      "bytes": 503
+    },
+    {
+      "path": "assets/figma-dialogs/97aa9877-02c7-4573-ac46-c619c8aabf85.svg",
+      "sha256": "5391d8827b674cb3b45869a9f3bf5895d662184c95574f341e2527d08c4439d9",
+      "bytes": 340
+    },
+    {
+      "path": "assets/figma-dialogs/9c8412bd-f8d8-468d-9a16-e4addbc4f166.svg",
+      "sha256": "d4ae6a5524a1fb25c04107e4b0fdca86117137e84160854bdbe5dd47ffa3e2f2",
+      "bytes": 2970
+    },
+    {
+      "path": "assets/figma-dialogs/a8bc8cef-e46d-4bba-8a40-d2be47d6c953.svg",
+      "sha256": "3de464264a8724944a2d5103de0b9ded149453d46472e55abd5a1d0cc98d367c",
+      "bytes": 1365
+    },
+    {
+      "path": "assets/figma-dialogs/b0746660-151a-4a26-a88b-4aa18649984c.svg",
+      "sha256": "5e613e57365fa326373ebd7350436f80e9fb0806c4c26ad7e535d093a83950fe",
+      "bytes": 259
+    },
+    {
+      "path": "assets/figma-dialogs/b6805d35-fa90-4e6c-a6d0-832bf3eacc9d.svg",
+      "sha256": "2e8b3e6af5ae31c5099ae618eebdb8c3cd789760cfc5b87aae7dacaad000b564",
+      "bytes": 272
+    },
+    {
+      "path": "assets/figma-dialogs/b6c1c91b-1de7-4710-b81b-d046fe56bba6.svg",
+      "sha256": "b36e1e29865e029feeec61cc9b38ae674049342cb8b1e49a54892dff092417c1",
+      "bytes": 1506
+    },
+    {
+      "path": "assets/figma-dialogs/be93e99b-0758-4773-97d0-03ef4c3178d1.svg",
+      "sha256": "c666a7201f1812758a1d1d99f0efe4609955df2f847ad1a7fc331a1339ceb372",
+      "bytes": 507
+    },
+    {
+      "path": "assets/figma-dialogs/bf919d40-add3-4476-b5ab-97a8efad1593.svg",
+      "sha256": "35e492d9f5687fbb51fc595b5855029b2ac2bfbfeeffb7492e2198261cef585c",
+      "bytes": 493
+    },
+    {
+      "path": "assets/figma-dialogs/c15f3e56-4ce0-48f2-87c4-ede4891f7835.svg",
+      "sha256": "db67a4a1c9823f34eb8b7f053cd16f52ac4010f39c59d74d242851df660f2109",
+      "bytes": 230
+    },
+    {
+      "path": "assets/figma-dialogs/c65d1c74-40f8-4593-b4b2-4a06c80182b4.svg",
+      "sha256": "09a0bb85e1c785f1a358d496af94435526f34496c4c8a4790ebbbfdc028d0cb2",
+      "bytes": 503
+    },
+    {
+      "path": "assets/figma-dialogs/c7683c74-5195-4e19-aaef-123e45656242.svg",
+      "sha256": "bb0f9cc082ed80d4231f6f084b65aa226e3a7edad177d02b95b5c90da075117d",
+      "bytes": 3166
+    },
+    {
+      "path": "assets/figma-dialogs/cb78000b-12d0-4f62-a64e-052b04666ade.svg",
+      "sha256": "547d2ddcf0546ec6159b132cb034b1699c5fa7e2ef2ff4842c53a33fb9b6a89f",
+      "bytes": 3894
+    },
+    {
+      "path": "assets/figma-dialogs/d21f0c26-f2bb-4433-be2a-d368f2b334d1.svg",
+      "sha256": "8185107bf1fc0ae0ac0205d29987c65cb930cee53d5aa37e0a735f72cfef4fa5",
+      "bytes": 1365
+    },
+    {
+      "path": "assets/figma-dialogs/df13f1f1-f808-425e-b985-a038720c0228.svg",
+      "sha256": "7fb48cf494d3d59a5c724a5aaa4f0fc4eebfc3fce8297810e88a59872e68de26",
+      "bytes": 230
+    },
+    {
+      "path": "assets/figma-dialogs/e166d370-6acd-4bce-b24a-46bf604eef6e.svg",
+      "sha256": "b36e1e29865e029feeec61cc9b38ae674049342cb8b1e49a54892dff092417c1",
+      "bytes": 1506
+    },
+    {
+      "path": "assets/figma-dialogs/e3fd3302-4289-4767-b15f-b56420294322.svg",
+      "sha256": "b1f83d0060aee3861ebc841ac28dc9847d381c6e2399da87613a2371827fb143",
+      "bytes": 3894
+    },
+    {
+      "path": "assets/figma-dialogs/ef05dcb5-f113-4f2c-b2c6-a7d454acf743.svg",
+      "sha256": "07712ff511d933e3d2083627f5e3808d8dc90d8326cbe5242c9abc0c256ed0dd",
+      "bytes": 247
+    },
+    {
+      "path": "assets/figma-dialogs/efaa612d-b376-4644-a5bc-885724b7a72c.svg",
+      "sha256": "4bf1c8d477549c2f119a44fbea5f013b93238502583c0a053d5c8183a9bad1a3",
+      "bytes": 507
+    },
+    {
+      "path": "assets/figma-dialogs/f788d689-df7e-471c-b15c-b6c81e8c7a3f.svg",
+      "sha256": "539b9d3b66c45f748914a7cb64534b386b0a3262b81bd8d58721369434a76ca3",
+      "bytes": 1398
+    },
+    {
+      "path": "assets/figma-dialogs/f9493e22-d03f-48b2-b76b-f4c40ec2f95a.svg",
+      "sha256": "bc65cb27371974d5a84dbe324bc5ae502326eac3a0f8c9bebb3646e8ec649e66",
+      "bytes": 507
+    },
+    {
+      "path": "assets/figma-dialogs/fd4b82eb-cc1d-467f-ade0-6ccf0a1b6ea0.svg",
+      "sha256": "0d0ef153d8c99f44427c9627460f683f1bd3982e24de55ad247a5a26fe645831",
+      "bytes": 251
+    },
+    {
+      "path": "assets/figma-dialogs/fe8a396f-924e-4e2a-a075-d128d0d1948a.svg",
+      "sha256": "756c52c257e7e8d48b3d4a3a44c7f246c2ae425ed61c2b5af966c2b6173b2d7d",
+      "bytes": 617
+    },
+    {
+      "path": "assets/figma-hover/026ad95f-beff-4c7e-9111-2a6ccc3980ca.svg",
+      "sha256": "c6fe2fb496aedd1a2ff738fa8fb88b6295dd287935f6e8fcdb8fcedeb049e637",
+      "bytes": 1549
+    },
+    {
+      "path": "assets/figma-hover/033ab015-8a2b-461a-94b0-da6fd25f3646.svg",
+      "sha256": "f75ca205789669256294486eb1e67c2256e5bb6c9681c751e3cb0c58066abff5",
+      "bytes": 280
+    },
+    {
+      "path": "assets/figma-hover/03c3780f-0f4c-4e75-9cb4-c04b2eec8a76.svg",
+      "sha256": "ac5adba30d655b33c1ca509a326be037e696c99a628bab8f2ba281c621e9735b",
+      "bytes": 1552
+    },
+    {
+      "path": "assets/figma-hover/0977706d-4960-46b1-90f5-49e8fdd15459.svg",
+      "sha256": "a83859e3f6245c160c41695a45cebc08f65ed5c43ec2988af896b87ba83c9c21",
+      "bytes": 285
+    },
+    {
+      "path": "assets/figma-hover/09798197-2685-454c-b9b6-8bbf4252fd91.svg",
+      "sha256": "06c5334855c3e9ca7a69141040503e2433fe0f9972dc9cba1f6d108c098f6ce7",
+      "bytes": 285
+    },
+    {
+      "path": "assets/figma-hover/169cb2e5-d1b1-459e-a39f-42dd8a6de3b2.svg",
+      "sha256": "0646da99891d63e697f14addc7b65bd455f8a0090cf3a471ba03566dd8922f29",
+      "bytes": 843
+    },
+    {
+      "path": "assets/figma-hover/183ccf25-3cd5-4133-814b-97272e05b56b.svg",
+      "sha256": "96616bc1072b07ee0c8aad206120858826a13df9a4801ab594509b1ae7cdf5f7",
+      "bytes": 285
+    },
+    {
+      "path": "assets/figma-hover/1b2b5711-df9e-4aa8-bedf-8974e35e687d.svg",
+      "sha256": "ee5b8dc4385af7cdb0dd3a0ca6b8e884e3c957c2622f4c45a1d512e2aee4cce9",
+      "bytes": 362
+    },
+    {
+      "path": "assets/figma-hover/1c54c0a5-5072-4d52-af7f-8cea3fca6e2e.svg",
+      "sha256": "12655df19212de11bf17c61eecfced1174add13297f2f3ad7fed8d995f9dabe7",
+      "bytes": 1524
+    },
+    {
+      "path": "assets/figma-hover/1db80bfe-2a99-4ef7-8272-6c139d6cae69.svg",
+      "sha256": "ee5b8dc4385af7cdb0dd3a0ca6b8e884e3c957c2622f4c45a1d512e2aee4cce9",
+      "bytes": 362
+    },
+    {
+      "path": "assets/figma-hover/1e41b2d4-65ab-4453-b45b-a318bc29f303.svg",
+      "sha256": "573dc59269398f083b3b7da7db7c46e92ef169f4fb1e8de809bfc74d37967997",
+      "bytes": 1553
+    },
+    {
+      "path": "assets/figma-hover/21dc9531-fd13-4c88-8b14-6387b7f8f4cf.svg",
+      "sha256": "a8944e626aee4400cacdbe9ec13dc8ee091b3326cbf60da66e0de4bdb2cd9b2b",
+      "bytes": 280
+    },
+    {
+      "path": "assets/figma-hover/27127c98-c257-4e0f-81b4-c37e5ebf64c9.svg",
+      "sha256": "15c52675f268d92d3b3926281302725592bbc4a669ffc991efe39aec16fc7f1b",
+      "bytes": 1546
+    },
+    {
+      "path": "assets/figma-hover/29418886-a46d-4be3-9877-9fb358a91848.svg",
+      "sha256": "a8944e626aee4400cacdbe9ec13dc8ee091b3326cbf60da66e0de4bdb2cd9b2b",
+      "bytes": 280
+    },
+    {
+      "path": "assets/figma-hover/304a3267-eb9b-4e9a-9bf9-b311aee094e6.svg",
+      "sha256": "06c5334855c3e9ca7a69141040503e2433fe0f9972dc9cba1f6d108c098f6ce7",
+      "bytes": 285
+    },
+    {
+      "path": "assets/figma-hover/31dc9791-f407-46df-9fc0-e8d1cf57ab87.svg",
+      "sha256": "0646da99891d63e697f14addc7b65bd455f8a0090cf3a471ba03566dd8922f29",
+      "bytes": 843
+    },
+    {
+      "path": "assets/figma-hover/3a7cc9b8-bdaa-40d0-98b9-f169ab840bb8.svg",
+      "sha256": "9f2b24eb5d996700a0965422e87329527d70e325435328ca85e144796f8ca953",
+      "bytes": 1548
+    },
+    {
+      "path": "assets/figma-hover/3ecbf14c-3a0f-4518-9c0e-f944ebbd3d3d.svg",
+      "sha256": "a8944e626aee4400cacdbe9ec13dc8ee091b3326cbf60da66e0de4bdb2cd9b2b",
+      "bytes": 280
+    },
+    {
+      "path": "assets/figma-hover/3f1a9846-1635-48c3-a64d-2d196e87d5ee.svg",
+      "sha256": "06c5334855c3e9ca7a69141040503e2433fe0f9972dc9cba1f6d108c098f6ce7",
+      "bytes": 285
+    },
+    {
+      "path": "assets/figma-hover/4bb570c5-4659-425e-aeee-8f313d0c4bae.svg",
+      "sha256": "f75ca205789669256294486eb1e67c2256e5bb6c9681c751e3cb0c58066abff5",
+      "bytes": 280
+    },
+    {
+      "path": "assets/figma-hover/5acdce7f-79d7-4b9d-8eb0-f5dfff5d6f0e.svg",
+      "sha256": "b2d62d55a941c084fafcc8fc6ec3a448c8796c86d3d196eb9fd70999e1165afb",
+      "bytes": 1515
+    },
+    {
+      "path": "assets/figma-hover/5ce8608a-d60c-41db-854f-e15750f767d4.svg",
+      "sha256": "a8944e626aee4400cacdbe9ec13dc8ee091b3326cbf60da66e0de4bdb2cd9b2b",
+      "bytes": 280
+    },
+    {
+      "path": "assets/figma-hover/60c40720-b784-47fc-8ff9-ac72b7c21d27.svg",
+      "sha256": "bba66c30a615f0cf1d06c26c1223c8979677418d811b7142307a34e2bffd1838",
+      "bytes": 1552
+    },
+    {
+      "path": "assets/figma-hover/62117725-f3fd-4f39-832b-9a2b96c0e152.svg",
+      "sha256": "e66ad30a88e7a4508789f8a4a05d89bd41afc6f46aff52ad48f49f21c53ee253",
+      "bytes": 1549
+    },
+    {
+      "path": "assets/figma-hover/68304a23-da36-4f9a-b615-05d6c16852c5.svg",
+      "sha256": "96616bc1072b07ee0c8aad206120858826a13df9a4801ab594509b1ae7cdf5f7",
+      "bytes": 285
+    },
+    {
+      "path": "assets/figma-hover/7215288a-b8f6-4c7a-afb3-3db0b2736be7.svg",
+      "sha256": "a83859e3f6245c160c41695a45cebc08f65ed5c43ec2988af896b87ba83c9c21",
+      "bytes": 285
+    },
+    {
+      "path": "assets/figma-hover/8c5e2398-95ab-496a-8041-c737520d2e30.svg",
+      "sha256": "7df7a8c268f0b627387bd94b8b7b71f6d5abf31c9d22847290df98b38e5cd56e",
+      "bytes": 1299
+    },
+    {
+      "path": "assets/figma-hover/91483c85-ff67-41d0-bae7-8b23483784d8.svg",
+      "sha256": "96616bc1072b07ee0c8aad206120858826a13df9a4801ab594509b1ae7cdf5f7",
+      "bytes": 285
+    },
+    {
+      "path": "assets/figma-hover/91aa07b5-0078-4cea-bbd9-88de58d82bb3.svg",
+      "sha256": "a83859e3f6245c160c41695a45cebc08f65ed5c43ec2988af896b87ba83c9c21",
+      "bytes": 285
+    },
+    {
+      "path": "assets/figma-hover/98f8584f-906e-42e6-a38e-6f1cb2281c81.svg",
+      "sha256": "fdd31d8f5583f3de6ffeb9e02b382b93ba40a88c67085e770fd05396e806c1b6",
+      "bytes": 1554
+    },
+    {
+      "path": "assets/figma-hover/9b02bca9-11a2-481c-8d93-be823e8da88b.svg",
+      "sha256": "f75ca205789669256294486eb1e67c2256e5bb6c9681c751e3cb0c58066abff5",
+      "bytes": 280
+    },
+    {
+      "path": "assets/figma-hover/a3dd0d76-521b-4cf9-a8be-34a196e558f3.svg",
+      "sha256": "a8944e626aee4400cacdbe9ec13dc8ee091b3326cbf60da66e0de4bdb2cd9b2b",
+      "bytes": 280
+    },
+    {
+      "path": "assets/figma-hover/aa8526d8-9733-4953-a22f-30cc5bcdaca2.svg",
+      "sha256": "1549c295029b0076411d7347ff42e13aa6ec9bf6d14b6e32db6cb50232736374",
+      "bytes": 1515
+    },
+    {
+      "path": "assets/figma-hover/ad250945-34d0-441a-99bd-5a80b2abb0e9.svg",
+      "sha256": "06c5334855c3e9ca7a69141040503e2433fe0f9972dc9cba1f6d108c098f6ce7",
+      "bytes": 285
+    },
+    {
+      "path": "assets/figma-hover/ae9e5145-69a6-4cb3-9778-1dc9151be1cd.svg",
+      "sha256": "f75ca205789669256294486eb1e67c2256e5bb6c9681c751e3cb0c58066abff5",
+      "bytes": 280
+    },
+    {
+      "path": "assets/figma-hover/b2e620f1-cabf-40f4-bbb5-eb220d73672a.svg",
+      "sha256": "7df7a8c268f0b627387bd94b8b7b71f6d5abf31c9d22847290df98b38e5cd56e",
+      "bytes": 1299
+    },
+    {
+      "path": "assets/figma-hover/b4ee408f-f788-4cc7-bd80-8da05f9b2bfb.svg",
+      "sha256": "15c52675f268d92d3b3926281302725592bbc4a669ffc991efe39aec16fc7f1b",
+      "bytes": 1546
+    },
+    {
+      "path": "assets/figma-hover/c5723f91-bfa9-4b54-bf9e-5e2b5dad3ac3.svg",
+      "sha256": "bfef73020c43ecd641ea12a41334cd5cd27d017605d1c62344795ec5077932b9",
+      "bytes": 1294
+    },
+    {
+      "path": "assets/figma-hover/c669824e-fcd4-4c37-a091-fd4659c4ebf8.svg",
+      "sha256": "96616bc1072b07ee0c8aad206120858826a13df9a4801ab594509b1ae7cdf5f7",
+      "bytes": 285
+    },
+    {
+      "path": "assets/figma-hover/c84a6f5f-c40a-4060-875d-408e6070273f.svg",
+      "sha256": "1552d031a014be88ebafda2644226bb54c702978469fcb9c3628b6498e68f97d",
+      "bytes": 1299
+    },
+    {
+      "path": "assets/figma-hover/d2f84d04-f9e5-4b3c-8702-fdda6b4615bb.svg",
+      "sha256": "f75ca205789669256294486eb1e67c2256e5bb6c9681c751e3cb0c58066abff5",
+      "bytes": 280
+    },
+    {
+      "path": "assets/figma-hover/ddbd43f3-66de-4da9-a6b1-d3c570c28f70.svg",
+      "sha256": "a83859e3f6245c160c41695a45cebc08f65ed5c43ec2988af896b87ba83c9c21",
+      "bytes": 285
+    },
+    {
+      "path": "assets/figma-hover/df33ac88-b6e5-4e0a-b89b-1b57e779e90a.svg",
+      "sha256": "a83859e3f6245c160c41695a45cebc08f65ed5c43ec2988af896b87ba83c9c21",
+      "bytes": 285
+    },
+    {
+      "path": "assets/figma-hover/e1ad9327-d757-4ec8-9795-9a24d9743420.svg",
+      "sha256": "06c5334855c3e9ca7a69141040503e2433fe0f9972dc9cba1f6d108c098f6ce7",
+      "bytes": 285
+    },
+    {
+      "path": "assets/figma-hover/e287ca00-1fba-47d6-b76c-5b5fa5fd07c3.svg",
+      "sha256": "b678986e5416fc82c82b8a3565c0d48637bc08ad1e8ebd6b038f325e67c75a07",
+      "bytes": 1548
+    },
+    {
+      "path": "assets/figma-hover/ea4d49c1-94c5-4140-8a2f-6a450d483ce6.svg",
+      "sha256": "7df7a8c268f0b627387bd94b8b7b71f6d5abf31c9d22847290df98b38e5cd56e",
+      "bytes": 1299
+    },
+    {
+      "path": "assets/figma-hover/f00440c6-325d-4f83-9153-b5befac8bdf2.svg",
+      "sha256": "bba66c30a615f0cf1d06c26c1223c8979677418d811b7142307a34e2bffd1838",
+      "bytes": 1552
+    },
+    {
+      "path": "assets/figma-hover/f44b5658-fa5a-4a01-a963-751efa1abd43.svg",
+      "sha256": "96616bc1072b07ee0c8aad206120858826a13df9a4801ab594509b1ae7cdf5f7",
+      "bytes": 285
+    },
+    {
+      "path": "assets/figma-hover/f9ed0585-7939-4fe0-a9f1-f685c7bf1739.svg",
+      "sha256": "12655df19212de11bf17c61eecfced1174add13297f2f3ad7fed8d995f9dabe7",
+      "bytes": 1524
+    },
+    {
+      "path": "assets/figma-hover/fc5cacc5-10b8-4e2e-92c3-28360fe1d4e7.svg",
+      "sha256": "ee5b8dc4385af7cdb0dd3a0ca6b8e884e3c957c2622f4c45a1d512e2aee4cce9",
+      "bytes": 362
+    },
+    {
+      "path": "assets/figma-income/aa5a4e65-dfb7-45c2-9fd4-040a06b7de8d.svg",
+      "sha256": "ad271ac71c99ca771a5f4d3be2abc09dea6b36b854340f23b190c340b000951c",
+      "bytes": 797
+    },
+    {
+      "path": "assets/figma-layout/close.svg",
+      "sha256": "a6db6b108258a3a5779461e7e52fcd63d392d2658bd072a871f636f43717f996",
+      "bytes": 539
+    },
+    {
+      "path": "assets/figma-layout/glow.svg",
+      "sha256": "defcafb01d910375606777cf8e9272020d3de326fc8ab489891778745ab365b9",
+      "bytes": 809
+    },
+    {
+      "path": "assets/figma-layout/resize.svg",
+      "sha256": "19c3a524eb7cbfeedc7a0c38c0bd8dc4552d3f4f252cd99f70480bfe5684fc79",
+      "bytes": 813
+    },
+    {
+      "path": "assets/figma-left/imgCell.svg",
+      "sha256": "529a2e4844d40a41a32468da0ae48cda1af1e8a9f08f28b2a1c20452ab014bc2",
+      "bytes": 230
+    },
+    {
+      "path": "assets/figma-left/imgCell1.svg",
+      "sha256": "2716f43a5d93bb359e3e3ada2cd3509787ab5ec95793a90db7d7c2848f2a44c5",
+      "bytes": 230
+    },
+    {
+      "path": "assets/figma-left/imgCell2.svg",
+      "sha256": "ff48b0d84c5ab4e8ce8f2eb6305e109a90ecd05e8e1f354e2b70bc87585f539c",
+      "bytes": 230
+    },
+    {
+      "path": "assets/figma-left/imgFrame2147241376.svg",
+      "sha256": "aab5e424705271ff06b48090fa8d784a3c944d81c75b515673791499c1c659f0",
+      "bytes": 261
+    },
+    {
+      "path": "assets/figma-left/imgFrame2147241789.svg",
+      "sha256": "e6388f13156688a21ac47de87e0799e7f61a8beed4da5750376a91a74c04b9b8",
+      "bytes": 442
+    },
+    {
+      "path": "assets/figma-left/imgFrame2147241790.svg",
+      "sha256": "5adfa634b3b76b73f0870b9cc839dba16493f3dd17c6b3dbf8814ca20bce1a0c",
+      "bytes": 442
+    },
+    {
+      "path": "assets/figma-left/imgFrame2147241791.svg",
+      "sha256": "04f2fefd80eafd25c29df5aba807d12416cbd5d3dcae8005e0fb36ef5ebdf4bc",
+      "bytes": 442
+    },
+    {
+      "path": "assets/figma-left/imgFrame2147241792.svg",
+      "sha256": "790a0222f3ce8635fee4c221a994b4f14f2eb78131276ad977ab495382e8ec45",
+      "bytes": 442
+    },
+    {
+      "path": "assets/figma-left/imgFrame2147241793.svg",
+      "sha256": "c1150762a1ebea01c441f88aa46be95c53fd1563ac52d5cd977f5da9e151dddb",
+      "bytes": 440
+    },
+    {
+      "path": "assets/figma-left/imgFrame2147241794.svg",
+      "sha256": "ce1cdbe2a79cb236ba788c105d3266f364d79063cdba008547edab143b6512ba",
+      "bytes": 438
+    },
+    {
+      "path": "assets/figma-left/imgGroup1321314714.svg",
+      "sha256": "5e067bdddfd91ba1c82139e5cce9874c431ada250badbb7c5aaefe272d993da3",
+      "bytes": 1275
+    },
+    {
+      "path": "assets/figma-left/imgIconSetting02.svg",
+      "sha256": "ad271ac71c99ca771a5f4d3be2abc09dea6b36b854340f23b190c340b000951c",
+      "bytes": 797
+    },
+    {
+      "path": "assets/figma-left/imgIndicator.svg",
+      "sha256": "1602a6a5c5e03191c3caed095d4dc4f2e3c2f3afb62e708ee3b78b67295072bc",
+      "bytes": 229
+    },
+    {
+      "path": "assets/figma-left/imgIndicator1.svg",
+      "sha256": "f0b5dd87d384e780ac297f6f281c65c6bbd01c98d4af60f775523388e9baaa8f",
+      "bytes": 229
+    },
+    {
+      "path": "assets/figma-left/imgIndicator2.svg",
+      "sha256": "fcba9b15d208c5a7606da92d2254ee934450123fe355454a7ee44969d98e1628",
+      "bytes": 229
+    },
+    {
+      "path": "assets/figma-left/imgLine.svg",
+      "sha256": "8001f1abe593ad9a8dbaec248e4cf2063b35fbfc267125cae2421ab6d7248213",
+      "bytes": 4585
+    },
+    {
+      "path": "assets/figma-left/imgRing.svg",
+      "sha256": "8e3d9a39ee12e605f5ae884809656b4a81fe0820f957cf60ed0956eb81d6bdfb",
+      "bytes": 3873
+    },
+    {
+      "path": "assets/figma-metrics/0434a56e-b989-46fe-b67a-a04042c7086d.svg",
+      "sha256": "51e6c66de900fd7c2726da550786792e46ffc64cc03909717fc6f2b8736a2089",
+      "bytes": 350
+    },
+    {
+      "path": "assets/figma-metrics/0747dd8c-12d8-4c57-9e60-8da48e774ea7.svg",
+      "sha256": "eba42e6a5076fc69791d7bcfafaa80219af1960bf21546c18d84940441daee76",
+      "bytes": 2101
+    },
+    {
+      "path": "assets/figma-metrics/2082e506-e54e-43e9-a986-dc27ac182c2a.svg",
+      "sha256": "a656d973ada056f4d79756b5a3c1156b70c44118da8355590862b65b76a5e389",
+      "bytes": 2232
+    },
+    {
+      "path": "assets/figma-metrics/2275778d-c5ae-4d65-9378-295319e166bf.svg",
+      "sha256": "c66a4cf744bde86191e4827482e67719aabcde113ef487d8e0398e6d4f3c63b8",
+      "bytes": 2272
+    },
+    {
+      "path": "assets/figma-metrics/2ef66a63-8e1b-4736-b609-66fe83705c69.svg",
+      "sha256": "963023dc518cdd0e8a78276b28661de795a33e954d2eac219b7beea58a74ee51",
+      "bytes": 433
+    },
+    {
+      "path": "assets/figma-metrics/313a78c4-c92a-469b-a012-8ebfbe50cad2.svg",
+      "sha256": "5adfa634b3b76b73f0870b9cc839dba16493f3dd17c6b3dbf8814ca20bce1a0c",
+      "bytes": 442
+    },
+    {
+      "path": "assets/figma-metrics/3b4cfa8e-4d22-44cc-a2ab-5acb05754c84.svg",
+      "sha256": "d6c8e73682218f165585d5e2c1a0549e4c7924c847947074727eb528b7fa612a",
+      "bytes": 1483
+    },
+    {
+      "path": "assets/figma-metrics/3b815d66-c693-4858-b68e-1d27ed83eb03.svg",
+      "sha256": "18a9e3bcc2790a728f439291febaaa5fb254872baa7e1e3f816a63bd64b82664",
+      "bytes": 33013
+    },
+    {
+      "path": "assets/figma-metrics/466050db-c3df-4881-bef5-0caf3244c168.svg",
+      "sha256": "963023dc518cdd0e8a78276b28661de795a33e954d2eac219b7beea58a74ee51",
+      "bytes": 433
+    },
+    {
+      "path": "assets/figma-metrics/49f4f981-8e37-4db1-81c8-4dc8f9f63c4d.svg",
+      "sha256": "790a0222f3ce8635fee4c221a994b4f14f2eb78131276ad977ab495382e8ec45",
+      "bytes": 442
+    },
+    {
+      "path": "assets/figma-metrics/55164af7-735f-4a3b-9d0c-fcf6c9a15e81.svg",
+      "sha256": "a0ac13c4838e494b4b5e220694ae04db980613fd82ec6342b52460e73c34f3e1",
+      "bytes": 2235
+    },
+    {
+      "path": "assets/figma-metrics/573e3a67-2ebd-4b17-a795-c84f3b4e59dd.svg",
+      "sha256": "6fee6af6d99aea25259aad9c6d8f804af63e5ae37b90d980d3a8a733ff62e98b",
+      "bytes": 262
+    },
+    {
+      "path": "assets/figma-metrics/59076069-512c-4ad4-b803-9bf281b058df.svg",
+      "sha256": "90226db37c089c3b869c549d50cddf2c0b798a87b568b836ac5cc5bdf8e3b073",
+      "bytes": 2237
+    },
+    {
+      "path": "assets/figma-metrics/68e6dcd7-6109-48cd-8686-737d2df0c47f.svg",
+      "sha256": "e6388f13156688a21ac47de87e0799e7f61a8beed4da5750376a91a74c04b9b8",
+      "bytes": 442
+    },
+    {
+      "path": "assets/figma-metrics/8161a54a-aff2-4b85-81da-68820cca7f88.svg",
+      "sha256": "c1150762a1ebea01c441f88aa46be95c53fd1563ac52d5cd977f5da9e151dddb",
+      "bytes": 440
+    },
+    {
+      "path": "assets/figma-metrics/82516037-1c2c-4fe0-a3ab-6d50ddc02cb9.svg",
+      "sha256": "2577842245d96e91bf4d97c8a3bda12a56de6c9f1e8e9c903a538bdb341088b9",
+      "bytes": 253
+    },
+    {
+      "path": "assets/figma-metrics/84bd2bed-45de-4ea9-98fe-e9dc899b310b.svg",
+      "sha256": "7ed53b42f351cda98541f6f2b178cae68e6820328b42d8be556db85dc5a3e1c6",
+      "bytes": 332
+    },
+    {
+      "path": "assets/figma-metrics/84e60ffc-619c-493d-936f-f218f69c07a5.svg",
+      "sha256": "3eed3e855c944340c850141f3a45e0e3dca36d81f7ee2e955cb577a6cbb71a0a",
+      "bytes": 2232
+    },
+    {
+      "path": "assets/figma-metrics/88dea404-2155-4285-8548-677facbc057c.svg",
+      "bytes": 433,
+      "sha256": "5c418a6587f4d43043b4dc34a0839c865256a3386aec88c5f8b10de0eee55296"
+    },
+    {
+      "path": "assets/figma-metrics/a5ddcae2-40e1-43b5-93a8-4ff545b0d734.svg",
+      "sha256": "04f2fefd80eafd25c29df5aba807d12416cbd5d3dcae8005e0fb36ef5ebdf4bc",
+      "bytes": 442
+    },
+    {
+      "path": "assets/figma-metrics/a95cc6fa-2a94-42b1-9134-9734ca042563.svg",
+      "sha256": "ce1cdbe2a79cb236ba788c105d3266f364d79063cdba008547edab143b6512ba",
+      "bytes": 438
+    },
+    {
+      "path": "assets/figma-metrics/adbdfde1-d963-48bc-acee-338b60386bbf.svg",
+      "sha256": "3887279ff12c01de213932f4715a88f2d0207babfb547a4544f94e0ccd90aab7",
+      "bytes": 12731
+    },
+    {
+      "path": "assets/figma-metrics/b71fe694-97d6-4ab0-b236-577d0fda4fd1.svg",
+      "sha256": "ad271ac71c99ca771a5f4d3be2abc09dea6b36b854340f23b190c340b000951c",
+      "bytes": 797
+    },
+    {
+      "path": "assets/figma-metrics/card-arrow.svg",
+      "sha256": "1c5ea41a22df6b4be973ecbc5874672972ef6a2bd5db52332569508946a259b3",
+      "bytes": 609
+    },
+    {
+      "path": "assets/figma-metrics/e6f85aa4-548c-4129-9e20-a2d3a7131655.svg",
+      "sha256": "01844c0713c8de012813152dba9b0af483246b91831a7ec05f386aba13902a7c",
+      "bytes": 2291
+    },
+    {
+      "path": "assets/figma-nov02/new-39-1814-03d12.svg",
+      "sha256": "96616bc1072b07ee0c8aad206120858826a13df9a4801ab594509b1ae7cdf5f7",
+      "bytes": 285
+    },
+    {
+      "path": "assets/figma-nov02/new-39-1814-1f221.svg",
+      "sha256": "a8944e626aee4400cacdbe9ec13dc8ee091b3326cbf60da66e0de4bdb2cd9b2b",
+      "bytes": 280
+    },
+    {
+      "path": "assets/figma-nov02/new-39-1814-38b4b.svg",
+      "sha256": "a83859e3f6245c160c41695a45cebc08f65ed5c43ec2988af896b87ba83c9c21",
+      "bytes": 285
+    },
+    {
+      "path": "assets/figma-nov02/new-39-1814-a35b5.svg",
+      "sha256": "06c5334855c3e9ca7a69141040503e2433fe0f9972dc9cba1f6d108c098f6ce7",
+      "bytes": 285
+    },
+    {
+      "path": "assets/figma-nov02/new-39-1814-e1948.svg",
+      "sha256": "f75ca205789669256294486eb1e67c2256e5bb6c9681c751e3cb0c58066abff5",
+      "bytes": 280
+    },
+    {
+      "path": "assets/figma-nov02/new-39-2189-0fc8f.png",
+      "sha256": "47f693eaefef80dfecb0a5b893f65547dc06fd82f2c16ac82b90d399953f395a",
+      "bytes": 21829
+    },
+    {
+      "path": "assets/figma-nov02/new-39-2189-37604.png",
+      "sha256": "1d7d77ecf5312f4410d573b53acfa47616c41eb743d2a63a50eb53cedb677d6a",
+      "bytes": 22144
+    },
+    {
+      "path": "assets/figma-nov02/new-39-2189-4af96.png",
+      "sha256": "04c28d6944019daa049d452a9f469e5330886f255298626611ef72272cce31d1",
+      "bytes": 32607
+    },
+    {
+      "path": "assets/figma-nov02/new-39-2189-a6ffd.svg",
+      "sha256": "618cabf59b5fdaee1106e57387c1baecd9b1b9361cbbd8827ea2fe18ee68fb1f",
+      "bytes": 491
+    },
+    {
+      "path": "assets/figma-nov02/new-39-302-3f782.svg",
+      "sha256": "c8ddfb7b1978ae91e2b778ab8941071504cda0ce136c2470a2cf4802178e7621",
+      "bytes": 1284
+    },
+    {
+      "path": "assets/figma-nov02/new-39-302-46440.svg",
+      "sha256": "2264c2d198c2581eae571917af590fbb2228144364a553e3deaf5d455623b5d0",
+      "bytes": 1844
+    },
+    {
+      "path": "assets/figma-nov02/new-39-302-7f5d8.svg",
+      "sha256": "2bcf3d51d9f43685fd6e6216928907f91ce6630f961f28f7c7c8d5fe63f8f96f",
+      "bytes": 529
+    },
+    {
+      "path": "assets/figma-nov02/new-39-302-db8d5.svg",
+      "sha256": "4e7f6335beb4126a0fed1a4ca83f40e2e575ca084b006717cbe77c3b5abf7bca",
+      "bytes": 529
+    },
+    {
+      "path": "assets/figma-nov02/new-39-3369-b4bae.svg",
+      "sha256": "b3ed62a2ac23beb6566e6e70dbb854e117a76e167c3163e2face6b4d5fc20b94",
+      "bytes": 458
+    },
+    {
+      "path": "assets/figma-nov03/11b53.svg",
+      "sha256": "ef85c52fc87030296746c2699a9f9367df574b69761ca8fde77cc29b60d3cf56",
+      "bytes": 229
+    },
+    {
+      "path": "assets/figma-nov03/266c3.svg",
+      "sha256": "0c16a64ae5b6e59b9e825e6ba41d243da39a3b0c6a62bf942a68e447f29798a4",
+      "bytes": 789
+    },
+    {
+      "path": "assets/figma-nov03/2cccf.svg",
+      "sha256": "faa1ef42f8070593e647554ea7b11705b7db2e03c8abecdf1993bc3d2feb7c8a",
+      "bytes": 678
+    },
+    {
+      "path": "assets/figma-nov03/38daf.svg",
+      "sha256": "ff0f17d60bdb884f9f408f794602f33cd652971f121352eaed2da8d6da88c31e",
+      "bytes": 1303
+    },
+    {
+      "path": "assets/figma-nov03/3bfc9.svg",
+      "sha256": "7d2b0ef06ebf4a5ae1dbdea5c1a37dd788c841fd6fcfd129036e22134b4dc083",
+      "bytes": 1316
+    },
+    {
+      "path": "assets/figma-nov03/46aab.svg",
+      "sha256": "556dd4ea2737134c1dfa5d6ddb4a603fd81b40cbb9c5f44c34293b251f78cc3e",
+      "bytes": 655
+    },
+    {
+      "path": "assets/figma-nov03/62e5d.svg",
+      "sha256": "7fd39a5e69807cb6603bf6a13ac3b8e9c04ff3b1791776fe853a19d4c9e13d50",
+      "bytes": 984
+    },
+    {
+      "path": "assets/figma-nov03/6683d.svg",
+      "sha256": "42a91b2e8224e446ead7e4b2e2f0e1fa4563b6d1356baa33d414ccc547a75e9a",
+      "bytes": 1275
+    },
+    {
+      "path": "assets/figma-nov03/6ed51.svg",
+      "sha256": "70d10c4c3b90358f2c77e7db7b95149331ce08815b6801d0606ab83021f27172",
+      "bytes": 1335
+    },
+    {
+      "path": "assets/figma-nov03/9993c.svg",
+      "sha256": "48cc070b4bef44d56607912644579cdcb68b1a1df6c4a699c79f860b193046a5",
+      "bytes": 229
+    },
+    {
+      "path": "assets/figma-nov03/a31c9.svg",
+      "sha256": "f02dc67f4359a95fddacd0dd293fe677815335a6ed36147dc995785c2ef02092",
+      "bytes": 3900
+    },
+    {
+      "path": "assets/figma-nov03/e396d.svg",
+      "sha256": "494d22df6b910a2efbe9083647293e82f240bc571cf6ff2456496562b3a8b377",
+      "bytes": 229
+    },
+    {
+      "path": "assets/figma-nov03/e75fb.svg",
+      "sha256": "d1622a2ff67a77ca0ecd833a909cdf151302fac9f96574a19f3fa5e6fce29c11",
+      "bytes": 229
+    },
+    {
+      "path": "assets/figma-nov03/f47e8.svg",
+      "sha256": "5ba16bc80dbf5278f826a3f8dc240b45f216aadd2ad59c5f73c2ce09acde5ff0",
+      "bytes": 229
+    },
+    {
+      "path": "assets/figma-nov03/fe7cb.svg",
+      "sha256": "a7e53b5074fae1c88fed40447ae729a274648a1b798b3b2eb76430e211d52f7d",
+      "bytes": 1329
+    },
+    {
+      "path": "assets/figma-period/calendar.svg",
+      "sha256": "48ca7f2c4ef408c3b3c7dcc68ae4738dd98b1287563f7ccf75a8567baf283b97",
+      "bytes": 2768
+    },
+    {
+      "path": "assets/figma-period/close.svg",
+      "sha256": "740a59f81deaddc10fd4b06fdc0e94aff5552de66e8b60cd8f322ddef2333373",
+      "bytes": 505
+    },
+    {
+      "path": "assets/figma-period/glow.svg",
+      "sha256": "a0112e4aee4809bf77983c8f4b88ece9899226281fd2490258c990c79d8d8f9e",
+      "bytes": 284
+    },
+    {
+      "path": "assets/figma-period/warning.svg",
+      "sha256": "b2fea96816e07a01edaaee6b3c8416bf829e91222ff60bc9e8ebbd90ef836796",
+      "bytes": 549
+    },
+    {
+      "path": "assets/figma-ranking/chevron.svg",
+      "sha256": "5391d8827b674cb3b45869a9f3bf5895d662184c95574f341e2527d08c4439d9",
+      "bytes": 340
+    },
+    {
+      "path": "assets/figma-ranking/clear.svg",
+      "sha256": "de148f47b42a0dac71cdad46dd5095c7775fa178b92d7c5ee871f76b0909c172",
+      "bytes": 581
+    },
+    {
+      "path": "assets/figma-ranking/guide.svg",
+      "sha256": "f899961465859ba863e92c716c384ce1c4ab3eff96d9759c0381f648da00b960",
+      "bytes": 2440
+    },
+    {
+      "path": "assets/figma-ranking/help.svg",
+      "sha256": "7f2bf398be2dd6e276d19e64410d266c5c23153b285de59f50b0143afb61d3d9",
+      "bytes": 579
+    },
+    {
+      "path": "assets/figma-supply-config/69ddf0bd-21c7-435d-8c19-4cbdfcc07e08.svg",
+      "sha256": "2dac74e8ad133206de15dd6619bb11843f02e56df48a7dc9886c875b4ff43e68",
+      "bytes": 507
+    },
+    {
+      "path": "assets/figma-supply-config/9f1b9153-3d50-4299-a287-aa3a027a3881.svg",
+      "sha256": "756c52c257e7e8d48b3d4a3a44c7f246c2ae425ed61c2b5af966c2b6173b2d7d",
+      "bytes": 617
+    },
+    {
+      "path": "assets/figma-supply-config/dbecccec-02a8-42a1-8173-7d89b3919fff.svg",
+      "sha256": "b36e1e29865e029feeec61cc9b38ae674049342cb8b1e49a54892dff092417c1",
+      "bytes": 1506
+    },
+    {
+      "path": "assets/figma-supply-config/fbf6856e-131d-4a90-93e8-663823f10590.svg",
+      "sha256": "6a494c3faac04b9b8b748c62ef273f3a007a5a99ca4b29a83cabd5cf8d4d71c8",
+      "bytes": 1365
+    },
+    {
+      "path": "assets/figma/1-1075-1b35f.svg",
+      "sha256": "dae805eaebb0567df28cb701574023a6f6dc0059cac56ad05e0db6cf80f701b1",
+      "bytes": 236
+    },
+    {
+      "path": "assets/figma/1-1075-dd088.png",
+      "sha256": "b556e1864aeffc05dcb401d6de32f8f43f6b9d49f84322d56924fb3e4e1860df",
+      "bytes": 601
+    },
+    {
+      "path": "assets/figma/1-573-a6f9c.png",
+      "sha256": "d56675ee5e37033b1115dd9cf2befb1f136bf0f145ad45fb467cfef21d5ef410",
+      "bytes": 665586
+    },
+    {
+      "path": "assets/figma/1-608-21f97.svg",
+      "sha256": "fc1ff7cbea756aeac56f033cd886709a27d92d548a6442ea5d8b7156c54fdb4e",
+      "bytes": 460
+    },
+    {
+      "path": "assets/figma/1-664-642f0.svg",
+      "sha256": "1108b63e9a4e95553b48a1e097265e928a63ab40ec4d4603148376a5f2a0c4db",
+      "bytes": 355
+    },
+    {
+      "path": "assets/figma/1-664-7ef53.svg",
+      "sha256": "b39eff8adbf498f781dda0cd82d964b3d547d6bc969a29a40dd53619505d3d3b",
+      "bytes": 355
+    },
+    {
+      "path": "assets/figma/1-664-8c599.svg",
+      "sha256": "f9ec2989d6e08477dd32919fa9a3e16f4013bc215ac57e31b5942dd67f5708e7",
+      "bytes": 969
+    },
+    {
+      "path": "assets/figma/1-664-9cb7a.png",
+      "sha256": "001184226a37f2e59f780a9273d0ea57354810ac9b51b43e4fac9b6afd4b856d",
+      "bytes": 31972
+    },
+    {
+      "path": "assets/figma/1-664-eb01d.svg",
+      "sha256": "4a2a2d3bad7e26da1d713c61704af93409dfe67b01ee38aaa3e942cd4f8fc49f",
+      "bytes": 3486
+    },
+    {
+      "path": "assets/figma/1-664-fbbeb.svg",
+      "sha256": "5391d8827b674cb3b45869a9f3bf5895d662184c95574f341e2527d08c4439d9",
+      "bytes": 340
+    },
+    {
+      "path": "assets/figma/refresh-mask.svg",
+      "sha256": "e3ec2e2fe3c6fa661f67ac5268c36f7f1e84a6baa2077a3f94d11dea3a7695d9",
+      "bytes": 1058
+    },
+    {
+      "path": "assets/fonts/TikTokSans.ttf",
+      "sha256": "01faf6120d9a25ea0e59305bc10b2f15d9f24c2eba020bd26bf4ac0f74d0da4e",
+      "bytes": 759080
+    },
+    {
+      "path": "chart-palette.mjs",
+      "sha256": "330e95ac967b89bd986f2737e9f401a52f9161fd1d45eaa216b1cea444670a60",
+      "bytes": 683
+    },
+    {
+      "path": "creator-avatars.mjs",
+      "sha256": "22a5e844485fa611166a237fc7c472dea1e17ac66b3fb569d2ed81e2ea979479",
+      "bytes": 2435
+    },
+    {
+      "path": "creator-data.mjs",
+      "sha256": "c72c67741e94587bfbb841a62dfbd9ce86c88ac6f6f96d7327d7cd538430ec95",
+      "bytes": 3068
+    },
+    {
+      "path": "dashboard-clock.mjs",
+      "sha256": "11e7e84b22ac31049c6b2cb5a572066db5026e7003f5915fa377db373449669e",
+      "bytes": 796
+    },
+    {
+      "path": "dashboard-dialogs.css",
+      "sha256": "fbce5d610503f317f788c822718f872c0dacb6beafb9b292b646c9131126c210",
+      "bytes": 21501
+    },
+    {
+      "path": "dashboard-dialogs.js",
+      "sha256": "39e0034b7ce9bfd12506ae1e2a75a12527cf29b35bd3f68e5837525013de798b",
+      "bytes": 29208
+    },
+    {
+      "path": "dashboard-hover.css",
+      "sha256": "bfbe42ca150c395fa4a5aeb91a24b8743cd21504018b5737fa8ad7f7a8cf9273",
+      "bytes": 3974
+    },
+    {
+      "path": "dashboard-hover.js",
+      "sha256": "5eabcc9f502cb74ff6e34adc4ac1359ba55e550f29c3fcebb0b0bda5e7e2e9cf",
+      "bytes": 15519
+    },
+    {
+      "path": "dashboard.css",
+      "sha256": "369332012c708e324cf27d430b3042c0cde665114f99776af946e0bd59421ffc",
+      "bytes": 31155
+    },
+    {
+      "path": "dashboard.js",
+      "sha256": "b63ee3baf8bd39bb687351a1ffec33fec404951b9604ac6d7f4716eacdf84e9f",
+      "bytes": 29194
+    },
+    {
+      "path": "data-context.js",
+      "sha256": "4dd9fa0f8c4c8e0ca65fdfe6f5bf2ba31c088cf8dd683687d4e72e74b91defcf",
+      "bytes": 2308
+    },
+    {
+      "path": "data-model.mjs",
+      "sha256": "88d26a97ab3ac7f5d62480b4cf7f445f80ebe4d8888498fa90e5f21b8151c410",
+      "bytes": 10843
+    },
+    {
+      "path": "data-view.js",
+      "sha256": "3d2c7e0c2e70f5c40fb8775798f6decd0171169f2a06703503b043e2fe08fd84",
+      "bytes": 8018
+    },
+    {
+      "path": "dialog-assets.js",
+      "sha256": "78efb7d2199dee19b6bba28b25489fca6abdca60466cdd8c0d64c39353ac757b",
+      "bytes": 4449
+    },
+    {
+      "path": "earth-demo/Languages/en-US.json",
+      "sha256": "c3bf820c5968151d7e2bd28bf1e5fea5a5f8a1fb42ec51b460bf1e465b5a3cf9",
+      "bytes": 11698
+    },
+    {
+      "path": "earth-demo/Languages/languages.json",
+      "sha256": "cd60fab766fbec19d02765be7d0daae3cd6a5b7fa36bf961e2b628f14444169f",
+      "bytes": 203
+    },
+    {
+      "path": "earth-demo/data/world/countries-50m.geojson",
+      "sha256": "3e458fc036ad0a66411f2c1e6cac49c5d7bfb81cb1123bc513b22511a2b7fdeb",
+      "bytes": 3083490
+    },
+    {
+      "path": "earth-demo/data/world/dashboard-land-mask.png",
+      "sha256": "47646c9a8e4633ad7bc68edbcb7bea1a4253930d92c1799345cbacbb80017c83",
+      "bytes": 21345
+    },
+    {
+      "path": "earth-demo/demo.html",
+      "sha256": "5a13a2fe54c7553f0cc4efec9cb586d742f0430636d5d71ef49137ae785309d5",
+      "bytes": 19655
+    },
+    {
+      "path": "earth-demo/images/dashboard-clouds.jpg",
+      "sha256": "b5d0718fb679380011b3432eb2d860e21a2aaa26c3be214a2b81f74ee7a42a25",
+      "bytes": 232473
+    },
+    {
+      "path": "earth-demo/images/dashboard-night.jpg",
+      "sha256": "dbcab7aea504e9b769dfc8beefc64b7b5d9c4d77c57b88f0db3d6969e6f58502",
+      "bytes": 31534
+    },
+    {
+      "path": "earth-demo/index.html",
+      "sha256": "8fc17bbb8946c80517ee13be293d0295e5e0ce92736f767bb2616c8451c6c5e4",
+      "bytes": 15163
+    },
+    {
+      "path": "earth-demo/js/chinaMap.js",
+      "sha256": "d119cbe58480826662208f306fe07d7aa3e92a44b4d28e1aacfe9d0cedd8d572",
+      "bytes": 52994
+    },
+    {
+      "path": "earth-demo/js/country-regions.js",
+      "sha256": "efe969dd7df576c4c421d288c432b10b039e7dd5b1a475515ce36868455251b0",
+      "bytes": 4364
+    },
+    {
+      "path": "earth-demo/js/flightlines.js",
+      "sha256": "d7661b96bb22c520821524a395a9c0ca2f13fab410fb3b674b5c0e0d8045c91a",
+      "bytes": 16513
+    },
+    {
+      "path": "earth-demo/js/i18n.js",
+      "sha256": "17041b98649dcb60cb771018593fd0dbce9bd7f164fca2e210c9ff8d8390cdf0",
+      "bytes": 7020
+    },
+    {
+      "path": "earth-demo/js/main.js",
+      "sha256": "a371b2115aadf4be7ea42a19291b370582b2c3fe5b3700bae7535da5516af131",
+      "bytes": 62436
+    },
+    {
+      "path": "earth-demo/js/presentation-base.js",
+      "sha256": "3a1fa6e961c82c421727947e88adb230a83f074356274631fda207a0ef889244",
+      "bytes": 63087
+    },
+    {
+      "path": "earth-demo/js/presentation.js",
+      "sha256": "5518ff1c05d359ed872277951b3839fb19fe154f8a1ace893073c1aae14836d3",
+      "bytes": 36243
+    },
+    {
+      "path": "earth-demo/js/region-morph.js",
+      "sha256": "5a59c660980f314d379a321045bebc87067a08f956435713818b85e8849b6304",
+      "bytes": 13561
+    },
+    {
+      "path": "earth-demo/js/signal-particles.js",
+      "sha256": "f724465ef85194978c6c59d0c96e565781dae8579aa8140c9cf036b17fc17e5e",
+      "bytes": 4854
+    },
+    {
+      "path": "earth-demo/vendor/lil-gui.esm.js",
+      "sha256": "ff934a599715bfb72534dda8aea206bf23630b56a49e1aa0d9ad0ab5dfeab985",
+      "bytes": 59438
+    },
+    {
+      "path": "earth-demo/vendor/three.module.js",
+      "sha256": "76dea8151bc9352aef3528b4262e249b2604f62543828328db978d060d61a495",
+      "bytes": 1272972
+    },
+    {
+      "path": "entry-motion.mjs",
+      "sha256": "8b299223682cbfd30651db9656075359ca585ce01bbd64249b959c0490b6b164",
+      "bytes": 1148
+    },
+    {
+      "path": "hover-assets.js",
+      "sha256": "4b82b79e78eacfe7a3eeb8b54be4091b13a38257b7fdb5d1bc936d495a555b7d",
+      "bytes": 4239
+    },
+    {
+      "path": "index.html",
+      "sha256": "202a1384472e124205e9d54b1ed1e3680bd94b31beeddc48a0022d2672e2c6ad",
+      "bytes": 13681
+    },
+    {
+      "path": "layout-editor.css",
+      "sha256": "c3d99604b6293f8edd6dee1548f7d1260a45fe71b3f173cdf6d58fdcf258812f",
+      "bytes": 3020
+    },
+    {
+      "path": "layout-editor.js",
+      "sha256": "fda93dd16764f405e34dc4892b3266408ed39a1aa6390b391a2eed00b0a5c011",
+      "bytes": 10190
+    },
+    {
+      "path": "layout-model.js",
+      "sha256": "9bb35d146aec82cd390bf814d1241deb4f6e4952f3134d58309cd9428a82e54d",
+      "bytes": 1688
+    },
+    {
+      "path": "metric-cards.css",
+      "sha256": "34932b27d4f9cff1a546811f387ef0a2e3dd71023a7eb9cd3f6e6a5c22bf7f7e",
+      "bytes": 3295
+    },
+    {
+      "path": "period-state.js",
+      "sha256": "b48d533c0054f873d95d515a926ef59fd71d76e784b546d1f6abfaa4f035f7af",
+      "bytes": 4628
+    },
+    {
+      "path": "ranking-view.js",
+      "sha256": "ca5a3fda9811941e16117e23ab84573a7e89d739397e2663b6ad5585c8c27223",
+      "bytes": 4440
+    },
+    {
+      "path": "region-scopes.js",
+      "sha256": "1c2cc3fec8b41480df964379625e78302c80f293be382578e37ccdc860deda97",
+      "bytes": 1058
+    },
+    {
+      "path": "shared-panels.css",
+      "sha256": "885530728e02cdd0fee9a8c58f0b088bdcfc6613a4958b1879e2a2986d70de5c",
+      "bytes": 1014
+    },
+    {
+      "path": "supply-config.css",
+      "sha256": "cf1811a97c55d995a1725315c3b8268020bb64783ebdb12e19c85477f3a5e341",
+      "bytes": 6200
+    },
+    {
+      "path": "supply-config.js",
+      "sha256": "17c36521311b4e5dee1dcd5c31fc15f52feadda7975f18dc756c8dfcde853e64",
+      "bytes": 11852
+    },
+    {
+      "path": "vendor/react-dom.production.min.js",
+      "sha256": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+      "bytes": 131835
+    },
+    {
+      "path": "vendor/react.production.min.js",
+      "sha256": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+      "bytes": 10751
+    }
+  ],
+  "post_import_adjustments": [
+    "Removed hosting-injected Cloudflare browser script from copied HTML",
+    "Normalized whitespace in earth-demo/demo.html and earth-demo/vendor/three.module.js"
+  ]
+}
