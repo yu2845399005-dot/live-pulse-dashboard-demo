@@ -1,6 +1,5 @@
 <svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="720" height="422" viewBox="0 0 720 422" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<foreignObject x="-12" y="-12" width="744" height="446"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(6px);clip-path:url(#bgblur_0_0_151_clip_path);height:100%;width:100%"></div></foreignObject><g id="&#232;&#131;&#140;&#230;&#153;&#175;" data-figma-bg-blur-radius="12">
-<use xlink:href="#stroke0_0_151" fill="#252954" fill-opacity="0.2"/>
+<g id="&#232;&#131;&#140;&#230;&#153;&#175;" data-figma-bg-blur-radius="12">
 <mask id="stroke1_0_151" fill="white">
 <use xlink:href="#stroke0_0_151"/>
 </mask>

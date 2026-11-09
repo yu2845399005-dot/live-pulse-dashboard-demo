@@ -5,9 +5,19 @@ body:has(.analysis-view){background:#010106}
 .analysis-view .supply-panel,.analysis-view .traffic-panel,.analysis-view .contribution-panel,
 .analysis-view .ranking-panel{background:rgba(37,41,84,.25);backdrop-filter:blur(6px);border:0;border-radius:24px}
 .analysis-view .metrics-panel.expanded{top:124px;left:344px;width:720px;height:422px;padding:21px 16px 16px;background:none;backdrop-filter:none;border:0}
-.analysis-view .metrics-panel::before{display:none}
-.analysis-panel-surface,.analysis-panel-notch{display:none;pointer-events:none}
-.analysis-view .analysis-panel-surface{display:block;position:absolute;left:0;top:0;z-index:0}
+.analysis-view .metrics-panel::before{
+  display:block;
+  inset:0;
+  width:auto;
+  height:auto;
+  border-radius:0;
+  opacity:1;
+  z-index:0;
+  background:var(--dashboard-panel-fill) url('./assets/figma-analysis-nov06/metrics-panel-outline.svg') center / 100% 100% no-repeat;
+  mask:url('./assets/figma-analysis-nov06/metrics-panel-mask.svg') center / 100% 100% no-repeat;
+  backdrop-filter:blur(6px);
+}
+.analysis-panel-notch{display:none;pointer-events:none}
 .analysis-view .analysis-panel-notch{display:block;position:absolute;left:309.14px;top:2.88px;z-index:1}
 .analysis-view .metric-tabs,.analysis-view .metric-card-strip,.analysis-view .analysis-trend{position:relative;z-index:1}
 .analysis-view .metric-tabs{background:none;border-radius:0;gap:20px}

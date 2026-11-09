@@ -43,9 +43,9 @@
 .metrics-panel.is-view-transitioning{overflow:hidden;will-change:top,height}
 /* The same green-blue canvas and panel material in both dashboard views. */
 body,body:has(.analysis-view){background:#051310}
-.dashboard,.dashboard.analysis-view{background:#051310}
+.dashboard,.dashboard.analysis-view{--dashboard-panel-fill:rgba(21,44,62,.5);background:#051310}
 .dashboard::before,.dashboard.analysis-view::before{content:none}
-.dashboard:is(.analysis-view,:not(.analysis-view)) .supply-panel,.dashboard:is(.analysis-view,:not(.analysis-view)) .traffic-panel,.dashboard .contribution-panel{background:rgba(21,44,62,.5)}
+.dashboard:is(.analysis-view,:not(.analysis-view)) .supply-panel,.dashboard:is(.analysis-view,:not(.analysis-view)) .traffic-panel,.dashboard .contribution-panel{background:var(--dashboard-panel-fill)}
 .dashboard:is(.analysis-view,:not(.analysis-view)) .ranking-panel{background:linear-gradient(182.609deg,rgba(35,65,90,.64) 30.1%,rgba(16,38,43,0) 92%)}
 .analysis-view .more-creators-trigger{background:linear-gradient(0deg,#051310 17.747%,#05131000 100%)}
 @media(prefers-reduced-motion:no-preference){

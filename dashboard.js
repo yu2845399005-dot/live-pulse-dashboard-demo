@@ -14,7 +14,7 @@ import { initPeriodControls } from './period-state.js?v=20261106-responsive-poli
 import {entryFrame,counterProgress,smoothProgress} from './entry-motion.mjs?v=20261106-responsive-polish';
 import { initDashboardDialogs, metricDefinitions } from './dashboard-dialogs.js?v=20261106-responsive-polish';
 import { initDashboardHover } from './dashboard-hover.js?v=20261106-responsive-polish';
-import { initAnalysisView } from './analysis-view.js?v=20261106-responsive-polish';
+import { initAnalysisView } from './analysis-view.js?v=20261109-panel-fill';
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 const state = { region: 'Global', subregion: 'Area Total', ranking: 0, page: 1, traffic: 1, metric: 0, inactiveDays: 7, governance: 'all' };

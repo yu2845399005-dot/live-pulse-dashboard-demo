@@ -34,7 +34,7 @@ export function initAnalysisView({ setRegion, setSubregion }) {
   toggle.setAttribute('aria-controls', 'metric-trend regional-contributions');
   toggle.setAttribute('aria-label', '展开指标分析');
   panel.id = 'metrics-panel';
-  panel.insertAdjacentHTML('afterbegin','<img class="analysis-panel-surface" src="assets/figma-analysis-nov06/31749.svg" alt=""><img class="analysis-panel-notch" src="assets/figma-analysis-nov06/c2c01.svg" alt="">');
+  panel.insertAdjacentHTML('afterbegin','<img class="analysis-panel-notch" src="assets/figma-analysis-nov06/c2c01.svg" alt="">');
   panel.insertAdjacentHTML('beforeend', `
     <section class="analysis-trend" id="metric-trend" aria-label="主播营收趋势" hidden>
       <div class="trend-toolbar">
