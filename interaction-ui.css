@@ -41,6 +41,8 @@
 .layout-slot.is-editable:has(.layout-drag-surface:hover),.layout-slot.is-editable:focus-within{outline:1px solid #96c1ff70;outline-offset:-1px}
 .layout-hidden-list{font-size:14px}
 .metrics-panel.is-view-transitioning{overflow:hidden;will-change:top,height}
+.dashboard .metrics-panel.is-view-transitioning .metric-card-strip :is(.metric-cards,.metric-card){height:100%}
+.dashboard .metrics-panel.is-view-transitioning .metric-cards{grid-template-rows:100%}
 /* The same green-blue canvas and panel material in both dashboard views. */
 body,body:has(.analysis-view){background:#051310}
 .dashboard,.dashboard.analysis-view{--dashboard-panel-fill:rgba(21,44,62,.5);background:#051310}

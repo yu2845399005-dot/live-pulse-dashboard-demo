@@ -35,18 +35,29 @@ body:has(.analysis-view){background:#010106}
 .analysis-view .metric-change.negative{color:#f1204a}
 .analysis-view .modal-settings-trigger{top:21px;right:16px;width:20px;height:20px;background:#ffffff1a}
 .analysis-view .expand-metrics{top:118px!important;left:684px;width:40px;height:28px;transform:none}
-.analysis-view .expand-metrics>img{transform:scaleY(-1)}
+.analysis-view .expand-metrics>img{transform:scale(1.1667,-.62)}
 .analysis-view .analysis-trend{margin-top:8px}
 .analysis-view .trend-toolbar{height:28px;color:#ffffff99}
 .analysis-view .revenue-trend-chart{--plot-left:42px;--plot-right:16px;--plot-top:8px;--plot-height:192px}
 .analysis-view .trend-y-axis{font-size:11px}
 .analysis-view .trend-x-axis{font-size:12px}
-.analysis-view .contribution-panel{top:554px;left:344px;width:720px;height:246px;padding:16px 16px 12px}
-.analysis-view .perspective-toggle{background:#ffffff1a}
-.analysis-view .contribution-table tbody tr{height:32px}
-.analysis-view .contribution-table td>span{color:#fff}
-.analysis-view .contribution-table .local-contribution{border:.5px solid #2388ff;background:#096ff51a;border-radius:8px;font-size:14px;font-weight:700}
-.analysis-view .sparkline-cell>svg{display:block;width:120px;height:24px;overflow:visible}
+.analysis-view .contribution-panel,.contribution-panel.is-leaving{
+  position:absolute;
+  top:554px;
+  left:344px;
+  width:720px;
+  height:246px;
+  padding:16px 16px 12px;
+  border:0;
+  border-radius:24px;
+  backdrop-filter:blur(6px);
+}
+.dashboard:not(.analysis-view) .contribution-panel.is-leaving{left:0}
+:is(.analysis-view,.contribution-panel.is-leaving) .perspective-toggle{background:#ffffff1a}
+:is(.analysis-view,.contribution-panel.is-leaving) .contribution-table tbody tr{height:32px}
+:is(.analysis-view,.contribution-panel.is-leaving) .contribution-table td>span{color:#fff}
+:is(.analysis-view,.contribution-panel.is-leaving) .contribution-table .local-contribution{border:.5px solid #2388ff;background:#096ff51a;border-radius:8px;font-size:14px;font-weight:700}
+:is(.analysis-view,.contribution-panel.is-leaving) .sparkline-cell>svg{display:block;width:120px;height:24px;overflow:visible}
 .analysis-view .ranking-panel{height:801px;margin-top:-5px;padding:16px}
 .analysis-view .ranking-tabs{padding:0 28px 0 4px;gap:4px}
 .analysis-view .ranking-tabs button{padding:0 4px}

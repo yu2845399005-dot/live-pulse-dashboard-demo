@@ -5,7 +5,7 @@ import {getPeriod} from './period-state.js?v=20261106-responsive-polish';
 import { subregionsFor, globalRegions as regions } from './region-scopes.js?v=20261106-responsive-polish';
 // Figma 725:23088. Expand the existing dashboard without resetting its state.
 import { initSupplyConfig } from './supply-config.js?v=20261106-responsive-polish';
-import {animateUI,cancelUI,revealChart,revealItems,countValues} from './data-motion.js?v=20261106-responsive-polish';
+import {animateUI,cancelUI,reducedMotion} from './data-motion.js?v=20261106-responsive-polish';
 const asset = name => `assets/figma-metrics/${name}.svg`;
 const image = (name, className = '') => `<img src="${asset(name)}" alt="" class="${className}">`;
 const sparklines = ['e6f85aa4-548c-4129-9e20-a2d3a7131655', '55164af7-735f-4a3b-9d0c-fcf6c9a15e81',
@@ -26,8 +26,10 @@ export function initAnalysisView({ setRegion, setSubregion }) {
   const secondary=dashboard.querySelector('.subregion-select');
   secondary.querySelector('select').addEventListener('change',event=>setSubregion(event.target.value));
   let activeCard = 0;
-  let expanded = false;
-  let transitionSequence=0;
+  let expanded;
+  let transitionSequence = 0;
+  const toggleIcon = toggle.querySelector('img');
+  const cardStrip = panel.querySelector('.metric-card-strip');
   const incomeRing=dashboard.querySelector('.income-chart .ring img');
   const originalIncomeRing=incomeRing.getAttribute('src');
   toggle.setAttribute('aria-expanded', 'false');
@@ -157,50 +159,108 @@ export function initAnalysisView({ setRegion, setSubregion }) {
   new MutationObserver(records=>{
     if(records.some(r=>r.target===cards)) decorateCards();
   }).observe(cards,{childList:true});
-  function setExpanded(value, { updateUrl = false } = {}) {
-    const changed=expanded!==value,before=panel.getBoundingClientRect(),beforeToggle=toggle.getBoundingClientRect(),beforeStyle=getComputedStyle(panel),beforePadding=beforeStyle.paddingTop;
-    cancelUI(panel,'layout');
-    cancelUI(toggle,'layout');
+  function setExpanded(value, { updateUrl = false, animate = true } = {}) {
+    if (expanded === value) return;
+    const hadView = expanded !== undefined;
+    const motion = hadView && animate && !reducedMotion() && !dashboard.classList.contains('has-custom-layout');
+    const sequence = ++transitionSequence;
+    const before = motion && panel.getBoundingClientRect();
+    const beforeToggle = motion && toggle.getBoundingClientRect();
+    const beforePadding = motion && getComputedStyle(panel).paddingTop;
+    const beforeIcon = motion && getComputedStyle(toggleIcon).transform;
+    const beforeStrip = motion && stripSize();
+    const trendStart = motion && contentFrame(trend);
+    const matrixStart = motion && contentFrame(matrix);
+    const wasReversing = panel.classList.contains('is-view-transitioning');
+    for (const element of [panel, toggle, toggleIcon, cardStrip, trend, matrix]) cancelUI(element, 'layout');
+
     expanded = value;
-    incomeRing.src=value?'assets/figma-left/imgRing.svg':originalIncomeRing;
-    toggle.querySelector('img').src=value?'assets/figma-analysis-nov06/ede00.svg':'assets/figma-home-nov06/2-2777-62e5d.svg';
-    dashboard.classList.toggle('analysis-view',value);
+    const leaving = motion && !value;
+    incomeRing.src = value ? 'assets/figma-left/imgRing.svg' : originalIncomeRing;
+    dashboard.classList.toggle('analysis-view', value);
     dashboard.querySelector('.earth-frame').contentWindow.postMessage({type:'earth:layout',height:(value?503:620)-126},location.origin);
-    panel.classList.toggle('expanded',value);
-    toggle.setAttribute('aria-expanded',String(value));
-    toggle.setAttribute('aria-label',value?'收起指标分析，返回地球视图':'展开指标分析');
-    trend.hidden = matrix.hidden = !value;
+    panel.classList.toggle('expanded', value);
+    toggle.setAttribute('aria-expanded', String(value));
+    toggle.setAttribute('aria-label', value ? '收起指标分析，返回地球视图' : '展开指标分析');
+    trend.hidden = matrix.hidden = !value && !leaving;
+    trend.inert = matrix.inert = !value;
+    matrix.classList.toggle('is-leaving', leaving);
     dashboard.querySelector('.region-panels').inert = value;
     dashboard.querySelector('.region-summary').inert = value;
     decorateCards();
-    if(changed){
-      const sequence=++transitionSequence;
-      const after=panel.getBoundingClientRect(),scale=dashboard.getBoundingClientRect().width/1440;
-      const parent=panel.offsetParent.getBoundingClientRect(),finalStyle=getComputedStyle(panel),afterToggle=toggle.getBoundingClientRect();
-      const geometry=animateUI(panel,[{top:(before.top-parent.top)/scale+'px',left:(before.left-parent.left)/scale+'px',width:before.width/scale+'px',height:before.height/scale+'px',paddingTop:beforePadding},{top:finalStyle.top,left:finalStyle.left,width:finalStyle.width,height:finalStyle.height,paddingTop:finalStyle.paddingTop}],{duration:640,easing:'cubic-bezier(.22,.78,.22,1)',channel:'layout'});
+
+    if (motion) {
+      const after = panel.getBoundingClientRect();
+      const afterToggle = toggle.getBoundingClientRect();
+      const scale = dashboard.getBoundingClientRect().width / 1440;
+      const style = getComputedStyle(panel);
+      const distance = Math.abs(before.top - after.top) / scale;
+      const duration = (value ? 520 : 420) * (wasReversing ? Math.max(.55, Math.min(1, Math.sqrt(distance / 496))) : 1);
+      const timing = { duration, easing: 'cubic-bezier(.24,.78,.26,1)', channel: 'layout' };
+      const geometry = animateUI(panel, [{
+        top: `${parseFloat(style.top) + (before.top - after.top) / scale}px`,
+        left: `${parseFloat(style.left) + (before.left - after.left) / scale}px`,
+        width: `${before.width / scale}px`,
+        height: `${before.height / scale}px`,
+        paddingTop: beforePadding
+      }, { top: style.top, left: style.left, width: style.width, height: style.height, paddingTop: style.paddingTop }], timing);
+      const toggleX = (beforeToggle.x + beforeToggle.width / 2 - afterToggle.x - afterToggle.width / 2) / scale;
+      const toggleY = (beforeToggle.y + beforeToggle.height / 2 - afterToggle.y - afterToggle.height / 2) / scale;
+      animateUI(toggle, [{transform:`translate(${toggleX}px,${toggleY}px)`},{transform:'none'}], timing);
+      animateUI(toggleIcon, [{transform:beforeIcon},{transform:getComputedStyle(toggleIcon).transform}], timing);
+      animateUI(cardStrip, [beforeStrip, stripSize()], timing);
       panel.classList.add('is-view-transitioning');
-      const finish=()=>{if(sequence===transitionSequence)panel.classList.remove('is-view-transitioning');};
-      if(geometry)geometry.finished.then(finish,finish);else finish();
-      animateUI(toggle,[{transform:`translate(${(beforeToggle.left-afterToggle.left)/scale}px,${(beforeToggle.top-afterToggle.top)/scale}px)`},{transform:'translate(0,0)'}],{duration:640,easing:'cubic-bezier(.22,.78,.22,1)',channel:'layout'});
-      animateUI(panel.querySelector('.metric-card-strip'),[{opacity:.75},{opacity:1}],{duration:380,delay:80,channel:'content'});
-      if(value){
-        revealItems([trend],{delay:210});
-        revealItems([matrix],{delay:360});
-        revealItems(matrix.querySelectorAll('tbody tr'),{delay:400,stagger:45});
-        revealChart(panel,{delay:300,duration:900});
-        revealChart(matrix,{delay:440,duration:650});
-        countValues(panel.querySelectorAll('.metric-value'),{delay:150,duration:600});
+
+      if (value) {
+        animateUI(trend, [trendStart, {opacity:1,transform:'none'}], {...timing, delay:wasReversing?0:75, duration:duration*.7});
+        animateUI(matrix, [matrixStart, {opacity:1,transform:'none'}], {...timing, delay:wasReversing?0:105, duration:duration*.75});
+      } else {
+        fadeOut(trend, trendStart, timing, 5);
+        fadeOut(matrix, matrixStart, timing, 10);
       }
-      document.dispatchEvent(new CustomEvent('dashboard:analysis',{detail:{expanded:value}}));
+      const finish = () => {
+        if (sequence !== transitionSequence) return;
+        panel.classList.remove('is-view-transitioning');
+        matrix.classList.remove('is-leaving');
+        if (!expanded) trend.hidden = matrix.hidden = true;
+      };
+      geometry.finished.then(finish, finish);
+    } else {
+      panel.classList.remove('is-view-transitioning');
     }
-    if(updateUrl) {
+    if (hadView || value) document.dispatchEvent(new CustomEvent('dashboard:analysis',{detail:{expanded:value}}));
+    if (updateUrl) {
       const url = new URL(location.href);
       url.hash = value ? 'analysis' : '';
       history.pushState(null,'',url);
     }
   }
+
+  function stripSize() {
+    const { height, marginTop } = getComputedStyle(cardStrip);
+    return { height, marginTop };
+  }
+
+  function contentFrame(element) {
+    if (element.hidden) return { opacity: 0, transform: 'translateY(10px)' };
+    const { opacity, transform } = getComputedStyle(element);
+    return { opacity, transform };
+  }
+
+  function fadeOut(element, from, timing, offset) {
+    const animation = animateUI(element, [from, {opacity:0,transform:`translateY(${offset}px)`}], {
+      ...timing, duration: timing.duration * .48, fill: 'forwards'
+    });
+    // Keep the content in place until the fade has finished. A reversed transition
+    // cancels this animation and starts the entrance at its current opacity.
+    animation.finished.then(() => {
+      if (element.inert) element.hidden = true;
+      animation.cancel();
+    }, () => {});
+  }
+
   toggle.addEventListener('click',()=>setExpanded(!expanded,{updateUrl:true}));
-  document.addEventListener('dashboard:open-analysis',()=>setExpanded(true,{updateUrl:true}));
+  document.addEventListener('dashboard:open-analysis',()=>setExpanded(true,{updateUrl:true,animate:false}));
   document.addEventListener('keydown',event=>{
     if(event.key==='Escape'&&expanded&&!document.querySelector('dialog[open]')) {
       setExpanded(false,{updateUrl:true});toggle.focus();
